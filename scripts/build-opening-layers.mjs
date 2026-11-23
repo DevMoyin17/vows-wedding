@@ -348,6 +348,38 @@ await sharp(`${SRC}/01d-card-reveal.png`)
 // Figma 184:4007 shows this 16:9 render full-bleed; the keyframes (225:5505…)
 // keep it behind the stage as the "Satin fill (wide render)", blurred 3 px.
 await sharp(`${DESKTOP}/01-default-wide.png`).webp(Q).toFile(`${OUT_WIDE}/wide.webp`);
-await sharp(`${DESKTOP}/01-default-wide.png`).blur(3).webp({ quality: 82 }).toFile(`${OUT_WIDE}/wide-blur.webp`);
+// Behind the stage the wide render's own envelope would show through the
+// stage's soft edges as a ghost. Only the two strips under those soft edges
+// can ever be seen (the middle sits under the opaque stage), so just those
+// are painted out, each mirrored in from the satin beside it.
+{
+  const wide = await rgba(`${DESKTOP}/01-default-wide.png`);
+  const out = Buffer.from(wide.data);
+  const px = (x, y, c) => wide.data[(y * wide.w + Math.max(0, Math.min(wide.w - 1, x))) * 4 + c];
+  const T = 222;
+  const B = 650;
+  // mirror lines sit outside the envelope and its shadow (x 455–1080), so
+  // even the feathered border only ever samples clean satin
+  const strips = [
+    { l: 400, r: 600, mirror: (x) => 2 * 400 - x },
+    { l: 936, r: 1136, mirror: (x) => 2 * 1136 - x },
+  ];
+  const F = 44; // soft feather into the untouched satin
+  for (const st of strips) {
+    for (let y = T - F; y < B + F; y += 1) {
+      for (let x = st.l - F; x < st.r + F; x += 1) {
+        const dx = Math.min(x - (st.l - F), st.r + F - x);
+        const dy = Math.min(y - (T - F), B + F - y);
+        const k = Math.max(0, Math.min(1, Math.min(dx, dy) / F));
+        const w = k * k * (3 - 2 * k);
+        const i = (y * wide.w + x) * 4;
+        for (let c = 0; c < 3; c += 1) out[i + c] = Math.round(px(st.mirror(x), y, c) * w + wide.data[i + c] * (1 - w));
+      }
+    }
+  }
+  // Figma's "Satin fill (wide render)" is this render blurred 3 px
+  const satin = sharp(out, { raw: { width: wide.w, height: wide.h, channels: 4 } });
+  await satin.clone().blur(3).webp({ quality: 82 }).toFile(`${OUT_WIDE}/wide-blur.webp`);
+}
 
 console.log("opening layers written to", OUT, "and", OUT_WIDE);

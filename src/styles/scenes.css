@@ -288,12 +288,13 @@
   overflow: hidden;
   pointer-events: none;
 }
+/* a wide box whose band fades out well inside it, so no edge ever shows */
 .op-card__sheen {
   position: absolute;
-  inset: 0 25%;
+  inset: 0 -50%;
   opacity: 0;
   will-change: transform, opacity;
-  background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.55) 50%, transparent 100%);
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.5) 50%, transparent 60%);
   pointer-events: none;
 }
 .op-cardclip { pointer-events: none; }
@@ -1545,7 +1546,17 @@
   .scene-entrance[data-bp="desktop"] .scene-entrance__date { display: none; }
 
   /* "Now playing" chip 225:5510 — x1179 y24 h44, from the frame's right edge */
-  .scene-entrance[data-bp="desktop"] .scene-entrance__chip { top: 2.667%; right: calc(50% - 80cqh + 5.1cqh); }
+  .scene-entrance[data-bp="desktop"] .env-stage {
+    flex-shrink: 0;
+    width: max(100vw, 100dvh * 16 / 9);
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+  /* chip pinned to the visible screen corner (the box may overflow it) */
+  .scene-entrance[data-bp="desktop"] .scene-entrance__chip {
+    top: calc((100% - 100dvh) / 2 + 2.667cqh);
+    right: calc((100% - 100vw) / 2 + 5.1cqh);
+  }
 
 
 /* ================================================== lace stitch borders === */

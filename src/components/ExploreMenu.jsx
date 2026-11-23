@@ -5,22 +5,58 @@ import { MAIN_SECTIONS } from "../lib/sections";
 /** Quick-jump drawer. The invitation itself is a single scrolling page. */
 export function ExploreMenu({ open, active, onClose, onNavigate }) {
   const panelRef = useRef(null);
+  const returnFocusRef = useRef(null);
+  const closeRef = useRef(onClose);
+
+  useEffect(() => {
+    closeRef.current = onClose;
+  }, [onClose]);
 
   useEffect(() => {
     if (!open) return undefined;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    returnFocusRef.current = document.activeElement;
 
-    const onKey = (event) => event.key === "Escape" && onClose();
+    const focusables = () =>
+      Array.from(
+        panelRef.current?.querySelectorAll(
+          'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      ).filter((el) => el.getClientRects().length > 0);
+
+    const onKey = (event) => {
+      if (event.key === "Escape") {
+        closeRef.current();
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const items = focusables();
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
     window.addEventListener("keydown", onKey);
-    panelRef.current?.querySelector("button, a")?.focus();
+    focusables()[0]?.focus();
 
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKey);
+      const target = returnFocusRef.current;
+      if (target instanceof HTMLElement) target.focus();
     };
-  }, [open, onClose]);
+  }, [open]);
 
   return (
     <>

@@ -18,6 +18,7 @@ export function Scene03SaveDate() {
   const child = reduced ? reducedChild : riseChild;
   const target = useMemo(() => new Date(wedding.dateISO).getTime(), []);
   const left = useCountdown(target);
+  const married = Date.now() >= target;
 
   const days = Math.floor(left / 86400000);
   const hours = Math.floor((left % 86400000) / 3600000);
@@ -52,36 +53,48 @@ export function Scene03SaveDate() {
         variants={{ animate: { transition: { staggerChildren: 0.1, delayChildren: 0.12 } } }}
       >
         <motion.p className="save-date__kicker" variants={child}>
-          Until curtain up
+          {married ? "The celebration" : "Until curtain up"}
         </motion.p>
 
-        <motion.div
-          className="save-date__timer"
-          variants={child}
-          role="timer"
-          aria-label="Countdown to the wedding"
-          aria-live="off"
-        >
-          {units.map((unit) => (
-            <div className="save-date__unit" key={unit.label}>
-              <span className="save-date__num">{pad(unit.value)}</span>
-              <span className="save-date__label">{unit.label}</span>
-            </div>
-          ))}
-        </motion.div>
+        {married ? (
+          <motion.p className="save-date__married" variants={child}>
+            We’re married
+          </motion.p>
+        ) : (
+          <motion.div
+            className="save-date__timer"
+            variants={child}
+            role="timer"
+            aria-label="Countdown to the wedding"
+            aria-live="off"
+          >
+            {units.map((unit) => (
+              <div className="save-date__unit" key={unit.label}>
+                <span className="save-date__num">{pad(unit.value)}</span>
+                <span className="save-date__label">{unit.label}</span>
+              </div>
+            ))}
+          </motion.div>
+        )}
 
         <motion.p className="save-date__when" variants={child}>
           {wedding.dateLong} · {eventTime}
         </motion.p>
 
-        <motion.button
-          type="button"
-          className="save-date__cta"
-          variants={child}
-          onClick={downloadWeddingIcs}
-        >
-          Add to calendar
-        </motion.button>
+        {married ? (
+          <motion.p className="save-date__married-note" variants={child}>
+            Thank you for celebrating with us.
+          </motion.p>
+        ) : (
+          <motion.button
+            type="button"
+            className="save-date__cta"
+            variants={child}
+            onClick={downloadWeddingIcs}
+          >
+            Add to calendar
+          </motion.button>
+        )}
       </motion.div>
     </section>
   );

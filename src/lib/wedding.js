@@ -38,6 +38,7 @@ export const wedding = {
     firstDate: { local: "/assets/photos/ms-first-date.jpg", cloud: "vows/heirloom/milestone-first-date" },
     proposal: { local: "/assets/photos/ms-proposal.jpg", cloud: "vows/heirloom/milestone-proposal" },
     weddingDay: { local: "/assets/photos/ms-rings.jpg", cloud: "vows/heirloom/milestone-wedding" },
+    saveTheDate: { local: "/assets/photos/save-the-date.webp", cloud: "vows/heirloom/save-the-date" },
   },
 
   story: [

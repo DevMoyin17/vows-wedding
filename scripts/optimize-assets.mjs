@@ -177,6 +177,19 @@ async function optimiseIllustrations() {
   return total;
 }
 
+/* ------------------------------------------------------ save-the-date hero */
+async function saveDateHero() {
+  const src = path.join(legacy, "photos/first-dance.jpg");
+  if (!existsSync(src)) return;
+  const out = "assets/photos/save-the-date.webp";
+  await ensureDir(pub(out));
+  const info = await sharp(src)
+    .resize({ width: 1536, withoutEnlargement: true })
+    .webp({ quality: 84, effort: 6, smartSubsample: true })
+    .toFile(pub(out));
+  console.log(`  ${out} (${fmt(info.size)})`);
+}
+
 /* -------------------------------------------------------------------- audio */
 function parseWav(buffer) {
   let offset = 12;
@@ -431,6 +444,9 @@ await optimisePhotos();
 
 console.log("\n› Converting illustration renders to WebP");
 await optimiseIllustrations();
+
+console.log("\n› Save-the-date hero");
+await saveDateHero();
 
 console.log("\n› Encoding music to MP3");
 await optimiseAudio();

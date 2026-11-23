@@ -12,9 +12,9 @@ There are two pages:
   session always lands here, even if the shared URL points at a later section; the
   requested section is restored after the envelope opens.
 - **`/the-couple` … `/with-love` — the invitation itself.** A single continuous scrolling
-  page: invitation card, save the date, story, countdown, details, photographs, RSVP and
-  closing. The one exception is a direct `/rsvp?guest=…` reminder link, which goes
-  straight to the reply card.
+  page: invitation card, save the date (live countdown), story, calendar, details,
+  photographs, RSVP and closing. The one exception is a direct `/rsvp?guest=…` reminder
+  link, which goes straight to the reply card.
 
 ## Run
 
@@ -98,6 +98,7 @@ Direct table access is blocked from the browser; only the two RPCs are callable.
 `media-originals/` (git-ignored). It:
 
 - writes `xs` / `md` / `lg` JPEG variants per photo + `src/lib/photo-manifest.json`
+- generates the Save the Date hero (`save-the-date.webp`) from the archived first-dance frame
 - converts the entrance renders and decorative PNGs to WebP
 - encodes the music bed to MP3
 - rebuilds the favicons, app icons, web manifest and `assets/og/og-image.jpg`

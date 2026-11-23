@@ -1,58 +1,88 @@
+import { useMemo } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { wedding } from "../lib/wedding";
 import { inView, riseChild, reducedChild } from "../lib/motion";
-import { FloralEdge } from "../components/FloralEdge";
-import { PearlDivider } from "../components/PearlDivider";
+import { useCountdown } from "../lib/useCountdown";
+import { downloadWeddingIcs } from "../lib/ics";
+import { Photo } from "../components/Photo";
+
+const pad = (value) => String(value).padStart(2, "0");
 
 /**
- * Scene 03 — Save the date · Heirloom Lace.
- * Two cards slightly fanned; the front card slides out from behind.
+ * Scene 03 — Save the date, cinematic countdown.
+ * A dark ballroom photograph with the couple silhouetted, a live countdown
+ * and an add-to-calendar action.
  */
 export function Scene03SaveDate() {
   const reduced = useReducedMotion();
   const child = reduced ? reducedChild : riseChild;
+  const target = useMemo(() => new Date(wedding.dateISO).getTime(), []);
+  const left = useCountdown(target);
+
+  const days = Math.floor(left / 86400000);
+  const hours = Math.floor((left % 86400000) / 3600000);
+  const minutes = Math.floor((left % 3600000) / 60000);
+  const seconds = Math.floor((left % 60000) / 1000);
+  const eventTime = wedding.events?.[0]?.time ?? "10:00 AM";
+
+  const units = [
+    { value: days, label: "days" },
+    { value: hours, label: "hours" },
+    { value: minutes, label: "min" },
+    { value: seconds, label: "sec" },
+  ];
 
   return (
-    <section className="scene scene-save" aria-label="Save the date">
-      <FloralEdge corner="tl" size={150} />
-      <FloralEdge corner="br" size={150} />
+    <section className="scene scene-save-date" aria-label="Save the date">
+      <Photo
+        photo={wedding.photos.saveTheDate}
+        alt=""
+        width={1536}
+        height={1024}
+        className="save-date__photo"
+        loading="lazy"
+      />
+      <div className="save-date__veil" aria-hidden="true" />
 
-      <div className="save-stage">
-        <motion.div
-          className="save-card save-card--back"
-          initial={reduced ? { opacity: 0 } : { opacity: 0, x: 40, rotate: 2 }}
-          whileInView={reduced ? { opacity: 1 } : { opacity: 1, x: 0, rotate: 2 }}
-          viewport={inView}
-          transition={{ duration: 0.7, ease: [0.22, 0.61, 0.36, 1] }}
-          aria-hidden="true"
-        />
+      <motion.div
+        className="save-date__content"
+        initial="initial"
+        whileInView="animate"
+        viewport={inView}
+        variants={{ animate: { transition: { staggerChildren: 0.1, delayChildren: 0.12 } } }}
+      >
+        <motion.p className="save-date__kicker" variants={child}>
+          Until curtain up
+        </motion.p>
 
         <motion.div
-          className="save-card save-card--front"
-          initial={reduced ? { opacity: 0 } : { opacity: 0, x: -60, rotate: -3 }}
-          whileInView={reduced ? { opacity: 1 } : { opacity: 1, x: 0, rotate: -3 }}
-          viewport={inView}
-          whileHover={reduced ? undefined : { y: -4, rotate: -2.4 }}
-          transition={{ type: "spring", stiffness: 260, damping: 24, delay: 0.12 }}
+          className="save-date__timer"
+          variants={child}
+          role="timer"
+          aria-label="Countdown to the wedding"
+          aria-live="off"
         >
-          <motion.p className="type-gold-italic" variants={child}>Save the date</motion.p>
-          <motion.p className="type-numeral save-card__20" variants={child}>
-            20
-          </motion.p>
-          <motion.p className="type-date save-card__month" variants={child}>
-            February 2027
-          </motion.p>
-          <motion.div variants={child}>
-            <PearlDivider />
-          </motion.div>
-          <motion.p className="type-subheading-italic text-secondary" variants={child}>
-            {wedding.city}
-          </motion.p>
-          <motion.p className="type-small text-secondary" variants={child}>
-            Formal invitation to follow
-          </motion.p>
+          {units.map((unit) => (
+            <div className="save-date__unit" key={unit.label}>
+              <span className="save-date__num">{pad(unit.value)}</span>
+              <span className="save-date__label">{unit.label}</span>
+            </div>
+          ))}
         </motion.div>
-      </div>
+
+        <motion.p className="save-date__when" variants={child}>
+          {wedding.dateLong} · {eventTime}
+        </motion.p>
+
+        <motion.button
+          type="button"
+          className="save-date__cta"
+          variants={child}
+          onClick={downloadWeddingIcs}
+        >
+          Add to calendar
+        </motion.button>
+      </motion.div>
     </section>
   );
 }

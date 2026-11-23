@@ -1,0 +1,160 @@
+/* ==========================================================================
+   VOWS tokens — Heirloom Lace theme
+   Source: Figma "02 — Foundations" · template 04 · Heirloom Lace
+   ========================================================================== */
+
+:root {
+  /* ---- Theme colors · Heirloom Lace (from Figma modes) ---- */
+  --color-bg-canvas: #f5ebeb;        /* page · blush */
+  --color-bg-canvas-deep: #eedddb;
+  --color-bg-surface: #ffffff;       /* raised card / pill white */
+  --color-bg-surface-2: #f5ebeb;     /* soft pill (canvas tone) */
+  --color-bg-champagne: #f2e7e2;
+  --color-bg-inverse: #241f1c;
+  --color-ink: #1c1c1c;
+  --color-text-primary: #1c1c1c;
+  --color-text-secondary: #5e5e5e;
+  --color-text-accent: #7e4f46;      /* rose-bronze labels */
+  --color-accent-decorative: #b9877a;
+  --color-stitch: rgba(185, 135, 122, 0.7); /* dashed lace border */
+  --color-border: #ebdada;
+  --color-border-strong: #b9877a;
+  --color-focus: #7e4f46;
+  --color-error: #a04b32;
+  --color-on-photo: #ffffff;
+  --color-on-photo-muted: rgba(255, 255, 255, 0.85);
+  --color-pearl: #ead9c7;
+  --color-pearl-hi: #fbf4ea;
+
+  /* Metal foil (VOWS/Metal/Foil linear) */
+  --metal-shadow: #7a5f1e;
+  --metal-base: #b8933a;
+  --metal-highlight: #f6e7b8;
+  --foil-gradient: linear-gradient(
+    165deg,
+    var(--metal-shadow) 14.286%,
+    var(--metal-base) 34.286%,
+    var(--metal-highlight) 50%,
+    var(--metal-base) 65.714%,
+    var(--metal-shadow) 85.714%
+  );
+
+  /* ---- Type ---- */
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-script: "Great Vibes", cursive;
+
+  /* Mobile scale */
+  --type-display-xl: 44px;  --type-display-xl-line: 48px;
+  --type-display: 34px;     --type-display-line: 40px;
+  --type-title: 28px;       --type-title-line: 34px;
+  --type-heading: 24px;     --type-heading-line: 30px;
+  --type-subheading: 19px;  --type-subheading-line: 26px;
+  --type-numeral: 64px;     --type-numeral-line: 64px;
+  --type-body-lg: 16px;     --type-body-lg-line: 26px;
+  --type-body: 15px;        --type-body-line: 24px;
+  --type-small: 13px;       --type-small-line: 20px;
+  --type-overline: 10px;    --type-overline-line: 16px;
+  --type-label: 13px;       --type-label-line: 18px;
+  --type-button: 14px;      --type-button-line: 20px;
+
+  /* Spacing */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
+  --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+
+  --page-margin: 24px;
+  --content-max: 1200px;
+  --section-y: 64px;
+  --stack: 24px;
+
+  /* Shape */
+  --radius-control: 999px;
+  --radius-card: 16px;
+  --radius-media: 12px;
+  --radius-stitch: 10px;
+
+  /* Elevation (exact Figma shadows) */
+  --elev-card:
+    0 18px 36px rgba(89, 51, 51, 0.1),
+    0 2px 4px rgba(89, 51, 51, 0.08);
+  --elev-card-lift:
+    0 16px 36px rgba(89, 41, 51, 0.1),
+    0 2px 4px rgba(89, 41, 51, 0.08);
+  --elev-envelope:
+    0 3px 8px rgba(89, 41, 51, 0.14),
+    0 20px 48px rgba(89, 41, 51, 0.16);
+  --elev-overlay:
+    0 8px 20px rgba(89, 41, 51, 0.16),
+    0 30px 80px rgba(89, 41, 51, 0.24);
+  --elev-wax-seal:
+    0 3px 6px rgba(28, 28, 28, 0.28),
+    0 10px 18px rgba(28, 28, 28, 0.2),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.45),
+    inset 2px 3px 5px rgba(0, 0, 0, 0.22);
+
+  /* Motion */
+  --motion-quick: 160ms;
+  --motion-base: 280ms;
+  --motion-slow: 520ms;
+  --motion-cinematic: 900ms;
+  --motion-entrance: 1600ms;
+  --motion-stagger-text: 80ms;
+  --motion-rise: 24px;
+
+  /* Z */
+  --z-chrome: 40;
+  --z-menu: 60;
+  --z-lightbox: 80;
+  --z-toast: 90;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --type-display-xl: 64px;  --type-display-xl-line: 68px;
+    --type-display: 48px;     --type-display-line: 54px;
+    --type-title: 38px;       --type-title-line: 44px;
+    --type-heading: 27px;     --type-heading-line: 34px;
+    --type-subheading: 21px;  --type-subheading-line: 28px;
+    --type-numeral: 96px;     --type-numeral-line: 96px;
+    --type-body-lg: 17px;     --type-body-lg-line: 28px;
+    --type-body: 16px;        --type-body-line: 26px;
+    --type-small: 13px;       --type-small-line: 20px;
+    --type-overline: 11px;    --type-overline-line: 16px;
+    --type-label: 13px;       --type-label-line: 18px;
+    --type-button: 14px;      --type-button-line: 20px;
+    --page-margin: 48px;
+    --section-y: 96px;
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --type-display-xl: 88px;  --type-display-xl-line: 94px;
+    --type-display: 64px;     --type-display-line: 70px;
+    --type-title: 52px;       --type-title-line: 58px;
+    --type-heading: 34px;     --type-heading-line: 42px;
+    --type-subheading: 24px;  --type-subheading-line: 32px;
+    --type-numeral: 128px;    --type-numeral-line: 128px;
+    --type-body-lg: 18px;     --type-body-lg-line: 30px;
+    --type-body: 16px;        --type-body-line: 26px;
+    --type-small: 14px;       --type-small-line: 22px;
+    --type-overline: 11px;    --type-overline-line: 16px;
+    --type-label: 14px;       --type-label-line: 20px;
+    --type-button: 15px;      --type-button-line: 20px;
+    --page-margin: 120px;
+    --section-y: 128px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-quick: 0ms;
+    --motion-base: 120ms;
+    --motion-slow: 160ms;
+    --motion-cinematic: 200ms;
+    --motion-entrance: 240ms;
+    --motion-stagger-text: 0ms;
+    --motion-rise: 0px;
+  }
+}

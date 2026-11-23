@@ -19,3 +19,6 @@ export const SECTIONS = [
 export const sectionFor = (n) => SECTIONS[n - 1];
 
 export const sectionId = (n) => sectionFor(n)?.id;
+
+/** Sections that live on the main invitation page (the envelope is its own page). */
+export const MAIN_SECTIONS = SECTIONS.filter((section) => section.n >= 2);

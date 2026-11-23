@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { pathFor } from "../lib/routes";
-import { SECTIONS } from "../lib/sections";
+import { MAIN_SECTIONS } from "../lib/sections";
 
 /** Quick-jump drawer. The invitation itself is a single scrolling page. */
 export function ExploreMenu({ open, active, onClose, onNavigate }) {
@@ -39,7 +39,7 @@ export function ExploreMenu({ open, active, onClose, onNavigate }) {
           </button>
         </div>
         <ul className="menu-list">
-          {SECTIONS.map((section) => (
+          {MAIN_SECTIONS.map((section) => (
             <li key={section.n}>
               <a
                 href={pathFor(section.n)}

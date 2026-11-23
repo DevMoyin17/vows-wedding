@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { pathFor, sceneFromPath } from "./lib/routes";
-import { sectionFor, SECTIONS } from "./lib/sections";
+import { MAIN_SECTIONS, sectionFor, SECTIONS } from "./lib/sections";
 import { TopBar } from "./components/TopBar";
 import { ExploreMenu } from "./components/ExploreMenu";
 import { ScrollProgress } from "./components/ScrollProgress";
@@ -17,18 +17,22 @@ import { Scene08Rsvp } from "./scenes/Scene08Rsvp";
 import { Scene09Closing } from "./scenes/Scene09Closing";
 
 /**
- * The invitation is one continuous page. Every section is always in the
- * document so guests can simply scroll; the Explore drawer, desktop nav and
- * clean URLs (/our-story, /rsvp) are shortcuts that jump between sections.
+ * Two pages:
+ * - `/` is the opening envelope — the first thing every guest sees.
+ * - Opening it moves to the invitation itself, a single continuous page
+ *   starting at /the-couple and ending at /with-love.
+ * Direct section URLs (e.g. /rsvp) land on the invitation page without the
+ * envelope, so reminder links stay frictionless.
  */
 export default function App() {
   const reduced = useReducedMotion();
   const [initial] = useState(() => sceneFromPath());
-  const [active, setActive] = useState(initial);
+  const [mode, setMode] = useState(initial === 1 ? "opening" : "invitation");
+  const [active, setActive] = useState(initial === 1 ? 2 : initial);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [replayKey, setReplayKey] = useState(0);
-  const activeRef = useRef(initial);
-  const ready = useRef(false);
+  const activeRef = useRef(initial === 1 ? 2 : initial);
+  const ready = useRef(initial > 1);
+  const initialised = useRef(false);
   const suppressSpy = useRef(false);
   const settling = useRef(initial > 1);
   const navigated = useRef(false);
@@ -77,8 +81,47 @@ export default function App() {
     [reduced],
   );
 
+  /** Move to the opening envelope page. */
+  const showEnvelope = useCallback(() => {
+    const path = pathFor(1);
+    if (window.location.pathname !== path) {
+      window.history.pushState(null, "", path + window.location.search);
+    }
+    setMenuOpen(false);
+    stopScroll();
+    setMode("opening");
+    setActive(2);
+    activeRef.current = 2;
+    ready.current = true;
+    settling.current = false;
+    window.scrollTo(0, 0);
+  }, [stopScroll]);
+
+  /** Leave the envelope for the invitation page. */
+  const openInvitation = useCallback(() => {
+    const path = pathFor(2);
+    if (window.location.pathname !== path) {
+      window.history.pushState(null, "", path + window.location.search);
+    }
+    setMenuOpen(false);
+    stopScroll();
+    setMode("invitation");
+    setActive(2);
+    activeRef.current = 2;
+    ready.current = true;
+    initialised.current = true;
+    settling.current = false;
+    navigated.current = true;
+    window.scrollTo(0, 0);
+  }, [stopScroll]);
+
   const go = useCallback(
     (n, { push = false, smooth = true } = {}) => {
+      if (n === 1) {
+        showEnvelope();
+        return;
+      }
+
       const section = sectionFor(n);
       if (!section) return;
       navigated.current = true;
@@ -101,7 +144,7 @@ export default function App() {
         window.scrollTo(0, targetY);
       }
     },
-    [glideTo, stopScroll],
+    [glideTo, showEnvelope, stopScroll],
   );
 
   /* Stop an in-flight glide if the guest takes over. */
@@ -126,6 +169,13 @@ export default function App() {
   /* Land on the right section when opening a shared /our-story or /rsvp link.
      Re-align once fonts/dynamic sections settle, unless the guest takes over. */
   useEffect(() => {
+    if (mode !== "invitation") return undefined;
+    if (initialised.current) {
+      ready.current = true;
+      return undefined;
+    }
+    initialised.current = true;
+
     if (initial <= 1) {
       ready.current = true;
       return undefined;
@@ -184,19 +234,21 @@ export default function App() {
       window.removeEventListener("keydown", markMoved);
       window.removeEventListener("pointerdown", markMoved);
     };
-  }, [initial]);
+  }, [initial, mode]);
 
-  /* Scroll spy: keep the URL and navigation in sync with the page. */
+  /* Scroll spy: keep the URL and navigation in sync with the invitation page. */
   useEffect(() => {
+    if (mode !== "invitation") return undefined;
+
     let frame = 0;
     let timer = 0;
 
     const update = () => {
       if (!ready.current || suppressSpy.current || settling.current) return;
       const marker = window.innerHeight * 0.4;
-      let current = 1;
+      let current = 2;
 
-      for (const section of SECTIONS) {
+      for (const section of MAIN_SECTIONS) {
         const el = document.getElementById(section.id);
         if (el && el.getBoundingClientRect().top <= marker) current = section.n;
       }
@@ -226,40 +278,56 @@ export default function App() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, []);
+  }, [mode]);
 
-  /* Back / forward between shared section URLs. */
+  /* Back / forward between the envelope and invitation sections. */
   useEffect(() => {
     const onPop = () => {
       const n = sceneFromPath();
-      const section = sectionFor(n);
-      if (!section) return;
       navigated.current = true;
       settling.current = false;
       stopScroll();
+
+      if (n === 1) {
+        setMode("opening");
+        activeRef.current = 2;
+        setActive(2);
+        ready.current = true;
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      const section = sectionFor(n);
+      if (!section) return;
+      setMode("invitation");
       activeRef.current = n;
       setActive(n);
-      const el = document.getElementById(section.id);
-      if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);
+      ready.current = true;
+
+      // Wait for the invitation page to mount when coming from the envelope.
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          const el = document.getElementById(section.id);
+          if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);
+        });
+      });
     };
+
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, [stopScroll]);
 
-  const opened = useCallback(() => {
-    // If they already scrolled away while the envelope was opening, leave them be.
-    if (window.scrollY < window.innerHeight * 1.1) {
-      window.setTimeout(() => go(2), 260);
-    }
-  }, [go]);
-
-  const replay = useCallback(() => {
-    setReplayKey((key) => key + 1);
-    go(1);
-  }, [go]);
-
   const details = useCallback(() => go(6), [go]);
   const rsvp = useCallback(() => go(8, { push: true }), [go]);
+  const replay = useCallback(() => showEnvelope(), [showEnvelope]);
+
+  if (mode === "opening") {
+    return (
+      <main className="opening-page">
+        <Scene01Entrance onOpened={openInvitation} onSkip={openInvitation} />
+      </main>
+    );
+  }
 
   return (
     <>
@@ -274,14 +342,6 @@ export default function App() {
       />
 
       <main className="page">
-        <div
-          id={SECTIONS[0].id}
-          data-section="1"
-          className="page-section page-section--hero"
-        >
-          <Scene01Entrance key={replayKey} onOpened={opened} onSkip={() => go(2)} />
-        </div>
-
         <div id={SECTIONS[1].id} data-section="2" className="page-section">
           <Scene02Card onNext={details} />
         </div>

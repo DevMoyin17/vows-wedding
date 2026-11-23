@@ -3,9 +3,16 @@
 **Live:** https://vows-deborah-michael.vercel.app
 
 The flagship digital wedding invitation: a cinematic, mobile-first guest experience in
-blush silk, lace and pearl, with full tablet and desktop adaptations. Everything lives on
-one continuous scrolling page — the envelope opening leads straight into the invitation
-card, then the story, countdown, details, photographs, RSVP and closing.
+blush silk, lace and pearl, with full tablet and desktop adaptations.
+
+There are two pages:
+
+- **`/` — the opening envelope.** This is the first thing every guest sees, exactly like
+  the Figma prototype. The envelope opens with the cinematic animation (or the mobile
+  “View the invitation” shortcut skips straight ahead).
+- **`/the-couple` … `/with-love` — the invitation itself.** A single continuous scrolling
+  page: invitation card, save the date, story, countdown, details, photographs, RSVP and
+  closing. Direct section links open here without the envelope.
 
 ## Run
 
@@ -16,9 +23,10 @@ npm run build    # production bundle in dist/
 npm run preview  # preview the build
 ```
 
-Guest personalisation: open `/?guest=Tolu%20Adebayo&seats=2` — the RSVP greeting,
-prefilled name and seat count adapt to the link. For a link that jumps straight to the
-reply card, use `/rsvp?guest=Tolu%20Adebayo&seats=2`.
+Guest personalisation: open `/?guest=Tolu%20Adebayo&seats=2` — the envelope opens into the
+invitation with the RSVP greeting, prefilled name and seat count adapted to the link. For
+a link that jumps straight to the reply card, use
+`/rsvp?guest=Tolu%20Adebayo&seats=2` (no envelope).
 
 ## Stack
 
@@ -59,10 +67,12 @@ https://vows-deborah-michael.vercel.app/rsvp?guest=Tolu%20Adebayo&seats=2
 - `guest` is the full name used to look up and prefill the reply
 - `seats` sets the initial guest count
 - URL-encode spaces as `%20` (or build the links from a spreadsheet)
-- Use the `/rsvp` link for a direct reply; the root link opens at the envelope
+- The root link opens the envelope first; the `/rsvp` link jumps straight to the reply
+  card for reminders
 
-The RSVP page opens with the name prefilled and the correct seat count. On a second
-visit the guest sees their saved reply and can update it until the RSVP deadline.
+The envelope opens into the invitation page; the RSVP card carries the name and seat
+count from the link. On a second visit the guest sees their saved reply and can update it
+until the RSVP deadline.
 
 ## Viewing replies
 
@@ -169,8 +179,9 @@ scripts/
 supabase/schema.sql
 ```
 
-Scene navigation: the invitation is one continuous page. Guests simply scroll; the top
+Navigation: the envelope is its own page at `/`; opening it moves to `/the-couple`, the
+first section of the single-page invitation. From there guests simply scroll; the top
 bar, Explore drawer and clean URLs (`/our-story`, `/rsvp`) jump between sections. The
 scroll spy keeps the URL and navigation in sync, cards reveal on scroll and lift on
 hover, and the floating RSVP pill stays within reach on phones. Full reduced-motion
-support is built in.
+support is built in. “Replay” on the closing card returns to the envelope page.

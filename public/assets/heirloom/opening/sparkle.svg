@@ -1,0 +1,18 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="30.093" height="30.093" viewBox="0 0 30.093 30.093" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Sparkle">
+<g id="Sparkle shape" filter="url(#filter0_d_0_29)">
+<path d="M15.0465 6.04651C15.7965 12.0465 18.0465 14.2965 24.0465 15.0465C18.0465 15.7965 15.7965 18.0465 15.0465 24.0465C14.2965 18.0465 12.0465 15.7965 6.04651 15.0465C12.0465 14.2965 14.2965 12.0465 15.0465 6.04651Z" fill="#F6E7B8" stroke-width="0.75" stroke="black"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_0_29" x="5.58794e-08" y="5.58794e-08" width="30.093" height="30.093" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="3"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.93 0 0 0 0 0.72 0 0 0 0.9 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_29"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_29" result="shape"/>
+</filter>
+</defs>
+</svg>

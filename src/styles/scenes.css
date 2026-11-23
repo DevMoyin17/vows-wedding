@@ -58,65 +58,307 @@
   overflow: hidden;
 }
 
-.env-fill { position: absolute; inset: 0; }
+/* ---------------------------------- opening: layers cut from the Figma renders --- */
 
-.env-layer {
+/* The stage is the whole screen on mobile and tablet and Figma's centred
+   746×900 "Stage" on desktop. The plate is the 864×1536 render's own box,
+   object-cover'd onto the stage exactly like the Figma frames, so every
+   layer is placed in % of it. */
+.op-stage {
   position: absolute;
   inset: 0;
-  background-size: 100% 100%;
-  background-position: center;
+  container-type: size;
+  overflow: hidden;
 }
-/* only the closed envelope is visible before the guest taps */
-.env-layer[data-layer="seal"],
-.env-layer[data-layer="flap"],
-.env-layer[data-layer="rise"],
-.env-layer[data-layer="open"] { opacity: 0; }
-
-.env-burst { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
-.env-burst__star { position: absolute; transform: translate(-50%, -50%); }
-
-/* live card copy, positioned on the rendered blank card (85/390, 300/844) */
-.env-cardtext {
+.op-camera {
   position: absolute;
-  left: 21.8%;
-  top: 35.5%;
-  width: 56.4%;
-  display: grid;
-  gap: 2.2cqw;
-  justify-items: center;
+  inset: 0;
+  will-change: transform;
+}
+.op-plate {
+  position: absolute;
+  inset: -100%;
+  margin: auto;
+  aspect-ratio: 864 / 1536;
+  width: max(100cqw, 100cqh * 864 / 1536);
+  overflow: hidden;
+}
+/* hidden (not painted) until shortly before they are needed */
+.op-world-blur,
+.op-reveal-blur,
+.op-reveal { opacity: 0; visibility: hidden; will-change: opacity; }
+
+/* desktop: the wide render (184:4007), softening into the satin fill */
+.op-wide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+}
+.op-wide--blur { opacity: 0; will-change: opacity; }
+.op-world {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.op-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  user-select: none;
+}
+.op-plate img { display: block; user-select: none; -webkit-user-drag: none; }
+
+/* inside of the envelope behind the card: the same paper, in shade */
+.op-mouth {
+  background: linear-gradient(180deg, #d9d1ce 34.9%, #e6e0de 40%, #efebe9 47.8%);
+}
+.op-pocket { position: absolute; }
+
+/* lace flap — two faces on one hinge */
+.op-flap {
+  position: absolute;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.op-flap__face {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.op-flap__face img { width: 100%; height: 100%; }
+.op-flap__face--in {
+  inset: auto;
+  transform: rotateX(180deg);
+}
+.op-flap__shade {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: linear-gradient(180deg, rgba(84, 54, 50, 0.05), rgba(84, 54, 50, 0.45));
+}
+
+/* wax seal — two pieces cut along the crack in Figma 01a */
+.op-seal {
+  position: absolute;
+  perspective: 700px;
+  will-change: transform;
+}
+.op-seal__main,
+.op-seal__chip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 1.5px 2px rgba(92, 62, 22, 0.35));
+  will-change: transform;
+}
+.op-seal__crack {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.op-seal__crack polyline {
+  fill: none;
+  stroke: #3f2c0c;
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.op-dust i {
+  position: absolute;
+  will-change: transform, opacity;
+  width: 1.6%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f6e7b8, #b8933a 60%, #7a5f1e);
+  opacity: 0;
+}
+.op-dust i:nth-child(3n) { width: 2.6%; }
+.op-dust i:nth-child(4n) { width: 1.1%; }
+
+/* Figma "Sparkle" component (155:43) */
+.op-sparkle {
+  position: absolute;
+  transform: scale(0);
+  will-change: transform;
+  pointer-events: none;
+}
+.op-sparkle img {
+  position: absolute;
+  inset: -33.59%;
+  width: 167.18%;
+  height: 167.18%;
+  max-width: none;
+}
+
+
+/* the invitation card — the real card from "Card reveal", text already on it */
+.op-card {
+  position: absolute;
+  container-type: inline-size;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+/* own layer so the shadow fades by opacity instead of repainting */
+.op-card__shadow {
+  position: absolute;
+  inset: 0;
+  will-change: opacity;
+  box-shadow: 0 2.6cqw 6cqw rgba(89, 51, 51, 0.18), 0 0.4cqw 1cqw rgba(89, 51, 51, 0.1);
+}
+.op-card > img { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* card text, relative to the card width (cqw), from each "Card text (live)":
+   mobile 184:3440 · tablet 225:5606 · desktop 225:5559 */
+.op-card__text {
+  --t-left: 13.99%; --t-top: 23.69%; --t-width: 71.1%; --t-gap: 4.525cqw;
+  --over: 3.555cqw; --over-lh: 5.171cqw; --over-ls: 0.64cqw;
+  --names: 10.989cqw; --names-lh: 12.928cqw; --names-ls: -0.055cqw;
+  --req: 6.464cqw; --req-lh: 8.403cqw;
+  position: absolute;
+  left: var(--t-left);
+  top: var(--t-top);
+  width: var(--t-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--t-gap);
   text-align: center;
 }
-.env-cardtext p { margin: 0; }
-.env-cardtext p:first-child {
+[data-bp="tablet"] .op-card__text {
+  --t-left: 14.93%; --t-top: 21.01%; --t-width: 69.25%; --t-gap: 4.407cqw;
+  --over: 3.463cqw; --over-lh: 5.037cqw; --over-ls: 0.623cqw;
+  --names: 10.703cqw; --names-lh: 12.592cqw; --names-ls: -0.0535cqw;
+  --req: 6.296cqw; --req-lh: 8.185cqw;
+}
+[data-bp="desktop"] .op-card__text {
+  --t-left: 25.43%; --t-top: 29.84%; --t-width: 48.26%; --t-gap: 3.071cqw;
+  --over: 2.413cqw; --over-lh: 3.51cqw; --over-ls: 0.434cqw;
+  --names: 7.459cqw; --names-lh: 8.775cqw; --names-ls: -0.0373cqw;
+  --req: 4.387cqw; --req-lh: 5.704cqw;
+}
+.op-card__text p { margin: 0; width: 100%; }
+.op-card__over {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: clamp(6px, 2.05cqw, 11px);
-  line-height: 1.5;
-  letter-spacing: 0.5cqw;
+  font-size: var(--over);
+  line-height: var(--over-lh);
+  letter-spacing: var(--over-ls);
   text-transform: uppercase;
-  color: var(--color-text-accent);
+  color: #7a5e1f;
 }
-.env-cardtext__names {
+.op-card__names {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(17px, 6.2cqw, 34px);
-  line-height: 1.25;
-  color: var(--color-text-primary);
+  font-size: var(--names);
+  line-height: var(--names-lh);
+  letter-spacing: var(--names-ls);
+  color: #1c1c1c;
 }
-.env-cardtext__request {
+.op-card__request {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(9px, 3.3cqw, 18px);
-  line-height: 1.45;
-  color: var(--color-text-secondary);
+  font-size: var(--req);
+  line-height: var(--req-lh);
+  color: #5e5e5e;
 }
-.env-cardtext__date {
+.op-card__date {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: clamp(6px, 2.2cqw, 12px);
-  letter-spacing: 0.45cqw;
-  color: var(--color-text-accent);
+  font-size: var(--over);
+  line-height: var(--over-lh);
+  letter-spacing: var(--over-ls);
+  text-transform: uppercase;
+  color: #1c1c1c;
 }
+/* the sheen sweeps inside the card only */
+.op-card__gloss {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.op-card__sheen {
+  position: absolute;
+  inset: 0 25%;
+  opacity: 0;
+  will-change: transform, opacity;
+  background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.55) 50%, transparent 100%);
+  pointer-events: none;
+}
+.op-cardclip { pointer-events: none; }
+.op-vshadow { overflow: visible; }
+.op-vshadow polyline {
+  fill: none;
+  stroke: rgba(84, 54, 50, 0.22);
+  stroke-width: 7;
+  filter: blur(3px);
+  transform: translateY(-3px);
+}
+
+/* Figma "Top light" / "Bottom light" washes over the Default frame */
+.scene-entrance__light {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+}
+.scene-entrance__light--top {
+  top: 0;
+  height: 39.1%;
+  background: linear-gradient(180deg, rgba(251, 248, 248, 0.92), rgba(251, 248, 248, 0));
+}
+.scene-entrance__light--bottom {
+  top: 57.35%;
+  height: 42.65%;
+  background: linear-gradient(0deg, rgba(251, 248, 248, 0.95), rgba(251, 248, 248, 0));
+}
+[data-phase]:not([data-phase="idle"]) .scene-entrance__light { opacity: 0; }
+
+/* "Now playing · Our song" chip (Figma 184:3408, x167 y20 h44) */
+.scene-entrance__chip {
+  position: absolute;
+  z-index: 3;
+  top: 2.37%;
+  right: 5.13%;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+[data-phase="playing"] .scene-entrance__chip,
+[data-phase="hold"] .scene-entrance__chip { opacity: 1; transform: none; pointer-events: auto; }
+
+.scene-entrance__skip {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  bottom: 3.2%;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(13px, 1.9cqh, 18px);
+  color: var(--color-text-accent);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+[data-phase="hold"] .scene-entrance__skip { opacity: 0.85; }
+[data-phase="hold"] { cursor: pointer; }
 
 .scene-entrance__head {
   position: absolute;
@@ -127,22 +369,22 @@
   text-align: center;
   transition: opacity 0.4s ease;
 }
-[data-phase="playing"] .scene-entrance__head,
-[data-phase="open"] .scene-entrance__head { opacity: 0; pointer-events: none; }
+[data-phase]:not([data-phase="idle"]) .scene-entrance__head { opacity: 0; pointer-events: none; }
 
 .scene-entrance__head .type-overline {
   font-size: clamp(7px, 2.82cqw, 12px);
-  letter-spacing: 0.55cqw;
+  line-height: 1.4545;
+  letter-spacing: 0.18em;
   color: var(--color-text-accent);
-  margin: 0 0 1.6cqw;
+  margin: 0 0 3.08cqw;
 }
 .scene-entrance__names {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(26px, 11.3cqw, 58px);
-  line-height: 1.09;
-  letter-spacing: -0.2px;
+  font-size: clamp(26px, 11.28cqw, 58px);
+  line-height: 1.0909;
+  letter-spacing: -0.01em;
 }
 .scene-entrance__amp { font-family: var(--font-script); font-size: 0.92em; color: var(--color-text-accent); }
 
@@ -153,11 +395,11 @@
   left: 8.2%;
   right: 8.2%;
   display: grid;
-  gap: 2.4cqw;
+  gap: 3.59cqw;
   justify-items: center;
   transition: opacity 0.35s ease;
 }
-[data-phase="playing"] .scene-entrance__cta { opacity: 0; pointer-events: none; }
+[data-phase]:not([data-phase="idle"]) .scene-entrance__cta { opacity: 0; pointer-events: none; }
 .scene-entrance__prompt {
   margin: 0;
   font-family: var(--font-display);
@@ -168,11 +410,12 @@
   color: var(--color-text-primary);
 }
 .scene-entrance__open {
-  width: 83.6%;
-  max-width: 326px;
+  width: 100%;
+  max-width: 420px;
   height: clamp(40px, 6.16cqh, 54px);
   min-height: 40px;
-  font-size: clamp(12px, 3.1cqw, 15px);
+  font-size: clamp(12px, 3.59cqw, 15px);
+  letter-spacing: 0.02em;
 }
 
 .scene-entrance__music {
@@ -180,39 +423,45 @@
   align-items: center;
   gap: 1.8cqw;
   margin: 0;
-  font-size: clamp(9px, 3.05cqw, 14px);
-  line-height: 1.4;
-  color: var(--color-text-primary);
+  font-size: clamp(9px, 3.33cqw, 14px);
+  line-height: 1.54;
+  color: var(--color-text-secondary);
 }
 .scene-entrance__music .pill__bars {
-  width: clamp(20px, 6.7cqw, 28px);
-  height: clamp(20px, 6.7cqw, 28px);
-  padding: 5px 6px;
+  width: clamp(24px, 9.03cqw, 36px);
+  height: clamp(24px, 9.03cqw, 36px);
+  padding: 0 2.3cqw;
+  align-items: center;
   border-radius: 50%;
   background: var(--color-bg-surface);
-  border: 1px solid var(--color-border);
+  border: 0.8px solid var(--color-border);
   justify-content: center;
 }
-.scene-entrance__music .pill__bars i { width: 2px; }
+.scene-entrance__music .pill__bars { padding: 0 !important; gap: 2.4px; align-items: center; justify-content: center; }
+.scene-entrance__music .pill__bars i { width: 2.4px; flex-shrink: 0; border-radius: 1.2px; }
+.scene-entrance__music .pill__bars i:nth-child(1) { height: 6.4px; }
+.scene-entrance__music .pill__bars i:nth-child(2) { height: 12.8px; }
+.scene-entrance__music .pill__bars i:nth-child(3) { height: 8.8px; }
+.scene-entrance__music .pill__bars i:nth-child(4) { height: 11.2px; }
 
 .scene-entrance__date {
   position: absolute;
   z-index: 2;
   left: 0;
   right: 0;
-  bottom: 3.3%;
+  top: 94.31%;
   margin: 0;
   text-align: center;
   font-family: var(--font-body);
   font-weight: 500;
   font-size: clamp(7px, 2.82cqw, 12px);
   line-height: 16px;
-  letter-spacing: 0.55cqw;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-text-primary);
+  color: var(--color-text-secondary);
   transition: opacity 0.35s ease;
 }
-[data-phase="playing"] .scene-entrance__date { opacity: 0; }
+[data-phase]:not([data-phase="idle"]) .scene-entrance__date { opacity: 0; }
 
 /* ------------------------------------------------------- scene 02 · card --- */
 
@@ -1204,367 +1453,100 @@
   .scene-photo { animation: none; }
 }
 
-/* ===================================================== DESKTOP ENTRANCE === */
-/* Must live after the mobile stage rules so it wins the cascade.
-   Figma 184:4007 / 184:4011 / 184:4014 (1440×900). */
-.scene-entrance__art { display: none; }
-.env-anim { display: none; }
-.env-anim--tablet { display: none; }
+/* ===================================================== wide entrance === */
+/* The scene picks its Figma layout from the screen's shape (see
+   useEntranceLayout): tablet (184:3795, 768×1024) and desktop (184:4007,
+   1440×900) fill the whole screen. Sizes are in cqh of the stage so the
+   composition keeps the Figma proportions; everything is centred. */
 
-/* card copy for the final wide-screen slide (same text as mobile 01d) */
-.env-cardtext--wide { display: none; }
-@media (min-width: 768px) {
-  .env-cardtext--wide {
-    display: grid;
-    position: absolute;
-    left: 50%;
-    top: 35%;
-    transform: translateX(-50%);
-    width: min(320px, 44%);
-    gap: 6px;
-    justify-items: center;
-    text-align: center;
-    opacity: 0;
-    z-index: 4;
-    pointer-events: none;
-  }
-  .env-cardtext--wide p { margin: 0; }
-  .env-cardtext--wide p:first-child {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--color-text-accent);
-  }
-  .env-cardtext--wide .env-cardtext__names {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 1.25;
-    color: var(--color-text-primary);
-  }
-  .env-cardtext--wide .env-cardtext__request {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 15px;
-    line-height: 1.45;
-    color: var(--color-text-secondary);
-  }
-  .env-cardtext--wide .env-cardtext__date {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 1.8px;
-    color: var(--color-text-accent);
-  }
-}
-@media (min-width: 1024px) {
-  .env-cardtext--wide { top: 33%; width: 300px; }
-}
-
-/* ------------------------------------------------- TABLET 768–1023 -------- */
-/* Supplied 768×1024 render, overlay geometry from frame 184:3795. */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .scene-entrance {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-bg-canvas);
-  }
-  .scene-entrance::before { display: none; }
-
-  .env-stage {
-    position: relative;
-    width: min(100vw, calc(100dvh * 0.75));
-    height: auto;
-    aspect-ratio: 768 / 1024;
-    max-height: 100dvh;
+  .scene-entrance:is([data-bp="tablet"], [data-bp="desktop"]) { background: var(--color-bg-canvas); }
+  .scene-entrance:is([data-bp="tablet"], [data-bp="desktop"])::before { display: none; }
+  .scene-entrance:is([data-bp="tablet"], [data-bp="desktop"]) .env-stage {
+    width: 100vw;
+    height: 100dvh;
+    max-height: none;
+    aspect-ratio: auto;
     container-type: size;
     overflow: hidden;
   }
-
-  .scene-entrance__art {
-    display: block;
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    transform-origin: 50% 50%;
-    will-change: transform, opacity;
-  }
-  .scene-entrance__art img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-  }
-  .scene-entrance__art-tablet { display: block; }
-  .scene-entrance__art-desktop { display: none; }
-
-  .env-fill { display: none; }
-
-  /* tablet opening — full-frame 768×1024 step renders */
-  .env-anim--tablet {
-    display: block;
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-  }
-  .env-anim--tablet img.env-anim__full {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-    opacity: 0;
-    /* steps 01a–01d: envelope reduced vs the first slide */
-    transform: scale(0.72);
-    transform-origin: 50% 50%;
-    -webkit-mask-image: radial-gradient(72% 74% at 50% 50%, black 62%, transparent 93%);
-    mask-image: radial-gradient(72% 74% at 50% 50%, black 62%, transparent 93%);
-  }
-  .scene-entrance__art { z-index: 1; }
-
-  /* heading (184:3799 — x84 y96 w600) */
-  .scene-entrance__head {
-    top: 9.375%;
-    left: 50%;
-    right: auto;
-    width: 78.1%;
-    transform: translateX(-50%);
-  }
-  .scene-entrance__head .type-overline {
-    font-size: 1.56cqh;
-    letter-spacing: 0.21cqh;
-    margin-bottom: 1.37cqh;
-  }
-  .scene-entrance__names {
-    font-size: 5.86cqh;
-    line-height: 6.25cqh;
-    white-space: nowrap;
-  }
-  .br-mobile { display: none; }
-  .scene-entrance__amp {
-    font-family: var(--font-display);
-    font-style: italic;
-    color: var(--color-text-primary);
-    margin: 0 0.12em;
-  }
-
-  /* call to action (184:3802 — x144 y712 w480) */
-  .scene-entrance__cta {
-    top: 69.53%;
-    bottom: auto;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    width: 62.5%;
-    gap: 0;
-  }
-  .scene-entrance__prompt { font-size: 2.15cqh; line-height: 2.73cqh; }
-  .scene-entrance__open {
-    width: 75%;
-    max-width: none;
-    height: 5.08cqh;
-    min-height: 36px;
-    font-size: 1.37cqh;
-    padding: 0 2cqh;
-    margin-top: 1.56cqh;
-  }
-  .scene-entrance__music {
-    font-size: 1.27cqh;
-    line-height: 1.95cqh;
-    gap: 1.25cqh;
-    margin-top: 1.56cqh;
-  }
-  .scene-entrance__music .pill__bars {
-    width: 3.44cqh;
-    height: 3.44cqh;
-    padding: 0.9cqh 1cqh;
-  }
-
-  .scene-entrance__date {
-    display: block;
-    position: absolute;
+  .scene-entrance:is([data-bp="tablet"], [data-bp="desktop"]) .br-mobile { display: none; }
+  .scene-entrance:is([data-bp="tablet"], [data-bp="desktop"]) .scene-entrance__head,
+  .scene-entrance:is([data-bp="tablet"], [data-bp="desktop"]) .scene-entrance__cta {
     left: 0;
     right: 0;
-    top: 85.47%;
-    bottom: auto;
-    font-size: 1.07cqh;
-    letter-spacing: 0.21cqh;
+    margin-inline: auto;
   }
-}
-
-@media (min-width: 1024px) {
-  /* The supplied 1440×900 render defines the whole composition.
-     The stage keeps that exact 16:10 ratio and every overlay is placed
-     with the frame's percentage coordinates, so nothing can collide. */
-  .scene-entrance {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-bg-canvas);
-  }
-  .scene-entrance::before { display: none; }
-
-  .env-stage {
-    position: relative;
-    width: min(100vw, calc(100dvh * 1.6));
-    height: auto;
-    aspect-ratio: 1440 / 900;
-    max-height: 100dvh;
-    container-type: size;
-    overflow: hidden;
-  }
-
-  .scene-entrance__art {
-    display: block;
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    transform-origin: 50% 47%;
-    will-change: transform, opacity;
-  }
-  .scene-entrance__art img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: fill; /* stage is exactly 16:10, so no crop and no stretch */
-  }
-  .scene-entrance__art-tablet { display: none; }
-  .scene-entrance__art-desktop { display: block; }
-
-  /* desktop opening steps — exported 01a satin + 01b/01c stage renders */
-  .env-anim {
-    display: block;
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-  }
-  .env-anim__satin {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-    opacity: 0;
-  }
-  /* plain satin over the baked-in envelope area so the 01b/01c envelope
-     never sits on a second envelope — corners keep slide 1's florals */
-  .env-anim__patch {
-    position: absolute;
-    left: 26%;
-    top: 27%;
-    width: 48%;
-    height: 47%;
-    background: linear-gradient(180deg, #f4dede 0%, #efcfd1 46%, #f2d7d8 100%);
-    filter: blur(7px);
-    opacity: 1;
-  }
-  .env-anim__stage {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 51.8056%; /* 746 / 1440 */
-    aspect-ratio: 746 / 900;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    -webkit-mask-image: radial-gradient(72% 76% at 50% 50%, black 60%, transparent 92%);
-    mask-image: radial-gradient(72% 76% at 50% 50%, black 60%, transparent 92%);
-  }
-  .env-anim__step {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-    opacity: 0;
-  }
-  .env-seal-burst {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 2;
-  }
-  .env-anim__full {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: fill; /* 01a is 16:10 like the stage */
-    opacity: 0;
-  }
-
-  .env-fill { display: none; }
-
-  /* heading (184:4011 — x220 y56 w1000 h110) */
-  .scene-entrance__head {
-    top: 6.22%;
-    left: 50%;
-    right: auto;
-    width: 69.4%;
-    transform: translateX(-50%);
-  }
-  .scene-entrance__head .type-overline {
-    font-size: 1.22cqh;
-    letter-spacing: 0.245cqh;
-    margin-bottom: 2.9cqh;
-  }
-  .scene-entrance__names {
-    font-size: 8.89cqh;
-    line-height: 9.33cqh;
-    white-space: nowrap;
-  }
-  .br-mobile { display: none; }
-  .scene-entrance__amp {
-    font-family: var(--font-display);
-    font-style: italic;
-    color: var(--color-text-primary);
-    margin: 0 0.12em;
-  }
-
-  /* call to action (184:4014 — x420 y708 w600) */
-  .scene-entrance__cta {
-    top: 78.67%;
-    bottom: auto;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    width: 41.7%;
-    gap: 0;
-  }
-  .scene-entrance__prompt { font-size: 2.67cqh; line-height: 3.56cqh; }
-  .scene-entrance__open {
-    width: 50%;
+  .scene-entrance:is([data-bp="tablet"], [data-bp="desktop"]) .scene-entrance__names { white-space: nowrap; }
+  .scene-entrance:is([data-bp="tablet"], [data-bp="desktop"]) .scene-entrance__open {
+    width: auto;
     max-width: none;
-    height: 5.78cqh;
-    min-height: 34px;
-    font-size: 1.56cqh;
-    padding: 0 3cqh;
-    margin-top: 1.78cqh;
+    min-height: 0;
+    padding: 0 2.7cqh;
   }
-  .scene-entrance__music {
-    font-size: 1.67cqh;
-    line-height: 2.45cqh;
-    gap: 1.33cqh;
-    margin-top: 1.78cqh;
-  }
-  .scene-entrance__music .pill__bars {
-    width: 3.91cqh;
-    height: 3.91cqh;
-    padding: 1cqh 1.1cqh;
-  }
-  .only-mobile { display: none; }
-  .only-desktop { display: inline; }
 
-  .scene-entrance__date { display: none; }
-}
+
+  .scene-entrance[data-bp="tablet"] .scene-entrance__light--top { height: 37.11%; background: linear-gradient(180deg, rgba(251, 248, 248, 0.95), rgba(251, 248, 248, 0)); }
+  .scene-entrance[data-bp="tablet"] .scene-entrance__light--bottom { top: 62.89%; height: 37.11%; background: linear-gradient(0deg, rgba(251, 248, 248, 0.97), rgba(251, 248, 248, 0)); }
+
+  /* heading 184:3799 — top 96, width 600, gap 14 */
+  .scene-entrance[data-bp="tablet"] .scene-entrance__head { top: 9.375%; width: 58.6cqh; }
+  .scene-entrance[data-bp="tablet"] .scene-entrance__head .type-overline {
+    font-size: 1.074cqh;
+    line-height: 1.5625cqh;
+    letter-spacing: 0.193cqh;
+    margin-bottom: 1.367cqh;
+  }
+  .scene-entrance[data-bp="tablet"] .scene-entrance__names { font-size: 5.859cqh; line-height: 6.25cqh; letter-spacing: -0.0586cqh; }
+
+  /* call to action 184:3802 — top 712, width 480, gap 16 */
+  .scene-entrance[data-bp="tablet"] .scene-entrance__cta { top: 69.53%; width: 46.9cqh; gap: 1.5625cqh; }
+  .scene-entrance[data-bp="tablet"] .scene-entrance__prompt { font-size: 2.148cqh; line-height: 2.734cqh; }
+  .scene-entrance[data-bp="tablet"] .scene-entrance__open { min-width: 35.16cqh; height: 5.078cqh; font-size: 1.367cqh; letter-spacing: 0.027cqh; }
+  .scene-entrance[data-bp="tablet"] .scene-entrance__music { font-size: 1.27cqh; line-height: 1.953cqh; gap: 0.78cqh; }
+  .scene-entrance[data-bp="tablet"] .scene-entrance__music .pill__bars { width: 3.4375cqh; height: 3.4375cqh; padding: 0 0.9cqh; }
+  /* the date closes the CTA column: 712 + 28 + 16 + 52 + 16 + 35.2 + 16 */
+  .scene-entrance[data-bp="tablet"] .scene-entrance__date { top: 85.47%; font-size: 1.074cqh; line-height: 1.5625cqh; letter-spacing: 0.193cqh; }
+
+  /* "Now playing" chip 225:5566 — x541 y24 h44 */
+  .scene-entrance[data-bp="tablet"] .scene-entrance__chip { top: 2.34%; right: 3.125%; }
+
+
+  .scene-entrance[data-bp="desktop"] .scene-entrance__light--top { height: 28.89%; background: linear-gradient(180deg, rgba(251, 248, 248, 0.92), rgba(251, 248, 248, 0)); }
+  .scene-entrance[data-bp="desktop"] .scene-entrance__light--bottom { top: 71.11%; height: 28.89%; background: linear-gradient(0deg, rgba(251, 248, 248, 0.95), rgba(251, 248, 248, 0)); }
+
+  /* the 746×900 stage of the keyframes (225:5507), soft-edge mask */
+  .scene-entrance[data-bp="desktop"] .op-stage {
+    inset: 0 0 auto;
+    margin-inline: auto;
+    width: calc(100cqh * 746 / 900);
+    height: 100cqh;
+    opacity: 0;
+    will-change: transform, opacity;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent);
+  }
+
+  /* heading 184:4011 — top 56, width 1000, gap 10 */
+  .scene-entrance[data-bp="desktop"] .scene-entrance__head { top: 6.22%; width: 111.1cqh; }
+  .scene-entrance[data-bp="desktop"] .scene-entrance__head .type-overline {
+    font-size: 1.333cqh;
+    line-height: 1.778cqh;
+    letter-spacing: 0.24cqh;
+    margin-bottom: 1.111cqh;
+  }
+  .scene-entrance[data-bp="desktop"] .scene-entrance__names { font-size: 8.889cqh; line-height: 9.333cqh; letter-spacing: -0.0889cqh; }
+
+  /* call to action 184:4014 — top 708, width 600, gap 16 */
+  .scene-entrance[data-bp="desktop"] .scene-entrance__cta { top: 78.67%; width: 66.67cqh; gap: 1.778cqh; }
+  .scene-entrance[data-bp="desktop"] .scene-entrance__prompt { font-size: 2.667cqh; line-height: 3.556cqh; }
+  .scene-entrance[data-bp="desktop"] .scene-entrance__open { min-width: 33.33cqh; height: 5.778cqh; font-size: 1.667cqh; letter-spacing: 0.0333cqh; }
+  .scene-entrance[data-bp="desktop"] .scene-entrance__music { font-size: 1.556cqh; line-height: 2.444cqh; gap: 1.333cqh; white-space: pre; }
+  .scene-entrance[data-bp="desktop"] .scene-entrance__music .pill__bars { width: 3.911cqh; height: 3.911cqh; padding: 0 1cqh; }
+  .scene-entrance[data-bp="desktop"] .scene-entrance__date { display: none; }
+
+  /* "Now playing" chip 225:5510 — x1179 y24 h44, from the frame's right edge */
+  .scene-entrance[data-bp="desktop"] .scene-entrance__chip { top: 2.667%; right: calc(50% - 80cqh + 5.1cqh); }
+
 
 /* ================================================== lace stitch borders === */
 /* The inset dashed "stitch" is a decorative, absolutely-positioned child.
@@ -1589,13 +1571,6 @@
     height: 100dvh;
     max-height: none;
     aspect-ratio: auto;
-  }
-  .opening-page .env-fill .env-layer {
-    background-size: cover;
-  }
-  .opening-page .env-cardtext {
-    left: 15.6%;
-    width: 68.7%;
   }
 }
 

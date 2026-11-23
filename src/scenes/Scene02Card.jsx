@@ -34,7 +34,7 @@ export function Scene02Card({ onNext }) {
           <div className="invite-card__portrait">
             <Photo
               photo={wedding.photos.hero}
-              alt="Deborah and Michael walking hand in hand"
+              alt="Simeon and Janet walking hand in hand"
               width={160}
               height={200}
               crop="fill"

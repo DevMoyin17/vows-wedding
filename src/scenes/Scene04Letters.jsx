@@ -28,7 +28,7 @@ export function Scene04Letters() {
         <p className="kicker">Letters from</p>
         <h1 className="type-display">Our story</h1>
         <p className="story-intro">
-          From a birthday dinner in Ibadan to “I do” — these are the letters that brought us here.
+          {wedding.storyIntro}
         </p>
       </motion.header>
 

@@ -1,29 +1,31 @@
 /**
  * Wedding content — Heirloom Lace template.
  * Every photograph is declared as { local, cloud }: `cloud` is the
- * Cloudinary public id used in production, `local` is the bundled demo copy.
+ * Cloudinary public id used in production, `local` is the bundled copy.
  */
 
 export const wedding = {
   template: "heirloom-lace",
   couple: {
-    first: "Deborah",
-    second: "Michael",
-    initials: "DM",
+    first: "Simeon",
+    second: "Janet",
+    initials: "SJ",
   },
   families: {
-    bride: "Mr & Mrs Adeyemi",
-    groom: "Mr & Mrs Okafor",
+    bride: "Mr & Mrs Matthew",
+    groom: "Elder & Mrs Adewuyi",
   },
-  dateISO: "2027-02-20T10:00:00+01:00",
+  dateISO: "2027-02-20T08:00:00+01:00",
   city: "Ibadan, Nigeria",
   dateShort: "20 · 02 · 2027",
   dateLong: "Saturday, 20 February 2027",
   dateFooter: "SATURDAY · 20 FEBRUARY 2027 · IBADAN",
-  rsvpBy: "20 January",
-  rsvpByFull: "20 January 2027",
+  rsvpBy: "6 February",
+  rsvpByFull: "6 February 2027",
 
   requestLine: "request the honour of your presence at the marriage of their children",
+
+  storyIntro: "From a first conversation to “I do” — a few chapters from our story.",
 
   photos: {
     hero: { local: "/assets/photos/gallery-1.jpg", cloud: "vows/heirloom/hero-walk" },
@@ -42,40 +44,75 @@ export const wedding = {
   },
 
   story: [
-    { date: "September 2019", title: "Where we met", text: "A friend’s birthday dinner in Ibadan, laughter over jollof rice and small chops, and a conversation neither of us wanted to end. Michael walked Deborah to her car that night and asked for her number. Three days later, we had our first proper date.", photoKey: "met" },
-    { date: "December 2019", title: "Our first date", text: "Michael booked a quiet corner table at a small restaurant in Bodija — white tablecloths, candlelight, and a menu neither of us quite understood. Deborah ordered the safest dish on it, Michael ordered the strangest, and we ended up sharing both. We stayed long after dessert, talking until the staff began stacking chairs around us.", photoKey: "firstDate" },
-    { date: "June 2026", title: "The proposal", text: "Michael planned a quiet Sunday lunch at his parents’ home, then disappeared into the garden. When Deborah followed, the fairy lights were already on, her favourite songs were playing softly, and both families were watching from the veranda. He spoke about the seven years since that birthday dinner, got halfway through his speech, gave up on the words and simply asked. She said yes before he finished.", photoKey: "proposal" },
-    { date: "February 2027", title: "The wedding", text: "On the morning of 20 February 2027, the people who shaped us will gather at The White Chapel — our parents, our siblings, and the friends who held every chapter of this story. We will say our vows at ten, celebrate at noon, and dance long after the sun sets. After all this time, the only thing missing is you.", photoKey: "weddingDay" },
+    {
+      date: "The beginning",
+      title: "Where it began",
+      text: "Simeon and Janet’s story began with a conversation neither of them wanted to end. What started as a chance meeting grew into a friendship, and then into something neither could imagine life without.",
+      photoKey: "met",
+    },
+    {
+      date: "The first date",
+      title: "Our first date",
+      text: "The first date was simple — good food, easy laughter and a conversation that carried on long after the plates were cleared. By the end of the evening, they both knew this was the beginning of something lasting.",
+      photoKey: "firstDate",
+    },
+    {
+      date: "The proposal",
+      title: "The proposal",
+      text: "Simeon planned a quiet moment with the people closest to them. There were nerves, a few happy tears and a question that had been on his heart for a long time. Janet said yes.",
+      photoKey: "proposal",
+    },
+    {
+      date: "20 February 2027",
+      title: "The wedding",
+      text: "On Saturday, 20 February 2027, Simeon and Janet will gather their families and friends in Ibadan to celebrate the beginning of their married life. They would love for you to be there.",
+      photoKey: "weddingDay",
+    },
   ],
 
   events: [
     {
+      label: "Traditional wedding",
+      name: "Richbam Junction",
+      time: "8:00 AM",
+      address: "Alao-Akala Expressway, Oluyole, Ibadan",
+      fullAddress:
+        "Richbam Junction, Alao-Akala Expressway, Oluyole, Ibadan, Oyo State, Nigeria",
+      startISO: "2027-02-20T08:00:00+01:00",
+      endISO: "2027-02-20T10:30:00+01:00",
+      photoKey: "hero",
+    },
+    {
       label: "Church wedding",
-      name: "The White Chapel",
-      time: "10:00 AM",
-      address: "14 Bodija Road, Ibadan",
-      fullAddress: "The White Chapel, 14 Bodija Road, Ibadan, Oyo State, Nigeria",
-      coords: { lat: 7.4305, lng: 3.9096 },
+      name: "Living Faith Church",
+      time: "11:00 AM",
+      address: "Akala Express, Ibadan",
+      fullAddress: "Living Faith Church, Akala Express, Ibadan, Oyo State, Nigeria",
+      startISO: "2027-02-20T11:00:00+01:00",
+      endISO: "2027-02-20T12:00:00+01:00",
       photoKey: "church",
     },
     {
       label: "Reception",
-      name: "The Grand Atrium",
+      name: "Richbam Junction",
       time: "12:00 PM",
-      address: "3 Jericho GRA, Ibadan",
-      fullAddress: "The Grand Atrium, 3 Jericho GRA, Ibadan, Oyo State, Nigeria",
-      coords: { lat: 7.4087, lng: 3.8812 },
+      address: "Alao-Akala Expressway, Oluyole, Ibadan",
+      fullAddress:
+        "Richbam Junction, Alao-Akala Expressway, Oluyole, Ibadan, Oyo State, Nigeria",
+      startISO: "2027-02-20T12:00:00+01:00",
+      endISO: "2027-02-20T17:00:00+01:00",
       photoKey: "atrium",
     },
   ],
 
   programme: [
-    { title: "Guests arrive", time: "9:30 AM" },
-    { title: "The ceremony", time: "10:00 AM" },
-    { title: "Photographs", time: "11:30 AM" },
+    { title: "Guests arrive", time: "7:30 AM" },
+    { title: "Traditional wedding", time: "8:00 AM" },
+    { title: "Move to church", time: "10:30 AM" },
+    { title: "Church wedding", time: "11:00 AM" },
     { title: "Reception", time: "12:00 PM" },
-    { title: "Dinner & toasts", time: "2:00 PM" },
-    { title: "First dance", time: "3:30 PM" },
+    { title: "Lunch & toasts", time: "2:00 PM" },
+    { title: "First dance", time: "4:00 PM" },
   ],
 
   dress: {
@@ -84,8 +121,8 @@ export const wedding = {
   },
 
   gallery: [
-    { photoKey: "hero", caption: "The walk", alt: "Deborah and Michael walking hand in hand along a tree-lined path at golden hour" },
-    { photoKey: "bouquet", caption: "Her bouquet", alt: "Deborah’s white rose and eucalyptus bouquet" },
+    { photoKey: "hero", caption: "The walk", alt: "Simeon and Janet walking hand in hand along a tree-lined path at golden hour" },
+    { photoKey: "bouquet", caption: "Her bouquet", alt: "Janet’s white rose and eucalyptus bouquet" },
     { photoKey: "rings", caption: "The rings", alt: "Gold wedding rings on ivory satin" },
     { photoKey: "cake", caption: "The cake", alt: "Four-tier white and gold wedding cake" },
     { photoKey: "dinner", caption: "Dinner", alt: "A place setting with gold cutlery and olive leaves" },
@@ -94,5 +131,5 @@ export const wedding = {
 
   music: { label: "Our song", src: "/assets/audio/our-song.mp3" },
 
-  invitation: { slug: "deborah-michael" },
+  invitation: { slug: "simeon-janet" },
 };

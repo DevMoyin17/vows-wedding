@@ -42,7 +42,7 @@ export function TopBar({ active, showRsvp, onExplore, onNavigate, onRsvp }) {
           onNavigate?.(1);
         }}
       >
-        D <span className="mono__amp">&amp;</span> M
+        S <span className="mono__amp">&amp;</span> J
       </a>
 
       <nav className="topnav" aria-label="Invitation sections">

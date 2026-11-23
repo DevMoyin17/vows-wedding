@@ -23,7 +23,7 @@ export function Scene03SaveDate() {
   const hours = Math.floor((left % 86400000) / 3600000);
   const minutes = Math.floor((left % 3600000) / 60000);
   const seconds = Math.floor((left % 60000) / 1000);
-  const eventTime = wedding.events?.[0]?.time ?? "10:00 AM";
+  const eventTime = wedding.events?.[0]?.time ?? "8:00 AM";
 
   const units = [
     { value: days, label: "days" },

@@ -81,12 +81,12 @@ until the RSVP deadline.
 ## Viewing replies
 
 Open **Supabase Dashboard → Table Editor → `rsvps`** and filter on
-`invitation_slug = 'deborah-michael'`, or run:
+`invitation_slug = 'simeon-janet'`, or run:
 
 ```sql
 select guest_name, choice, guests, note, updated_at
 from public.rsvps
-where invitation_slug = 'deborah-michael'
+where invitation_slug = 'simeon-janet'
 order by updated_at desc;
 ```
 

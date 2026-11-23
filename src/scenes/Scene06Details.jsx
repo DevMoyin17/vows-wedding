@@ -21,7 +21,7 @@ export function Scene06Details() {
 
       <motion.header className="scene-head" variants={riseChild} initial="initial" whileInView="animate" viewport={inView}>
         <p className="kicker">The details</p>
-        <h1 className="type-display">Ceremony &amp; reception</h1>
+        <h1 className="type-display">The celebrations</h1>
       </motion.header>
 
       <motion.div

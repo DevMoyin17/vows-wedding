@@ -438,6 +438,30 @@
 .scene-entrance__music .pill__bars i:nth-child(3) { height: 8.8px; }
 .scene-entrance__music .pill__bars i:nth-child(4) { height: 11.2px; }
 
+/* New SJ monogram plate over the baked envelope seal (monogram only). */
+.env-monogram {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 52.67%;
+  width: 12.5%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.env-monogram img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .env-monogram { top: 45.83%; width: 11.5%; }
+}
+@media (min-width: 1024px) {
+  .env-monogram { top: 55.78%; width: 6%; }
+}
+
 .scene-entrance__date {
   position: absolute;
   z-index: 2;

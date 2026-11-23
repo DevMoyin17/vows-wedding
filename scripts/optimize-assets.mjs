@@ -310,10 +310,10 @@ async function brandIcons() {
   await fs.writeFile(pub("favicon.ico"), Buffer.concat([header, ...entries, ...pngs]));
 
   const manifest = {
-    name: "Deborah & Michael — 20 February 2027",
-    short_name: "D & M",
+    name: "Simeon & Janet — 20 February 2027",
+    short_name: "S & J",
     description:
-      "The wedding of Deborah and Michael — Saturday, 20 February 2027, Ibadan. View the invitation and reply.",
+      "The wedding of Simeon and Janet — Saturday, 20 February 2027, Ibadan. View the invitation and reply.",
     start_url: "/",
     display: "standalone",
     background_color: "#f5ebeb",
@@ -364,9 +364,9 @@ async function ogImage() {
       <text x="100" y="150" font-family="Segoe UI, Arial, sans-serif" font-size="15"
         letter-spacing="3.4" fill="#7e4f46">TOGETHER WITH THEIR FAMILIES</text>
       <text x="96" y="266" font-family="Georgia, 'Times New Roman', serif" font-size="82"
-        fill="#1c1c1c">Deborah</text>
+        fill="#1c1c1c">Simeon</text>
       <text x="96" y="354" font-family="Georgia, 'Times New Roman', serif" font-size="82"
-        fill="#1c1c1c"><tspan font-style="italic" fill="#b8933a">&amp;</tspan> Michael</text>
+        fill="#1c1c1c"><tspan font-style="italic" fill="#b8933a">&amp;</tspan> Janet</text>
       <line x1="100" y1="408" x2="400" y2="408" stroke="#b8933a" stroke-width="1" opacity="0.6"/>
       <text x="100" y="456" font-family="Segoe UI, Arial, sans-serif" font-size="18"
         letter-spacing="2.2" fill="#1c1c1c">SATURDAY · 20 FEBRUARY 2027</text>

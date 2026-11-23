@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { wedding } from "../lib/wedding";
-import { riseChild, reducedChild } from "../lib/motion";
+import { inView, riseChild, reducedChild } from "../lib/motion";
 import { directionsUrl } from "../lib/maps";
 import { downloadWeddingIcs } from "../lib/ics";
 import { Photo } from "../components/Photo";
@@ -19,7 +19,7 @@ export function Scene06Details() {
       <FloralEdge corner="tl" size={110} />
       <FloralEdge corner="br" size={150} />
 
-      <motion.header className="scene-head" variants={riseChild} initial="initial" animate="animate">
+      <motion.header className="scene-head" variants={riseChild} initial="initial" whileInView="animate" viewport={inView}>
         <p className="kicker">The details</p>
         <h1 className="type-display">Ceremony &amp; reception</h1>
       </motion.header>
@@ -28,10 +28,16 @@ export function Scene06Details() {
         className="details-list"
         variants={{ animate: { transition: { staggerChildren: 0.1, delayChildren: 0.12 } } }}
         initial="initial"
-        animate="animate"
+        whileInView="animate"
+        viewport={inView}
       >
         {wedding.events.map((e) => (
-          <motion.article className="venue-card" key={e.name} variants={child}>
+          <motion.article
+            className="venue-card"
+            key={e.name}
+            variants={child}
+            whileHover={reduced ? undefined : { y: -4 }}
+          >
             <span className="venue-card__stitch" aria-hidden="true" />
             <Photo
               photo={wedding.photos[e.photoKey]}
@@ -54,7 +60,7 @@ export function Scene06Details() {
           </motion.article>
         ))}
 
-        <motion.article className="programme-card" variants={child}>
+        <motion.article className="programme-card" variants={child} whileHover={reduced ? undefined : { y: -4 }}>
           <span className="programme-card__stitch" aria-hidden="true" />
           <h2 className="type-title">Order of the day</h2>
           <ul className="programme-list">
@@ -68,7 +74,7 @@ export function Scene06Details() {
           </ul>
         </motion.article>
 
-        <motion.article className="dress-card" variants={child}>
+        <motion.article className="dress-card" variants={child} whileHover={reduced ? undefined : { y: -4 }}>
           <span className="dress-card__stitch" aria-hidden="true" />
           <p className="type-gold-italic">Dress code</p>
           <h2 className="type-title">{wedding.dress.headline}</h2>

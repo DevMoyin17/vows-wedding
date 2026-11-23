@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { wedding } from "../lib/wedding";
-import { riseChild, reducedChild } from "../lib/motion";
+import { inView, riseChild, reducedChild } from "../lib/motion";
 import { Photo } from "../components/Photo";
 import { FloralEdge } from "../components/FloralEdge";
 import { PearlDivider } from "../components/PearlDivider";
@@ -20,7 +20,7 @@ export function Scene02Card({ onNext }) {
       <FloralEdge corner="tl" size={150} />
       <FloralEdge corner="br" size={150} />
 
-      <motion.div className="scene-card__stage" variants={{ animate: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } } }} initial="initial" animate="animate">
+      <motion.div className="scene-card__stage" variants={{ animate: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } } }} initial="initial" whileInView="animate" viewport={inView}>
         <div className="scene-card__prints" aria-hidden="true">
           <motion.figure className="print print--large" variants={child}>
             <Photo photo={wedding.photos.hero} alt="" width={360} height={480} />
@@ -30,7 +30,7 @@ export function Scene02Card({ onNext }) {
           </motion.figure>
         </div>
 
-        <motion.article className="invite-card" variants={child}>
+        <motion.article className="invite-card" variants={child} whileHover={reduced ? undefined : { y: -4 }}>
           <div className="invite-card__portrait">
             <Photo
               photo={wedding.photos.hero}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { wedding } from "../lib/wedding";
-import { riseChild, reducedChild } from "../lib/motion";
+import { inView, riseChild, reducedChild } from "../lib/motion";
 import { Photo } from "../components/Photo";
 import { FloralEdge } from "../components/FloralEdge";
 import { Lightbox } from "../components/Lightbox";
@@ -28,7 +28,7 @@ export function Scene07Gallery() {
       <FloralEdge corner="tl" size={110} />
       <FloralEdge corner="br" size={150} />
 
-      <motion.header className="scene-head" variants={riseChild} initial="initial" animate="animate">
+      <motion.header className="scene-head" variants={riseChild} initial="initial" whileInView="animate" viewport={inView}>
         <p className="kicker">Keepsakes</p>
         <h1 className="type-display">Photographs</h1>
       </motion.header>
@@ -37,7 +37,8 @@ export function Scene07Gallery() {
         className="keepsake-grid"
         variants={{ animate: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } } }}
         initial="initial"
-        animate="animate"
+        whileInView="animate"
+        viewport={inView}
       >
         {wedding.gallery.map((g, i) => (
           <motion.button
@@ -46,7 +47,7 @@ export function Scene07Gallery() {
             variants={child}
             onClick={() => setLb(i)}
             aria-label={`Open ${g.caption}`}
-            whileHover={reduced ? undefined : { y: -3 }}
+            whileHover={reduced ? undefined : { y: -4 }}
             whileTap={reduced ? undefined : { scale: 0.99 }}
           >
             <span className="keepsake__printwrap">

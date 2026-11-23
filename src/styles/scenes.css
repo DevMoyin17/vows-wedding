@@ -9,7 +9,6 @@
 
 .scene {
   background: var(--color-bg-canvas);
-  overflow-x: hidden;
 }
 
 .scene-head {
@@ -195,6 +194,44 @@
   justify-content: center;
 }
 .scene-entrance__music .pill__bars i { width: 2px; }
+
+.scene-entrance__skip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 1.6cqw;
+  padding: 0.9cqw 2.4cqw;
+  min-height: 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(126, 79, 70, 0.28);
+  background: rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  font-family: var(--font-body);
+  font-size: clamp(10px, 2.9cqw, 13px);
+  letter-spacing: 0.06em;
+  color: var(--color-text-accent);
+  transition:
+    background var(--motion-quick) ease,
+    border-color var(--motion-quick) ease,
+    transform var(--motion-quick) ease;
+}
+.scene-entrance__skip span {
+  display: inline-block;
+  transition: transform var(--motion-base) ease;
+}
+.scene-entrance__skip:hover {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(126, 79, 70, 0.5);
+}
+.scene-entrance__skip:active { transform: scale(0.98); }
+.scene-entrance__skip:hover span { transform: translateY(2px); }
+
+/* The desktop/tablet composition is complete without the shortcut; the
+   card is one scroll below and the section nav appears immediately. */
+@media (min-width: 768px) {
+  .scene-entrance__skip { display: none; }
+}
 
 .scene-entrance__date {
   position: absolute;
@@ -782,6 +819,19 @@
 /* --------------------------------------------------------- scene 08 · reply -- */
 
 .scene-reply { padding-bottom: calc(120px + env(safe-area-inset-bottom)); }
+.scene-reply--loading,
+.page-section .scene-reply--loading {
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+}
+.reply-loading {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  color: var(--color-text-accent);
+}
+.reply-loading .vbtn__spinner { width: 22px; height: 22px; }
 .scene-reply .scene-head h1 {
   font-family: var(--font-display);
   font-weight: 400;
@@ -949,7 +999,7 @@
 .reply-done__summary { margin: 2px 0 0; font-size: 15px; line-height: 24px; }
 .reply-done__actions { display: grid; gap: 12px; justify-items: center; }
 .reply-done__cta { min-width: 220px; height: 52px; }
-.scene-reply-done .sparkles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.scene-reply-done .sparkles { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
 .reply-done__card, .reply-done__actions { z-index: 1; }
 
 .type-script-gold {
@@ -958,11 +1008,17 @@
   font-size: 40px;
   line-height: 1.2;
   background: var(--foil-gradient);
+  background-size: 220% 220%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
   padding-bottom: 6px;
+  animation: gold-drift 10s ease-in-out infinite;
+}
+@keyframes gold-drift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 /* ------------------------------------------------------- scene 09 · thanks -- */
@@ -972,6 +1028,9 @@
   justify-content: center;
   padding: calc(104px + env(safe-area-inset-top)) 24px calc(120px + env(safe-area-inset-bottom));
   gap: 24px;
+}
+.page-section .scene-thanks {
+  min-height: 100dvh;
 }
 .thanks-card {
   position: relative;
@@ -1551,4 +1610,52 @@
 [class$="__stitch"] {
   position: absolute;
   z-index: 0;
+}
+
+/* ==================================================== living details === */
+/* Small, restrained motion so the page feels alive without being busy. */
+.wax-seal { animation: seal-float 8s ease-in-out infinite; }
+@keyframes seal-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@media (hover: hover) {
+  .letter-card,
+  .venue-card,
+  .calendar-card,
+  .programme-card,
+  .dress-card,
+  .invite-card,
+  .thanks-card,
+  .save-card--front,
+  .keepsake {
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .letter-card:hover,
+  .venue-card:hover,
+  .calendar-card:hover,
+  .programme-card:hover,
+  .dress-card:hover,
+  .invite-card:hover,
+  .thanks-card:hover,
+  .save-card--front:hover,
+  .keepsake:hover {
+    box-shadow: var(--elev-card-lift);
+    border-color: rgba(185, 135, 122, 0.55);
+  }
+
+  .keepsake__printwrap {
+    transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .keepsake:hover .keepsake__printwrap {
+    transform: rotate(-1.2deg) scale(1.015);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wax-seal,
+  .type-script-gold { animation: none; }
+  .keepsake__printwrap { transition: none; }
 }

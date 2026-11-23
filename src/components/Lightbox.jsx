@@ -31,6 +31,15 @@ export function Lightbox({ items, index, onClose, onIndex }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose, prev, next]);
 
+  useEffect(() => {
+    if (!open) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open]);
+
   const item = index !== null ? items[index] : null;
 
   return (

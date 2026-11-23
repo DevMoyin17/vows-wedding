@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { wedding } from "../lib/wedding";
 import { guest } from "../lib/guest";
 import { getRsvp, isRsvpClosed, submitRsvp, clearLocalRsvp } from "../lib/rsvp";
 import { downloadWeddingIcs } from "../lib/ics";
-import { riseChild, reducedChild } from "../lib/motion";
+import { inView, riseChild, reducedChild } from "../lib/motion";
 import { FloralEdge } from "../components/FloralEdge";
 import { WaxSeal } from "../components/WaxSeal";
 import { PearlDivider } from "../components/PearlDivider";
@@ -20,7 +20,9 @@ export function Scene08Rsvp({ onNext, onDetails }) {
   const child = reduced ? reducedChild : riseChild;
 
   const closed = useMemo(() => isRsvpClosed(), []);
-  const [status, setStatus] = useState(closed ? "closed" : "loading"); // loading|form|success|already|closed
+  const [status, setStatus] = useState(
+    closed ? "closed" : guest.name ? "loading" : "form",
+  ); // loading|form|success|already|closed
   const [saved, setSaved] = useState(null);
   const [name, setName] = useState(guest.name);
   const [choice, setChoice] = useState(null);
@@ -31,9 +33,16 @@ export function Scene08Rsvp({ onNext, onDetails }) {
   const [toast, setToast] = useState(false);
   const nameRef = useRef(null);
   const choiceRef = useRef(null);
+  const sectionRef = useRef(null);
+  const checked = useRef(false);
+  // Only fetch a saved reply once the RSVP section is approached, so the
+  // single-page invite can defer Supabase until it is actually needed.
+  const nearViewport = useInView(sectionRef, { once: true, margin: "400px 0px 400px 0px" });
 
   useEffect(() => {
     let alive = true;
+    if (!nearViewport || checked.current) return () => { alive = false; };
+    checked.current = true;
     if (!guest.name) {
       setStatus(closed ? "closed" : "form");
       return () => { alive = false; };
@@ -54,7 +63,7 @@ export function Scene08Rsvp({ onNext, onDetails }) {
       })
       .catch(() => alive && setStatus(closed ? "closed" : "form"));
     return () => { alive = false; };
-  }, [closed]);
+  }, [closed, nearViewport]);
 
   useEffect(() => {
     if (!toast) return;
@@ -90,6 +99,25 @@ export function Scene08Rsvp({ onNext, onDetails }) {
     setStatus("form");
   };
 
+  /* ------------------------------------------------------------ loading -- */
+  if (status === "loading") {
+    return (
+      <section
+        ref={sectionRef}
+        className="scene scene-reply scene-reply--loading"
+        aria-label="RSVP"
+        aria-busy="true"
+      >
+        <FloralEdge corner="tl" size={130} />
+        <FloralEdge corner="br" size={150} />
+        <div className="reply-loading">
+          <span className="vbtn__spinner" aria-hidden="true" />
+          <p className="type-body text-secondary">Checking your reply…</p>
+        </div>
+      </section>
+    );
+  }
+
   /* ------------------------------------------------------------- success -- */
   if (status === "success") {
     const summary = choice === "accepts"
@@ -101,7 +129,7 @@ export function Scene08Rsvp({ onNext, onDetails }) {
         <FloralEdge corner="tl" size={130} />
         <FloralEdge corner="br" size={150} />
 
-        <motion.div className="reply-done__card" initial="initial" animate="animate" variants={riseChild}>
+        <motion.div className="reply-done__card" initial="initial" whileInView="animate" viewport={inView} variants={riseChild}>
           <span className="reply-done__stitch" aria-hidden="true" />
           <WaxSeal size={72} className="reply-done__seal" />
           <p className="type-overline text-accent">Reply received</p>
@@ -134,7 +162,7 @@ export function Scene08Rsvp({ onNext, onDetails }) {
       <section className="scene scene-reply-done" aria-label="Already responded">
         <FloralEdge corner="tl" size={130} />
         <FloralEdge corner="br" size={150} />
-        <motion.div className="reply-done__card" initial="initial" animate="animate" variants={riseChild}>
+        <motion.div className="reply-done__card" initial="initial" whileInView="animate" viewport={inView} variants={riseChild}>
           <span className="reply-done__stitch" aria-hidden="true" />
           <WaxSeal size={64} className="reply-done__seal" />
           <p className="type-title">You’ve already replied</p>
@@ -161,7 +189,7 @@ export function Scene08Rsvp({ onNext, onDetails }) {
       <section className="scene scene-reply-done" aria-label="RSVPs closed">
         <FloralEdge corner="tl" size={130} />
         <FloralEdge corner="br" size={150} />
-        <motion.div className="reply-done__card" initial="initial" animate="animate" variants={riseChild}>
+        <motion.div className="reply-done__card" initial="initial" whileInView="animate" viewport={inView} variants={riseChild}>
           <span className="reply-done__stitch" aria-hidden="true" />
           <WaxSeal size={64} className="reply-done__seal" />
           <p className="type-title">RSVPs are now closed</p>
@@ -187,7 +215,7 @@ export function Scene08Rsvp({ onNext, onDetails }) {
       <FloralEdge corner="tl" size={130} />
       <FloralEdge corner="br" size={150} />
 
-      <motion.header className="scene-head" variants={riseChild} initial="initial" animate="animate">
+      <motion.header className="scene-head" variants={riseChild} initial="initial" whileInView="animate" viewport={inView}>
         <p className="kicker">The favour of a reply</p>
         <h1>by {wedding.rsvpBy}</h1>
       </motion.header>
@@ -196,7 +224,8 @@ export function Scene08Rsvp({ onNext, onDetails }) {
         className="reply-card"
         variants={riseChild}
         initial="initial"
-        animate="animate"
+        whileInView="animate"
+        viewport={inView}
         onSubmit={submit}
         noValidate
       >

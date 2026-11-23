@@ -1,41 +1,64 @@
 import { useEffect, useState } from "react";
+import { SECTIONS } from "../lib/sections";
 import { MusicChip } from "./MusicChip";
 
-/** Fixed top bar: monogram, music chip, Explore (mobile), section nav (desktop), RSVP. */
-export function TopBar({ visible, showRsvp, onExplore, onNavigate, onRsvp }) {
+const LINKS = SECTIONS.filter((section) => section.n >= 2 && section.n <= 9);
+
+/**
+ * Fixed top bar. It stays out of the way on the opening screen, then appears
+ * once the guest starts reading and carries the section shortcuts + RSVP.
+ */
+export function TopBar({ active, showRsvp, onExplore, onNavigate, onRsvp }) {
   const [stuck, setStuck] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const layers = Array.from(document.querySelectorAll(".scene-view__layer"));
-    const el = layers[layers.length - 1];
-    if (!el) return;
-    const onScroll = () => setStuck(el.scrollTop > 8);
+    const onScroll = () => {
+      setStuck(window.scrollY > 8);
+      setScrolled(window.scrollY > window.innerHeight * 0.55);
+    };
     onScroll();
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
-  }, [visible]);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
 
-  const links = [
-    [2, "Couple"],
-    [3, "Date"],
-    [4, "Story"],
-    [5, "Countdown"],
-    [6, "Details"],
-    [7, "Photos"],
-    [8, "RSVP"],
-  ];
+  const visible = scrolled || active > 1;
+
   return (
-    <header className={`topbar${visible ? "" : " is-hidden"}${stuck ? " is-stuck" : ""}`}>
-      <a href="/" className="mono" aria-label="Back to the beginning">
+    <header
+      className={`topbar${visible ? "" : " is-hidden"}${stuck ? " is-stuck" : ""}`}
+      inert={!visible || undefined}
+    >
+      <a
+        href="/"
+        className="mono"
+        aria-label="Back to the beginning"
+        onClick={(event) => {
+          event.preventDefault();
+          onNavigate?.(1);
+        }}
+      >
         D <span className="mono__amp">&amp;</span> M
       </a>
+
       <nav className="topnav" aria-label="Invitation sections">
-        {links.map(([n, label]) => (
-          <button key={n} type="button" className="topnav__link" onClick={() => onNavigate?.(n)}>
-            {label}
+        {LINKS.map((section) => (
+          <button
+            key={section.n}
+            type="button"
+            className="topnav__link"
+            aria-current={active === section.n ? "true" : undefined}
+            onClick={() => onNavigate?.(section.n)}
+          >
+            {section.short}
           </button>
         ))}
       </nav>
+
       <div className="topbar__right">
         <MusicChip expandedLabel="Now playing · Our song" className="topbar__music" />
         <button type="button" className="pill topbar__explore" onClick={onExplore}>

@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { wedding } from "../lib/wedding";
-import { riseChild, reducedChild } from "../lib/motion";
+import { inView, riseChild, reducedChild } from "../lib/motion";
 import { Photo } from "../components/Photo";
 import { FloralEdge } from "../components/FloralEdge";
 
@@ -22,7 +22,8 @@ export function Scene04Letters() {
         className="scene-head"
         variants={riseChild}
         initial="initial"
-        animate="animate"
+        whileInView="animate"
+        viewport={inView}
       >
         <p className="kicker">Letters from</p>
         <h1 className="type-display">Our story</h1>
@@ -35,10 +36,16 @@ export function Scene04Letters() {
         className="letters-list"
         variants={{ animate: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } } }}
         initial="initial"
-        animate="animate"
+        whileInView="animate"
+        viewport={inView}
       >
         {wedding.story.map((m) => (
-          <motion.li key={m.title} className="letter-card" variants={child}>
+          <motion.li
+            key={m.title}
+            className="letter-card"
+            variants={child}
+            whileHover={reduced ? undefined : { y: -4 }}
+          >
             <span className="letter-card__stitch" aria-hidden="true" />
             <div className="letter-card__top">
               <Photo

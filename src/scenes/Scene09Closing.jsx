@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { wedding } from "../lib/wedding";
-import { riseChild, reducedChild } from "../lib/motion";
+import { inView, riseChild, reducedChild } from "../lib/motion";
 import { FloralEdge } from "../components/FloralEdge";
 import { WaxSeal } from "../components/WaxSeal";
 import { PearlDivider } from "../components/PearlDivider";
@@ -21,7 +21,9 @@ export function Scene09Closing({ onDetails, onReplay }) {
       <motion.div
         className="thanks-card"
         initial="initial"
-        animate="animate"
+        whileInView="animate"
+        viewport={inView}
+        whileHover={reduced ? undefined : { y: -4 }}
         variants={{ animate: { transition: { staggerChildren: 0.09, delayChildren: 0.15 } } }}
       >
         <span className="thanks-card__stitch" aria-hidden="true" />
@@ -37,7 +39,7 @@ export function Scene09Closing({ onDetails, onReplay }) {
         <motion.p className="type-date type-date--gold" variants={child}>{wedding.dateShort}</motion.p>
       </motion.div>
 
-      <motion.div className="thanks-actions" initial="initial" animate="animate" variants={riseChild}>
+      <motion.div className="thanks-actions" initial="initial" whileInView="animate" viewport={inView} variants={riseChild}>
         <button type="button" className="vbtn vbtn--white" onClick={onDetails}>Wedding details</button>
         <button type="button" className="vbtn vbtn--ghost" onClick={onReplay}>Replay</button>
       </motion.div>

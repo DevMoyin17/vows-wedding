@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { wedding } from "../lib/wedding";
-import { riseChild, reducedChild } from "../lib/motion";
+import { inView, riseChild, reducedChild } from "../lib/motion";
 import { FloralEdge } from "../components/FloralEdge";
 import { PearlDivider } from "../components/PearlDivider";
 
@@ -39,7 +39,14 @@ export function Scene05Calendar() {
       <FloralEdge corner="tl" size={150} />
       <FloralEdge corner="br" size={150} />
 
-      <motion.div className="calendar-card" variants={riseChild} initial="initial" animate="animate">
+      <motion.div
+        className="calendar-card"
+        variants={riseChild}
+        initial="initial"
+        whileInView="animate"
+        viewport={inView}
+        whileHover={reduced ? undefined : { y: -4 }}
+      >
         <span className="calendar-card__stitch" aria-hidden="true" />
         <p className="type-display-italic calendar-card__month">February</p>
         <p className="type-overline calendar-card__year">2027</p>
@@ -60,7 +67,8 @@ export function Scene05Calendar() {
                       className="calendar__ring"
                       aria-hidden="true"
                       initial={reducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.6 }}
-                      animate={{ opacity: 1, scale: 1 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={inView}
                       transition={{ type: "spring", stiffness: 260, damping: 24, delay: 0.8 }}
                     />
                   )}

@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { sceneVariants, reducedSceneVariants } from "./lib/motion";
-import { sceneFromPath, pathFor } from "./lib/routes";
+import { useReducedMotion } from "framer-motion";
+import { pathFor, sceneFromPath } from "./lib/routes";
+import { sectionFor, SECTIONS } from "./lib/sections";
 import { TopBar } from "./components/TopBar";
-import { SceneFooter } from "./components/SceneFooter";
 import { ExploreMenu } from "./components/ExploreMenu";
+import { ScrollProgress } from "./components/ScrollProgress";
+import { RsvpDock } from "./components/RsvpDock";
 import { Scene01Entrance } from "./scenes/Scene01Entrance";
 import { Scene02Card } from "./scenes/Scene02Card";
 import { Scene03SaveDate } from "./scenes/Scene03SaveDate";
@@ -15,122 +16,313 @@ import { Scene07Gallery } from "./scenes/Scene07Gallery";
 import { Scene08Rsvp } from "./scenes/Scene08Rsvp";
 import { Scene09Closing } from "./scenes/Scene09Closing";
 
-const TOTAL = 9;
-
-const LABELS = {
-  2: "The couple",
-  3: "The date",
-  4: "Our story",
-  5: "Countdown",
-  6: "Details",
-  7: "Photos",
-  8: "RSVP",
-  9: "With love",
-};
-
-function sceneFromHash() {
-  return sceneFromPath();
-}
-
-function renderScene(scene, hooks) {
-  switch (scene) {
-    case 1: return <Scene01Entrance onOpened={hooks.opened} />;
-    case 2: return <Scene02Card onNext={hooks.next} />;
-    case 3: return <Scene03SaveDate />;
-    case 4: return <Scene04Letters />;
-    case 5: return <Scene05Calendar />;
-    case 6: return <Scene06Details />;
-    case 7: return <Scene07Gallery />;
-    case 8: return <Scene08Rsvp onDetails={hooks.details} onNext={hooks.next} />;
-    case 9: return <Scene09Closing onDetails={hooks.details} onReplay={hooks.replay} />;
-    default: return null;
-  }
-}
-
+/**
+ * The invitation is one continuous page. Every section is always in the
+ * document so guests can simply scroll; the Explore drawer, desktop nav and
+ * clean URLs (/our-story, /rsvp) are shortcuts that jump between sections.
+ */
 export default function App() {
-  const [scene, setScene] = useState(sceneFromHash);
-  const [menuOpen, setMenuOpen] = useState(false);
   const reduced = useReducedMotion();
-  const timers = useRef([]);
+  const [initial] = useState(() => sceneFromPath());
+  const [active, setActive] = useState(initial);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [replayKey, setReplayKey] = useState(0);
+  const activeRef = useRef(initial);
+  const ready = useRef(false);
+  const suppressSpy = useRef(false);
+  const settling = useRef(initial > 1);
+  const navigated = useRef(false);
+  const scrollRaf = useRef(0);
 
-  const go = useCallback((next) => {
-    const clamped = Math.min(TOTAL, Math.max(1, next));
-    setScene((cur) => {
-      if (clamped === cur) return cur;
-      window.history.pushState(null, "", pathFor(clamped));
-      return clamped;
-    });
-    setMenuOpen(false);
+  const stopScroll = useCallback(() => {
+    if (scrollRaf.current) window.cancelAnimationFrame(scrollRaf.current);
+    scrollRaf.current = 0;
+    suppressSpy.current = false;
   }, []);
 
+  /** A short, consistent glide — native smooth scrolling is too slow over long pages. */
+  const glideTo = useCallback(
+    (targetY) => {
+      window.cancelAnimationFrame(scrollRaf.current);
+      if (reduced) {
+        window.scrollTo(0, targetY);
+        return;
+      }
+
+      const startY = window.scrollY;
+      const distance = targetY - startY;
+      if (Math.abs(distance) < 2) {
+        window.scrollTo(0, targetY);
+        return;
+      }
+
+      suppressSpy.current = true;
+      const started = performance.now();
+      const duration = 680;
+
+      const tick = (now) => {
+        const t = Math.min(1, (now - started) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        window.scrollTo(0, startY + distance * eased);
+        if (t < 1) {
+          scrollRaf.current = window.requestAnimationFrame(tick);
+        } else {
+          scrollRaf.current = 0;
+          suppressSpy.current = false;
+        }
+      };
+
+      scrollRaf.current = window.requestAnimationFrame(tick);
+    },
+    [reduced],
+  );
+
+  const go = useCallback(
+    (n, { push = false, smooth = true } = {}) => {
+      const section = sectionFor(n);
+      if (!section) return;
+      navigated.current = true;
+      settling.current = false;
+      setMenuOpen(false);
+      activeRef.current = n;
+      setActive(n);
+
+      const path = pathFor(n);
+      if (window.location.pathname !== path) {
+        window.history[push ? "pushState" : "replaceState"](null, "", path + window.location.search);
+      }
+
+      const el = document.getElementById(section.id);
+      if (!el) return;
+      const targetY = el.getBoundingClientRect().top + window.scrollY;
+      if (smooth) glideTo(targetY);
+      else {
+        stopScroll();
+        window.scrollTo(0, targetY);
+      }
+    },
+    [glideTo, stopScroll],
+  );
+
+  /* Stop an in-flight glide if the guest takes over. */
   useEffect(() => {
-    const onHash = () => setScene(sceneFromPath());
-    window.addEventListener("popstate", onHash);
+    const cancel = () => {
+      if (scrollRaf.current) stopScroll();
+    };
+    window.addEventListener("wheel", cancel, { passive: true });
+    window.addEventListener("touchstart", cancel, { passive: true });
+    window.addEventListener("keydown", cancel);
     return () => {
-      window.removeEventListener("popstate", onHash);
-      timers.current.forEach(clearTimeout);
+      window.removeEventListener("wheel", cancel);
+      window.removeEventListener("touchstart", cancel);
+      window.removeEventListener("keydown", cancel);
+    };
+  }, [stopScroll]);
+
+  useEffect(() => () => {
+    if (scrollRaf.current) window.cancelAnimationFrame(scrollRaf.current);
+  }, []);
+
+  /* Land on the right section when opening a shared /our-story or /rsvp link.
+     Re-align once fonts/dynamic sections settle, unless the guest takes over. */
+  useEffect(() => {
+    if (initial <= 1) {
+      ready.current = true;
+      return undefined;
+    }
+
+    const section = sectionFor(initial);
+    let userMoved = false;
+    const markMoved = () => {
+      userMoved = true;
+      settling.current = false;
+    };
+
+    const jump = () => {
+      if (userMoved || navigated.current || !section) return;
+      const el = document.getElementById(section.id);
+      if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);
+    };
+
+    const first = window.setTimeout(() => {
+      jump();
+      ready.current = true;
+    }, 120);
+    const settle = window.setTimeout(jump, 700);
+    const finish = window.setTimeout(() => {
+      if (userMoved || navigated.current) return;
+      jump();
+      settling.current = false;
+      window.dispatchEvent(new Event("scroll"));
+    }, 1200);
+
+    // Images, fonts and the RSVP card can change the page height after the
+    // first jump. Re-align until the guest starts interacting.
+    const observer =
+      "ResizeObserver" in window
+        ? new ResizeObserver(() => {
+            if (!userMoved && !navigated.current) jump();
+          })
+        : null;
+    const pageEl = document.querySelector(".page");
+    if (observer && pageEl) observer.observe(pageEl);
+
+    const options = { passive: true, once: true };
+    window.addEventListener("wheel", markMoved, options);
+    window.addEventListener("touchstart", markMoved, options);
+    window.addEventListener("keydown", markMoved, { once: true });
+    window.addEventListener("pointerdown", markMoved, { once: true });
+    document.fonts?.ready.then(jump);
+
+    return () => {
+      window.clearTimeout(first);
+      window.clearTimeout(settle);
+      window.clearTimeout(finish);
+      observer?.disconnect();
+      window.removeEventListener("wheel", markMoved);
+      window.removeEventListener("touchstart", markMoved);
+      window.removeEventListener("keydown", markMoved);
+      window.removeEventListener("pointerdown", markMoved);
+    };
+  }, [initial]);
+
+  /* Scroll spy: keep the URL and navigation in sync with the page. */
+  useEffect(() => {
+    let frame = 0;
+    let timer = 0;
+
+    const update = () => {
+      if (!ready.current || suppressSpy.current || settling.current) return;
+      const marker = window.innerHeight * 0.4;
+      let current = 1;
+
+      for (const section of SECTIONS) {
+        const el = document.getElementById(section.id);
+        if (el && el.getBoundingClientRect().top <= marker) current = section.n;
+      }
+
+      if (current === activeRef.current) return;
+      activeRef.current = current;
+      setActive(current);
+
+      const path = pathFor(current);
+      if (window.location.pathname !== path) {
+        window.history.replaceState(null, "", path + window.location.search);
+      }
+    };
+
+    const onScroll = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(update);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    timer = window.setTimeout(update, 250);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
     };
   }, []);
 
+  /* Back / forward between shared section URLs. */
   useEffect(() => {
-    const onKey = (e) => {
-      const t = e.target;
-      if (t?.closest?.("input, textarea, select") || menuOpen) return;
-      if (e.key === "ArrowRight") go(scene + 1);
-      if (e.key === "ArrowLeft") go(scene - 1);
+    const onPop = () => {
+      const n = sceneFromPath();
+      const section = sectionFor(n);
+      if (!section) return;
+      navigated.current = true;
+      settling.current = false;
+      stopScroll();
+      activeRef.current = n;
+      setActive(n);
+      const el = document.getElementById(section.id);
+      if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [go, scene, menuOpen]);
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, [stopScroll]);
 
-  const hooks = {
-    opened: () => go(2),
-    next: () => go(scene + 1),
-    details: () => go(6),
-    replay: () => go(1),
-  };
+  const opened = useCallback(() => {
+    // If they already scrolled away while the envelope was opening, leave them be.
+    if (window.scrollY < window.innerHeight * 1.1) {
+      window.setTimeout(() => go(2), 260);
+    }
+  }, [go]);
+
+  const replay = useCallback(() => {
+    setReplayKey((key) => key + 1);
+    go(1);
+  }, [go]);
+
+  const details = useCallback(() => go(6), [go]);
+  const rsvp = useCallback(() => go(8, { push: true }), [go]);
 
   return (
     <>
-      <main className="scene-view">
-        <AnimatePresence initial={false}>
-          <motion.div
-            key={scene}
-            className="scene-view__layer"
-            tabIndex={0}
-            variants={reduced ? reducedSceneVariants : sceneVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-          >
-            {renderScene(scene, hooks)}
-          </motion.div>
-        </AnimatePresence>
-      </main>
+      <ScrollProgress />
 
       <TopBar
-        visible={scene >= 2}
-        showRsvp={scene !== 8}
+        active={active}
+        showRsvp={active !== 8}
         onExplore={() => setMenuOpen(true)}
-        onNavigate={(n) => go(n)}
-        onRsvp={() => go(8)}
+        onNavigate={(n) => go(n, { push: true })}
+        onRsvp={rsvp}
       />
 
-      {scene !== 4 && (
-        <SceneFooter
-          scene={scene}
-          label={LABELS[scene] ?? ""}
-          showRsvp={scene !== 8}
-          onRsvp={() => go(8)}
-        />
-      )}
+      <main className="page">
+        <div
+          id={SECTIONS[0].id}
+          data-section="1"
+          className="page-section page-section--hero"
+        >
+          <Scene01Entrance key={replayKey} onOpened={opened} onSkip={() => go(2)} />
+        </div>
+
+        <div id={SECTIONS[1].id} data-section="2" className="page-section">
+          <Scene02Card onNext={details} />
+        </div>
+
+        <div id={SECTIONS[2].id} data-section="3" className="page-section">
+          <Scene03SaveDate />
+        </div>
+
+        <div id={SECTIONS[3].id} data-section="4" className="page-section">
+          <Scene04Letters />
+        </div>
+
+        <div id={SECTIONS[4].id} data-section="5" className="page-section">
+          <Scene05Calendar />
+        </div>
+
+        <div id={SECTIONS[5].id} data-section="6" className="page-section">
+          <Scene06Details />
+        </div>
+
+        <div id={SECTIONS[6].id} data-section="7" className="page-section">
+          <Scene07Gallery />
+        </div>
+
+        <div id={SECTIONS[7].id} data-section="8" className="page-section">
+          <Scene08Rsvp onDetails={details} onNext={details} />
+        </div>
+
+        <div id={SECTIONS[8].id} data-section="9" className="page-section">
+          <Scene09Closing onDetails={details} onReplay={replay} />
+        </div>
+      </main>
 
       <ExploreMenu
         open={menuOpen}
-        currentScene={scene}
+        active={active}
         onClose={() => setMenuOpen(false)}
-        onNavigate={(n) => go(n)}
+        onNavigate={(n) => go(n, { push: true })}
       />
+
+      <RsvpDock visible={active > 1 && active !== 8} onRsvp={rsvp} />
     </>
   );
 }

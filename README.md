@@ -3,7 +3,9 @@
 **Live:** https://vows-deborah-michael.vercel.app
 
 The flagship digital wedding invitation: a cinematic, mobile-first guest experience in
-blush silk, lace and pearl, with full tablet and desktop adaptations.
+blush silk, lace and pearl, with full tablet and desktop adaptations. Everything lives on
+one continuous scrolling page — the envelope opening leads straight into the invitation
+card, then the story, countdown, details, photographs, RSVP and closing.
 
 ## Run
 
@@ -15,7 +17,8 @@ npm run preview  # preview the build
 ```
 
 Guest personalisation: open `/?guest=Tolu%20Adebayo&seats=2` — the RSVP greeting,
-prefilled name and seat count adapt to the link.
+prefilled name and seat count adapt to the link. For a link that jumps straight to the
+reply card, use `/rsvp?guest=Tolu%20Adebayo&seats=2`.
 
 ## Stack
 
@@ -50,11 +53,13 @@ Send each guest a personalised link:
 
 ```
 https://vows-deborah-michael.vercel.app/?guest=Tolu%20Adebayo&seats=2
+https://vows-deborah-michael.vercel.app/rsvp?guest=Tolu%20Adebayo&seats=2
 ```
 
 - `guest` is the full name used to look up and prefill the reply
 - `seats` sets the initial guest count
 - URL-encode spaces as `%20` (or build the links from a spreadsheet)
+- Use the `/rsvp` link for a direct reply; the root link opens at the envelope
 
 The RSVP page opens with the name prefilled and the correct seat count. On a second
 visit the guest sees their saved reply and can update it until the RSVP deadline.
@@ -164,5 +169,8 @@ scripts/
 supabase/schema.sql
 ```
 
-Scene navigation: footer progress + RSVP, Explore drawer, clean deep links,
-arrow keys on desktop, full reduced-motion support.
+Scene navigation: the invitation is one continuous page. Guests simply scroll; the top
+bar, Explore drawer and clean URLs (`/our-story`, `/rsvp`) jump between sections. The
+scroll spy keeps the URL and navigation in sync, cards reveal on scroll and lift on
+hover, and the floating RSVP pill stays within reach on phones. Full reduced-motion
+support is built in.

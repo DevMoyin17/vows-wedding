@@ -1,28 +1,25 @@
 import { useEffect, useRef } from "react";
-import { wedding } from "../lib/wedding";
 import { pathFor } from "../lib/routes";
+import { SECTIONS } from "../lib/sections";
 
-const ITEMS = [
-  { scene: 2, num: "02", name: "The couple", note: "Invitation card" },
-  { scene: 3, num: "03", name: "Save the date", note: "20 · 02 · 2027" },
-  { scene: 4, num: "04", name: "Our story", note: "Letters" },
-  { scene: 5, num: "05", name: "Countdown", note: "Calendar" },
-  { scene: 6, num: "06", name: "Wedding details", note: "Ceremony & reception" },
-  { scene: 7, num: "07", name: "Photographs", note: "Keepsakes" },
-  { scene: 8, num: "08", name: "RSVP", note: `The favour of a reply by ${wedding.rsvpBy}` },
-  { scene: 9, num: "09", name: "With gratitude", note: "Closing" },
-];
-
-/** Explore drawer — direct access to key sections. */
-export function ExploreMenu({ open, currentScene, onClose, onNavigate }) {
+/** Quick-jump drawer. The invitation itself is a single scrolling page. */
+export function ExploreMenu({ open, active, onClose, onNavigate }) {
   const panelRef = useRef(null);
 
   useEffect(() => {
-    if (!open) return;
-    const onKey = (e) => e.key === "Escape" && onClose();
+    if (!open) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const onKey = (event) => event.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
     panelRef.current?.querySelector("button, a")?.focus();
-    return () => window.removeEventListener("keydown", onKey);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
   }, [open, onClose]);
 
   return (
@@ -42,19 +39,20 @@ export function ExploreMenu({ open, currentScene, onClose, onNavigate }) {
           </button>
         </div>
         <ul className="menu-list">
-          {ITEMS.map((it) => (
-            <li key={it.scene}>
+          {SECTIONS.map((section) => (
+            <li key={section.n}>
               <a
-                href={pathFor(it.scene)}
-                aria-current={currentScene === it.scene || undefined}
-                onClick={(e) => {
-                  e.preventDefault();
-                  onNavigate(it.scene);
+                href={pathFor(section.n)}
+                aria-current={active === section.n || undefined}
+                onClick={(event) => {
+                  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                  event.preventDefault();
+                  onNavigate(section.n);
                 }}
               >
-                <span className="num">{it.num}</span>
-                <span className="name">{it.name}</span>
-                <span className="type-small text-secondary">{it.note}</span>
+                <span className="num">{String(section.n).padStart(2, "0")}</span>
+                <span className="name">{section.label}</span>
+                <span className="type-small text-secondary">{section.note}</span>
               </a>
             </li>
           ))}

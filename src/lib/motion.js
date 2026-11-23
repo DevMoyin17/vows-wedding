@@ -1,5 +1,3 @@
-import gsap from "gsap";
-
 /** GSAP spring presets from the Figma motion notes. */
 export const springs = {
   press: { type: "spring", stiffness: 520, damping: 16, mass: 1 },
@@ -16,21 +14,12 @@ export function prefersReducedMotion() {
 }
 
 /** Shared Framer Motion variants (VOWS/Motion tokens). */
-export const sceneVariants = {
-  initial: { opacity: 0, y: 14 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.32, 0.72, 0, 1] } },
-  exit: { opacity: 0, y: -10, transition: { duration: 0.9, ease: [0.32, 0.72, 0, 1] } },
-};
-
-export const reducedSceneVariants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { duration: 0.2 } },
-  exit: { opacity: 0, transition: { duration: 0.2 } },
-};
-
 export const stagger = {
   animate: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
 };
+
+/** Shared viewport config for the single-page scroll reveals. */
+export const inView = { once: true, amount: 0.15 };
 
 export const riseChild = {
   initial: { opacity: 0, y: 24 },
@@ -41,5 +30,3 @@ export const reducedChild = {
   initial: { opacity: 0 },
   animate: { opacity: 1, transition: { duration: 0.2 } },
 };
-
-export const gsapLib = gsap;

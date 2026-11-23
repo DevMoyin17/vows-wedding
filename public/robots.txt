@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Personalised guest links must never be indexed.
+Disallow: /*?guest=
+Disallow: /*?seats=

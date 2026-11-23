@@ -2,7 +2,7 @@
 export function WaxSeal({ size = 64, className = "", alt = "Deborah & Michael wax seal" }) {
   return (
     <img
-      src="/assets/renders/wax-seal.png"
+      src="/assets/renders/wax-seal.webp"
       alt={alt}
       width={size}
       height={size}

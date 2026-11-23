@@ -91,7 +91,7 @@ export const wedding = {
     { photoKey: "atrium", caption: "The atrium", alt: "The reception ballroom set for dinner under chandeliers" },
   ],
 
-  music: { label: "Our song", src: "/assets/audio/our-song.wav" },
+  music: { label: "Our song", src: "/assets/audio/our-song.mp3" },
 
   invitation: { slug: "deborah-michael" },
 };

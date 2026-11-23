@@ -2,7 +2,7 @@
  * Decorative pink-rose corner spray (Heirloom Lace) — the same asset and
  * mix-blend-multiply treatment as the Figma component.
  */
-const SRC = "/assets/heirloom/floral-tl.png";
+const SRC = "/assets/heirloom/floral-tl.webp";
 
 export function FloralEdge({ corner = "tl", size = 150 }) {
   const flipX = corner === "tr" || corner === "br";

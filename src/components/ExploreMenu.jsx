@@ -33,7 +33,7 @@ export function ExploreMenu({ open, currentScene, onClose, onNavigate }) {
         className={`menu-panel${open ? " is-open" : ""}`}
         aria-label="Explore the invitation"
         aria-hidden={!open}
-        inert={!open ? "" : undefined}
+        inert={!open || undefined}
       >
         <div className="menu-panel__head">
           <span className="type-overline text-accent">Explore</span>

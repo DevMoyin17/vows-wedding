@@ -53,9 +53,9 @@ export function Scene02Card({ onNext }) {
           <PearlDivider className="invite-card__pearls" />
 
           <h1 className="invite-card__names">
-            <span>{wedding.couple.first}</span>
+            <span className="invite-card__name">{wedding.couple.first}</span>
             <span className="invite-card__amp">&amp;</span>
-            <span>{wedding.couple.second}</span>
+            <span className="invite-card__name">{wedding.couple.second}</span>
           </h1>
 
           <p className="invite-card__date">{wedding.dateFooter}</p>

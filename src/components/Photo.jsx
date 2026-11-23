@@ -1,10 +1,10 @@
 import { photoUrl } from "../lib/media";
 
 /**
- * Cloudinary-aware photograph.
+ * Responsive photograph.
  * `photo` is a { local, cloud } object from wedding.photos; when Cloudinary
  * is configured this renders f_auto,q_auto transforms with a 2x srcset,
- * otherwise the bundled local file. Never renders the temporary design URL.
+ * otherwise it picks the best bundled xs/md/lg variant.
  */
 export function Photo({ photo, alt = "", width, height, className, style, loading = "lazy", crop = "fill", gravity = "auto", onLoad }) {
   const src = photoUrl(photo, { w: width, h: height, crop, gravity });
@@ -13,7 +13,7 @@ export function Photo({ photo, alt = "", width, height, className, style, loadin
   return (
     <img
       src={src}
-      srcSet={photo && photo.cloud && srcSet !== src ? `${src} 1x, ${srcSet} 2x` : undefined}
+      srcSet={srcSet}
       alt={alt}
       width={width}
       height={height}

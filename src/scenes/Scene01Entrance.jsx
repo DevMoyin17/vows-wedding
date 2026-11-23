@@ -3,13 +3,14 @@ import { motion, useReducedMotion } from "framer-motion";
 import gsap from "gsap";
 import { wedding } from "../lib/wedding";
 import { sound } from "../lib/sound";
+import { useBreakpoint } from "../lib/useBreakpoint";
 
 const RENDERS = {
-  idle: "/assets/heirloom/envelope-idle.png",
-  seal: "/assets/heirloom/env-seal.png",
-  flap: "/assets/heirloom/env-flap.png",
-  rise: "/assets/heirloom/env-rise.png",
-  open: "/assets/heirloom/envelope-open.png",
+  idle: "/assets/heirloom/envelope-idle.webp",
+  seal: "/assets/heirloom/env-seal.webp",
+  flap: "/assets/heirloom/env-flap.webp",
+  rise: "/assets/heirloom/env-rise.webp",
+  open: "/assets/heirloom/envelope-open.webp",
 };
 
 /**
@@ -38,6 +39,7 @@ export function Scene01Entrance({ onOpened }) {
   const tDRef = useRef(null);
   const tlRef = useRef(null);
   const reduced = useReducedMotion();
+  const breakpoint = useBreakpoint();
 
   useEffect(() => () => tlRef.current?.kill(), []);
 
@@ -46,7 +48,8 @@ export function Scene01Entrance({ onOpened }) {
     setPhase("playing");
     void sound.startOnGesture();
 
-    const isWide = window.matchMedia("(min-width: 768px)").matches;
+    const isWide = breakpoint !== "mobile";
+    const isDesktop = breakpoint === "desktop";
 
     // Tablet and desktop use the exported 768×1024 / 1440×900 renders exactly
     // as supplied: one restrained camera push, then the scene transition.
@@ -55,7 +58,6 @@ export function Scene01Entrance({ onOpened }) {
         onOpened();
         return;
       }
-      const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
 
       // Tablet: same beats and seconds as mobile (~5s).
       if (!isDesktop) {
@@ -148,37 +150,46 @@ export function Scene01Entrance({ onOpened }) {
   return (
     <section className="scene scene-entrance" aria-label="Invitation entrance" data-phase={phase}>
       <div ref={rootRef} className="env-stage">
-        <div className="env-anim env-anim--tablet" aria-hidden="true">
-          <img ref={tARef} className="env-anim__full" src="/assets/heirloom/tablet/step-01a.svg" alt="" draggable={false} />
-          <img ref={tBRef} className="env-anim__full" src="/assets/heirloom/tablet/step-01b.svg" alt="" draggable={false} />
-          <img ref={tCRef} className="env-anim__full" src="/assets/heirloom/tablet/step-01c.svg" alt="" draggable={false} />
-          <img ref={tDRef} className="env-anim__full" src="/assets/heirloom/tablet/step-01d.svg" alt="" draggable={false} />
-        </div>
-        <div className="env-anim" aria-hidden="true">
-          <img ref={satinRef} className="env-anim__satin" src="/assets/heirloom/desktop/satin.svg" alt="" draggable={false} />
-          <div className="env-anim__patch" aria-hidden="true" />
-          <img ref={stepARef} className="env-anim__full" src="/assets/heirloom/desktop/step-01a.png" alt="" draggable={false} />
-          <div ref={stageRef} className="env-anim__stage">
-            <img ref={stepBRef} className="env-anim__step" src="/assets/heirloom/desktop/step-01b.svg" alt="" draggable={false} />
-            <img ref={stepCRef} className="env-anim__step" src="/assets/heirloom/desktop/step-01c.svg" alt="" draggable={false} />
+        {breakpoint === "tablet" && (
+          <div className="env-anim env-anim--tablet" aria-hidden="true">
+            <img ref={tARef} className="env-anim__full" src="/assets/heirloom/tablet/step-01a.webp" alt="" draggable={false} />
+            <img ref={tBRef} className="env-anim__full" src="/assets/heirloom/tablet/step-01b.webp" alt="" draggable={false} />
+            <img ref={tCRef} className="env-anim__full" src="/assets/heirloom/tablet/step-01c.webp" alt="" draggable={false} />
+            <img ref={tDRef} className="env-anim__full" src="/assets/heirloom/tablet/step-01d.webp" alt="" draggable={false} />
           </div>
-        </div>
-        <div ref={artRef} className="scene-entrance__art">
-          <img
-            className="scene-entrance__art-tablet"
-            src="/assets/heirloom/tablet/entrance.svg"
-            alt=""
-            aria-hidden="true"
-            draggable={false}
-          />
-          <img
-            className="scene-entrance__art-desktop"
-            src="/assets/heirloom/desktop/entrance.svg"
-            alt=""
-            aria-hidden="true"
-            draggable={false}
-          />
-        </div>
+        )}
+        {breakpoint === "desktop" && (
+          <div className="env-anim" aria-hidden="true">
+            <img ref={satinRef} className="env-anim__satin" src="/assets/heirloom/desktop/satin.webp" alt="" draggable={false} />
+            <div className="env-anim__patch" aria-hidden="true" />
+            <img ref={stepARef} className="env-anim__full" src="/assets/heirloom/desktop/step-01a.webp" alt="" draggable={false} />
+            <div ref={stageRef} className="env-anim__stage">
+              <img ref={stepBRef} className="env-anim__step" src="/assets/heirloom/desktop/step-01b.webp" alt="" draggable={false} />
+              <img ref={stepCRef} className="env-anim__step" src="/assets/heirloom/desktop/step-01c.webp" alt="" draggable={false} />
+            </div>
+          </div>
+        )}
+        {breakpoint !== "mobile" && (
+          <div ref={artRef} className="scene-entrance__art">
+            {breakpoint === "tablet" ? (
+              <img
+                className="scene-entrance__art-tablet"
+                src="/assets/heirloom/tablet/entrance.webp"
+                alt=""
+                aria-hidden="true"
+                draggable={false}
+              />
+            ) : (
+              <img
+                className="scene-entrance__art-desktop"
+                src="/assets/heirloom/desktop/entrance.webp"
+                alt=""
+                aria-hidden="true"
+                draggable={false}
+              />
+            )}
+          </div>
+        )}
 
         <div className="env-cardtext env-cardtext--wide" aria-live="polite">
           <p>TOGETHER WITH THEIR FAMILIES</p>
@@ -190,7 +201,7 @@ export function Scene01Entrance({ onOpened }) {
           <p className="env-cardtext__request">request the pleasure of your company</p>
           <p className="env-cardtext__date">{wedding.dateShort}</p>
         </div>
-        <div className="env-fill" aria-hidden="true">
+        <div className="env-fill" aria-hidden="true" hidden={breakpoint !== "mobile"}>
           {Object.entries(RENDERS).map(([key, src]) => (
             <div key={key} className="env-layer" data-layer={key} style={{ backgroundImage: `url(${src})` }} />
           ))}
@@ -220,7 +231,7 @@ export function Scene01Entrance({ onOpened }) {
             <p className="env-cardtext__request" style={{ opacity: 0, transform: "translateY(12px)" }}>
               request the pleasure of your company
             </p>
-            <p className="env-cardtext__date">{wedding.dateShort}</p>
+            <p className="env-cardtext__date" style={{ opacity: 0, transform: "translateY(12px)" }}>{wedding.dateShort}</p>
           </div>
         </div>
 

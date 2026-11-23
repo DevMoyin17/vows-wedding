@@ -42,7 +42,7 @@
   content: "";
   position: absolute;
   inset: -24px;
-  background: url("/assets/heirloom/envelope-idle.png") center / cover no-repeat;
+  background: url("/assets/heirloom/envelope-idle.webp") center / cover no-repeat;
   filter: blur(22px) saturate(0.98);
   transform: scale(1.06);
   z-index: 0;
@@ -1075,7 +1075,7 @@
     max-width: 1240px;
     margin: 0 auto;
   }
-  .scene-card__prints { display: block; position: relative; height: 640px; }
+  .scene-card__prints { display: block; position: relative; width: 600px; height: 640px; justify-self: start; }
   .print {
     position: absolute;
     margin: 0;

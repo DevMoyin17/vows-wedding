@@ -1,12 +1,13 @@
 {
   "name": "vows",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "assets": "node scripts/optimize-assets.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.119.1",
@@ -16,7 +17,9 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@breezystack/lamejs": "^1.2.7",
     "@vitejs/plugin-react": "^5.0.0",
+    "sharp": "^0.35.5",
     "vite": "^7.0.0"
   }
 }

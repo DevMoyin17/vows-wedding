@@ -4,7 +4,6 @@ export const SLUGS = {
   2: "the-couple",
   3: "save-the-date",
   4: "our-story",
-  5: "countdown",
   6: "wedding-details",
   7: "photographs",
   8: "rsvp",

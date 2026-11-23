@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { pathFor, sceneFromPath } from "./lib/routes";
-import { MAIN_SECTIONS, sectionFor, SECTIONS } from "./lib/sections";
+import { MAIN_SECTIONS, sectionFor } from "./lib/sections";
 import { TopBar } from "./components/TopBar";
 import { ExploreMenu } from "./components/ExploreMenu";
 import { ScrollProgress } from "./components/ScrollProgress";
@@ -10,7 +10,6 @@ import { Scene01Entrance } from "./scenes/Scene01Entrance";
 import { Scene02Card } from "./scenes/Scene02Card";
 import { Scene03SaveDate } from "./scenes/Scene03SaveDate";
 import { Scene04Letters } from "./scenes/Scene04Letters";
-import { Scene05Calendar } from "./scenes/Scene05Calendar";
 import { Scene06Details } from "./scenes/Scene06Details";
 import { Scene07Gallery } from "./scenes/Scene07Gallery";
 import { Scene08Rsvp } from "./scenes/Scene08Rsvp";
@@ -369,35 +368,31 @@ export default function App() {
       />
 
       <main className="page">
-        <div id={SECTIONS[1].id} data-section="2" className="page-section">
+        <div id={sectionFor(2).id} data-section="2" className="page-section">
           <Scene02Card onNext={details} />
         </div>
 
-        <div id={SECTIONS[2].id} data-section="3" className="page-section">
+        <div id={sectionFor(3).id} data-section="3" className="page-section">
           <Scene03SaveDate />
         </div>
 
-        <div id={SECTIONS[3].id} data-section="4" className="page-section">
+        <div id={sectionFor(4).id} data-section="4" className="page-section">
           <Scene04Letters />
         </div>
 
-        <div id={SECTIONS[4].id} data-section="5" className="page-section">
-          <Scene05Calendar />
-        </div>
-
-        <div id={SECTIONS[5].id} data-section="6" className="page-section">
+        <div id={sectionFor(6).id} data-section="6" className="page-section">
           <Scene06Details />
         </div>
 
-        <div id={SECTIONS[6].id} data-section="7" className="page-section">
+        <div id={sectionFor(7).id} data-section="7" className="page-section">
           <Scene07Gallery />
         </div>
 
-        <div id={SECTIONS[7].id} data-section="8" className="page-section">
+        <div id={sectionFor(8).id} data-section="8" className="page-section">
           <Scene08Rsvp onDetails={details} onNext={details} />
         </div>
 
-        <div id={SECTIONS[8].id} data-section="9" className="page-section">
+        <div id={sectionFor(9).id} data-section="9" className="page-section">
           <Scene09Closing onDetails={details} onReplay={replay} />
         </div>
       </main>

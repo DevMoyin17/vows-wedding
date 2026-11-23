@@ -12,9 +12,9 @@ There are two pages:
   session always lands here, even if the shared URL points at a later section; the
   requested section is restored after the envelope opens.
 - **`/the-couple` … `/with-love` — the invitation itself.** A single continuous scrolling
-  page: invitation card, save the date (live countdown), story, calendar, details,
-  photographs, RSVP and closing. The one exception is a direct `/rsvp?guest=…` reminder
-  link, which goes straight to the reply card.
+  page: invitation card, save the date (live countdown), story, details, photographs,
+  RSVP and closing. The one exception is a direct `/rsvp?guest=…` reminder link, which
+  goes straight to the reply card.
 
 ## Run
 

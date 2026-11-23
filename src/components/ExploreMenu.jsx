@@ -39,7 +39,7 @@ export function ExploreMenu({ open, active, onClose, onNavigate }) {
           </button>
         </div>
         <ul className="menu-list">
-          {MAIN_SECTIONS.map((section) => (
+          {MAIN_SECTIONS.map((section, index) => (
             <li key={section.n}>
               <a
                 href={pathFor(section.n)}
@@ -50,7 +50,7 @@ export function ExploreMenu({ open, active, onClose, onNavigate }) {
                   onNavigate(section.n);
                 }}
               >
-                <span className="num">{String(section.n).padStart(2, "0")}</span>
+                <span className="num">{String(index + 2).padStart(2, "0")}</span>
                 <span className="name">{section.label}</span>
                 <span className="type-small text-secondary">{section.note}</span>
               </a>

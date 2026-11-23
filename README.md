@@ -1,5 +1,7 @@
 # VOWS — Heirloom Lace
 
+**Live:** https://vows-deborah-michael.vercel.app
+
 The flagship digital wedding invitation: a cinematic, mobile-first guest experience in
 blush silk, lace and pearl, with full tablet and desktop adaptations.
 
@@ -37,7 +39,39 @@ VITE_SUPABASE_URL=https://xxxx.supabase.co
 VITE_SUPABASE_ANON_KEY=ey...
 ```
 
+Use the **anon** or **publishable** key from Project Settings → API. It is safe in the
+browser; never use the `service_role` / secret key in a `VITE_` variable.
+
 Without these the RSVP flow runs in demo mode (simulated latency, persisted locally).
+
+## Guest links
+
+Send each guest a personalised link:
+
+```
+https://vows-deborah-michael.vercel.app/?guest=Tolu%20Adebayo&seats=2
+```
+
+- `guest` is the full name used to look up and prefill the reply
+- `seats` sets the initial guest count
+- URL-encode spaces as `%20` (or build the links from a spreadsheet)
+
+The RSVP page opens with the name prefilled and the correct seat count. On a second
+visit the guest sees their saved reply and can update it until the RSVP deadline.
+
+## Viewing replies
+
+Open **Supabase Dashboard → Table Editor → `rsvps`** and filter on
+`invitation_slug = 'deborah-michael'`, or run:
+
+```sql
+select guest_name, choice, guests, note, updated_at
+from public.rsvps
+where invitation_slug = 'deborah-michael'
+order by updated_at desc;
+```
+
+Direct table access is blocked from the browser; only the two RPCs are callable.
 
 ## Photographs
 

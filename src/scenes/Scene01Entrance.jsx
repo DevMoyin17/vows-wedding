@@ -191,6 +191,28 @@ export function Scene01Entrance({ onOpened }) {
     }
     const at = (t) => t0 + t;
 
+    /* the hand-off to "Card reveal" (starts at 3.6 s, as the card leaves the
+       pocket). Mobile and tablet rack the focus to the card and back; the
+       desktop frames keep the satin as designed, so there the envelope just
+       settles into "Card reveal" underneath the landing card. */
+    const handOff = gsap.timeline();
+    if (bp === "desktop") {
+      handOff
+        .set(reveal, { visibility: "visible" }, 0)
+        .to(reveal, { opacity: 1, duration: 0.6, ease: "sine.inOut" }, 0.75)
+        .to(cardShadow, { opacity: 0, duration: 0.6, ease: "sine.inOut" }, 0.8)
+        .set(world, { autoAlpha: 0 }, 1.5);
+    } else {
+      handOff
+        // rasterise the focus-pull frames a moment before they are needed
+        .set([worldBlur, revealBlur, reveal], { visibility: "visible" }, 0)
+        .to(worldBlur, { opacity: 1, duration: 0.4, ease: "sine.inOut" }, 0.65)
+        .to(revealBlur, { opacity: 1, duration: 0.4, ease: "sine.inOut" }, 0.95)
+        .to(reveal, { opacity: 1, duration: 0.5, ease: "sine.inOut" }, 1.3)
+        .to(cardShadow, { opacity: 0, duration: 0.5, ease: "sine.inOut" }, 1.35)
+        .set([world, revealBlur], { autoAlpha: 0 }, 2.0);
+    }
+
     tl
       /* 1 · camera leans in; the seal is pressed and cracks (01a) --------- */
       .to(camera, { yPercent: 0, duration: 1.1, ease: "sine.inOut" }, at(0))
@@ -262,16 +284,12 @@ export function Scene01Entrance({ onOpened }) {
       .to(card, { yPercent: 0, rotation: 0, duration: 1.3, ease: "power2.inOut" }, at(4.05))
       .to(card, { keyframes: { scale: [CARD_IN, 1.07, 1] }, duration: 1.3, ease: "sine.inOut" }, at(4.05))
       .fromTo(card, { rotationX: 0 }, { keyframes: { rotationX: [0, -8, 0] }, duration: 1.3, ease: "sine.inOut" }, at(4.05))
-      // rasterise the focus-pull frames a moment before they are needed
-      .set([worldBlur, revealBlur, reveal], { visibility: "visible" }, at(3.6))
-      .to(worldBlur, { opacity: 1, duration: 0.4, ease: "sine.inOut" }, at(4.25))
-      .to(revealBlur, { opacity: 1, duration: 0.4, ease: "sine.inOut" }, at(4.55))
-      .to(reveal, { opacity: 1, duration: 0.5, ease: "sine.inOut" }, at(4.9))
-      .to(cardShadow, { opacity: 0, duration: 0.5, ease: "sine.inOut" }, at(4.95))
-      .set([world, revealBlur], { autoAlpha: 0 }, at(5.6))
+      .add(handOff, at(3.6))
+      // let the settled card re-rasterise crisply at its final size
+      .set(card, { willChange: "auto" }, at(5.45))
 
       /* 6 · the card rests for a moment, then the first page --------------- */
-      .fromTo(sheen, { xPercent: -130, opacity: 1 }, { xPercent: 130, opacity: 1, duration: 1.3, ease: "power1.inOut", immediateRender: false }, at(5.6))
+      .fromTo(sheen, { xPercent: -60, opacity: 1 }, { xPercent: 60, opacity: 1, duration: 1.3, ease: "power1.inOut", immediateRender: false }, at(5.6))
       .set(sheen, { opacity: 0 }, at(6.9))
       .call(() => setPhase("hold"), null, at(5.5))
       .add("out", at(7.8))

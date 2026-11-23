@@ -13,9 +13,12 @@ create table if not exists public.rsvps (
   guests int not null default 0 check (guests >= 0 and guests <= 20),
   note text,
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now(),
-  constraint rsvps_unique_guest unique (invitation_slug, guest_name)
+  updated_at timestamptz not null default now()
 );
+
+-- One reply per guest, regardless of capitalisation ("Tolu" = "tolu").
+create unique index if not exists rsvps_unique_guest_ci
+  on public.rsvps (invitation_slug, lower(guest_name));
 
 alter table public.rsvps enable row level security;
 
@@ -47,8 +50,9 @@ begin
 
   insert into public.rsvps (invitation_slug, guest_name, choice, guests, note)
   values (p_invitation, trim(p_guest_name), p_choice, greatest(0, least(p_guests, 20)), nullif(trim(p_note), ''))
-  on conflict on constraint rsvps_unique_guest
+  on conflict (invitation_slug, lower(guest_name))
   do update set
+    guest_name = excluded.guest_name,
     choice = excluded.choice,
     guests = excluded.guests,
     note = excluded.note,

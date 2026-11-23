@@ -97,6 +97,7 @@ export default function App() {
           <motion.div
             key={scene}
             className="scene-view__layer"
+            tabIndex={0}
             variants={reduced ? reducedSceneVariants : sceneVariants}
             initial="initial"
             animate="animate"

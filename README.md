@@ -8,11 +8,13 @@ blush silk, lace and pearl, with full tablet and desktop adaptations.
 There are two pages:
 
 - **`/` — the opening envelope.** This is the first thing every guest sees, exactly like
-  the Figma prototype. The envelope opens with the cinematic animation (or the mobile
-  “View the invitation” shortcut skips straight ahead).
+  the Figma prototype. It is a full-bleed satin page on phones (no letterbox bars). A new
+  session always lands here, even if the shared URL points at a later section; the
+  requested section is restored after the envelope opens.
 - **`/the-couple` … `/with-love` — the invitation itself.** A single continuous scrolling
   page: invitation card, save the date, story, countdown, details, photographs, RSVP and
-  closing. Direct section links open here without the envelope.
+  closing. The one exception is a direct `/rsvp?guest=…` reminder link, which goes
+  straight to the reply card.
 
 ## Run
 
@@ -69,6 +71,8 @@ https://vows-deborah-michael.vercel.app/rsvp?guest=Tolu%20Adebayo&seats=2
 - URL-encode spaces as `%20` (or build the links from a spreadsheet)
 - The root link opens the envelope first; the `/rsvp` link jumps straight to the reply
   card for reminders
+- A section link opened in a fresh session shows the envelope first, then the requested
+  section
 
 The envelope opens into the invitation page; the RSVP card carries the name and seat
 count from the link. On a second visit the guest sees their saved reply and can update it
@@ -180,7 +184,8 @@ supabase/schema.sql
 ```
 
 Navigation: the envelope is its own page at `/`; opening it moves to `/the-couple`, the
-first section of the single-page invitation. From there guests simply scroll; the top
+first section of the single-page invitation (or to the section originally shared). A new
+guest session always sees the envelope first. From there guests simply scroll; the top
 bar, Explore drawer and clean URLs (`/our-story`, `/rsvp`) jump between sections. The
 scroll spy keeps the URL and navigation in sync, cards reveal on scroll and lift on
 hover, and the floating RSVP pill stays within reach on phones. Full reduced-motion

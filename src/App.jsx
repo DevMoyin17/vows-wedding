@@ -27,10 +27,23 @@ import { Scene09Closing } from "./scenes/Scene09Closing";
 export default function App() {
   const reduced = useReducedMotion();
   const [initial] = useState(() => sceneFromPath());
-  const [mode, setMode] = useState(initial === 1 ? "opening" : "invitation");
-  const [active, setActive] = useState(initial === 1 ? 2 : initial);
+  const [pendingTarget] = useState(() => {
+    if (initial <= 1 || initial === 8) return 0;
+    try {
+      if (window.sessionStorage.getItem("vows:opened") === "1") return 0;
+    } catch {
+      /* storage blocked — still show the envelope first */
+    }
+    return initial;
+  });
+  const [mode, setMode] = useState(
+    initial === 1 || pendingTarget > 0 ? "opening" : "invitation",
+  );
+  const [active, setActive] = useState(
+    pendingTarget > 0 ? pendingTarget : initial === 1 ? 2 : initial,
+  );
   const [menuOpen, setMenuOpen] = useState(false);
-  const activeRef = useRef(initial === 1 ? 2 : initial);
+  const activeRef = useRef(active);
   const ready = useRef(initial > 1);
   const initialised = useRef(false);
   const suppressSpy = useRef(false);
@@ -99,21 +112,27 @@ export default function App() {
 
   /** Leave the envelope for the invitation page. */
   const openInvitation = useCallback(() => {
-    const path = pathFor(2);
+    const target = pendingTarget > 0 && !initialised.current ? pendingTarget : 2;
+    try {
+      window.sessionStorage.setItem("vows:opened", "1");
+    } catch {
+      /* storage blocked — the page still opens */
+    }
+
+    const path = pathFor(target);
     if (window.location.pathname !== path) {
       window.history.pushState(null, "", path + window.location.search);
     }
+
     setMenuOpen(false);
     stopScroll();
     setMode("invitation");
-    setActive(2);
-    activeRef.current = 2;
-    ready.current = true;
-    initialised.current = true;
-    settling.current = false;
-    navigated.current = true;
+    activeRef.current = target;
+    setActive(target);
+    navigated.current = false;
+    suppressSpy.current = false;
     window.scrollTo(0, 0);
-  }, [stopScroll]);
+  }, [pendingTarget, stopScroll]);
 
   const go = useCallback(
     (n, { push = false, smooth = true } = {}) => {
@@ -165,6 +184,14 @@ export default function App() {
   useEffect(() => () => {
     if (scrollRaf.current) window.cancelAnimationFrame(scrollRaf.current);
   }, []);
+
+  /* A shared /our-story or /the-couple link still opens the envelope first for
+     a new guest session; the requested section is restored after opening. */
+  useEffect(() => {
+    if (pendingTarget > 0 && window.location.pathname !== pathFor(1)) {
+      window.history.replaceState(null, "", pathFor(1) + window.location.search);
+    }
+  }, [pendingTarget]);
 
   /* Land on the right section when opening a shared /our-story or /rsvp link.
      Re-align once fonts/dynamic sections settle, unless the guest takes over. */
@@ -324,7 +351,7 @@ export default function App() {
   if (mode === "opening") {
     return (
       <main className="opening-page">
-        <Scene01Entrance onOpened={openInvitation} onSkip={openInvitation} />
+        <Scene01Entrance onOpened={openInvitation} />
       </main>
     );
   }

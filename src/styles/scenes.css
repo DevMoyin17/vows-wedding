@@ -195,44 +195,6 @@
 }
 .scene-entrance__music .pill__bars i { width: 2px; }
 
-.scene-entrance__skip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 1.6cqw;
-  padding: 0.9cqw 2.4cqw;
-  min-height: 38px;
-  border-radius: 999px;
-  border: 1px solid rgba(126, 79, 70, 0.28);
-  background: rgba(255, 255, 255, 0.4);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  font-family: var(--font-body);
-  font-size: clamp(10px, 2.9cqw, 13px);
-  letter-spacing: 0.06em;
-  color: var(--color-text-accent);
-  transition:
-    background var(--motion-quick) ease,
-    border-color var(--motion-quick) ease,
-    transform var(--motion-quick) ease;
-}
-.scene-entrance__skip span {
-  display: inline-block;
-  transition: transform var(--motion-base) ease;
-}
-.scene-entrance__skip:hover {
-  background: rgba(255, 255, 255, 0.72);
-  border-color: rgba(126, 79, 70, 0.5);
-}
-.scene-entrance__skip:active { transform: scale(0.98); }
-.scene-entrance__skip:hover span { transform: translateY(2px); }
-
-/* The desktop/tablet composition is complete without the shortcut; the
-   card is one scroll below and the section nav appears immediately. */
-@media (min-width: 768px) {
-  .scene-entrance__skip { display: none; }
-}
-
 .scene-entrance__date {
   position: absolute;
   z-index: 2;
@@ -1610,6 +1572,31 @@
 [class$="__stitch"] {
   position: absolute;
   z-index: 0;
+}
+
+/* ============================================== opening page · full bleed === */
+/* Matching satin tone behind the stage on tablet/desktop. */
+.opening-page .scene-entrance {
+  background: linear-gradient(180deg, #f0d5d7 0%, #e5bfc4 100%);
+}
+
+/* Phones: the satin/envelope fills the entire screen. No letterbox bands,
+   no flat pink panel behind the artwork. */
+@media (max-width: 767px) {
+  .opening-page .scene-entrance::before { display: none; }
+  .opening-page .env-stage {
+    width: 100vw;
+    height: 100dvh;
+    max-height: none;
+    aspect-ratio: auto;
+  }
+  .opening-page .env-fill .env-layer {
+    background-size: cover;
+  }
+  .opening-page .env-cardtext {
+    left: 15.6%;
+    width: 68.7%;
+  }
 }
 
 /* ==================================================== living details === */

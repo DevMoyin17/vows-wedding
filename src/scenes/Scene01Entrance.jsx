@@ -24,7 +24,7 @@ const RENDERS = {
  * GSAP choreography: seal lifts (280/22) → flap opens → card rises (260/24)
  * → names write on 80ms stagger. Reduced motion: 240ms cross-fade.
  */
-export function Scene01Entrance({ onOpened, onSkip }) {
+export function Scene01Entrance({ onOpened }) {
   const [phase, setPhase] = useState("idle");
   const rootRef = useRef(null);
   const artRef = useRef(null);
@@ -274,11 +274,6 @@ export function Scene01Entrance({ onOpened, onSkip }) {
               </span>
             </span>
           </p>
-          {phase === "idle" && (
-            <button type="button" className="scene-entrance__skip" onClick={onSkip}>
-              View the invitation <span aria-hidden="true">↓</span>
-            </button>
-          )}
         </div>
 
         <p className="scene-entrance__date">{wedding.dateFooter}</p>

@@ -83,21 +83,19 @@
   width: max(100cqw, 100cqh * 864 / 1536);
   overflow: hidden;
 }
+/* desktop plays on the wide render (16:9) */
+.op-plate--wide {
+  aspect-ratio: 1536 / 864;
+  width: max(100cqw, 100cqh * 1536 / 864);
+}
+/* the open envelope's body, recreated whole; shown as the flap lifts */
+.op-body { position: absolute; opacity: 0; will-change: opacity; }
+
 /* hidden (not painted) until shortly before they are needed */
 .op-world-blur,
 .op-reveal-blur,
 .op-reveal { opacity: 0; visibility: hidden; will-change: opacity; }
 
-/* desktop: the wide render (184:4007), softening into the satin fill */
-.op-wide {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  user-select: none;
-}
-.op-wide--blur { opacity: 0; will-change: opacity; }
 .op-world {
   position: absolute;
   inset: 0;
@@ -113,11 +111,6 @@
 }
 .op-plate img { display: block; user-select: none; -webkit-user-drag: none; }
 
-/* inside of the envelope behind the card: the same paper, in shade */
-.op-mouth {
-  background: linear-gradient(180deg, #d9d1ce 34.9%, #e6e0de 40%, #efebe9 47.8%);
-}
-.op-pocket { position: absolute; }
 
 /* lace flap — two faces on one hinge */
 .op-flap {
@@ -1515,17 +1508,6 @@
   .scene-entrance[data-bp="desktop"] .scene-entrance__light--top { height: 28.89%; background: linear-gradient(180deg, rgba(251, 248, 248, 0.92), rgba(251, 248, 248, 0)); }
   .scene-entrance[data-bp="desktop"] .scene-entrance__light--bottom { top: 71.11%; height: 28.89%; background: linear-gradient(0deg, rgba(251, 248, 248, 0.95), rgba(251, 248, 248, 0)); }
 
-  /* the 746×900 stage of the keyframes (225:5507), soft-edge mask */
-  .scene-entrance[data-bp="desktop"] .op-stage {
-    inset: 0 0 auto;
-    margin-inline: auto;
-    width: calc(100cqh * 746 / 900);
-    height: 100cqh;
-    opacity: 0;
-    will-change: transform, opacity;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent);
-  }
 
   /* heading 184:4011 — top 56, width 1000, gap 10 */
   .scene-entrance[data-bp="desktop"] .scene-entrance__head { top: 6.22%; width: 111.1cqh; }

@@ -1544,3 +1544,11 @@
 
   .scene-entrance__date { display: none; }
 }
+
+/* ================================================== lace stitch borders === */
+/* The inset dashed "stitch" is a decorative, absolutely-positioned child.
+   Generic `> *` stacking rules must not turn it into a grid item. */
+[class$="__stitch"] {
+  position: absolute;
+  z-index: 0;
+}

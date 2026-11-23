@@ -1,5 +1,5 @@
 import { wedding } from "./wedding";
-import { supabase, supabaseEnabled } from "./supabase";
+import { getSupabase, supabaseEnabled } from "./supabase";
 
 /**
  * RSVP service.
@@ -47,6 +47,7 @@ export function clearLocalRsvp() {
 export async function getRsvp(name) {
   if (supabaseEnabled) {
     try {
+      const supabase = await getSupabase();
       const { data, error } = await supabase.rpc("get_rsvp", {
         p_invitation: SLUG,
         p_guest_name: name,
@@ -65,6 +66,7 @@ export async function getRsvp(name) {
 export async function submitRsvp(rsvp) {
   if (supabaseEnabled) {
     try {
+      const supabase = await getSupabase();
       const { data, error } = await supabase.rpc("submit_rsvp", {
         p_invitation: SLUG,
         p_guest_name: rsvp.name,

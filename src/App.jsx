@@ -88,6 +88,12 @@ export default function App() {
 
   if (path === "/preview") return <Redirect to={INVITATION_BASE} />;
 
+  // Old personalised links used the root with ?guest=...; keep them working
+  // while the root itself becomes the VOWS marketing site.
+  if (path === "/" && new URLSearchParams(window.location.search).has("guest")) {
+    return <Redirect to={INVITATION_BASE} />;
+  }
+
   if (LEGACY_INVITATION_PATHS[path]) {
     return <Redirect to={`${INVITATION_BASE}/${LEGACY_INVITATION_PATHS[path]}`} />;
   }

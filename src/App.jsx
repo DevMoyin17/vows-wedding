@@ -7,6 +7,7 @@ import { ExploreMenu } from "./components/ExploreMenu";
 import { ScrollProgress } from "./components/ScrollProgress";
 import { RsvpDock } from "./components/RsvpDock";
 import { Scene01Entrance } from "./scenes/Scene01Entrance";
+import { Scene01Entrance3D } from "./scenes/Scene01Entrance3D";
 import { Scene02Card } from "./scenes/Scene02Card";
 import { Scene03SaveDate } from "./scenes/Scene03SaveDate";
 import { Scene04Letters } from "./scenes/Scene04Letters";
@@ -23,6 +24,18 @@ import { Scene09Closing } from "./scenes/Scene09Closing";
  * Direct section URLs (e.g. /rsvp) land on the invitation page without the
  * envelope, so reminder links stay frictionless.
  */
+/* the 3D envelope where WebGL is available; ?classic keeps the image version */
+const ENTRANCE_3D = (() => {
+  if (typeof window === "undefined") return false;
+  if (new URLSearchParams(window.location.search).has("classic")) return false;
+  try {
+    return !!document.createElement("canvas").getContext("webgl2");
+  } catch {
+    return false;
+  }
+})();
+const Entrance = ENTRANCE_3D ? Scene01Entrance3D : Scene01Entrance;
+
 export default function App() {
   const reduced = useReducedMotion();
   const [initial] = useState(() => sceneFromPath());
@@ -350,7 +363,7 @@ export default function App() {
   if (mode === "opening") {
     return (
       <main className="opening-page">
-        <Scene01Entrance onOpened={openInvitation} />
+        <Entrance onOpened={openInvitation} />
       </main>
     );
   }

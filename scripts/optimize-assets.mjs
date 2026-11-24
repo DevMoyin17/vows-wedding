@@ -311,10 +311,10 @@ async function brandIcons() {
   await fs.writeFile(pub("favicon.ico"), Buffer.concat([header, ...entries, ...pngs]));
 
   const manifest = {
-    name: "Simeon & Janet — 20 February 2027",
-    short_name: "S & J",
+    name: "VOWS - Digital Wedding Invitations",
+    short_name: "VOWS",
     description:
-      "The wedding of Simeon and Janet — Saturday, 20 February 2027, Ibadan. View the invitation and reply.",
+      "Cinematic digital wedding invitations with an animated envelope, love story, countdown, gallery, music and RSVP.",
     start_url: "/",
     display: "standalone",
     background_color: "#f5ebeb",

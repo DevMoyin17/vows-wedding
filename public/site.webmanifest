@@ -1,11 +1,11 @@
 {
-  "name": "Simeon & Janet — 20 February 2027",
-  "short_name": "S & J",
-  "description": "The wedding of Simeon and Janet — Saturday, 20 February 2027, Ibadan. View the invitation and reply.",
+  "name": "VOWS — Digital Wedding Invitations",
+  "short_name": "VOWS",
+  "description": "Cinematic digital wedding invitations with an animated envelope, love story, countdown, gallery, music and RSVP.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f5ebeb",
-  "theme_color": "#f5ebeb",
+  "background_color": "#f8f2eb",
+  "theme_color": "#f8f2eb",
   "icons": [
     {
       "src": "/icons/icon-192.png",

@@ -1,20 +1,38 @@
-# VOWS — Heirloom Lace
+# VOWS — Digital Wedding Invitations
 
 **Live:** https://vows-deborah-michael.vercel.app
 
-The flagship digital wedding invitation: a cinematic, mobile-first guest experience in
-blush silk, lace and pearl, with full tablet and desktop adaptations.
+VOWS is two experiences in one codebase:
 
-There are two pages:
+- **`/` — the VOWS marketing site.** The public face of the platform: the experience,
+  invitation designs, how it works, live invitation preview, pricing and enquiry form.
+- **`/i/simeon-janet` — the flagship invitation.** A cinematic, mobile-first guest
+  experience in blush silk, lace and pearl, with full tablet and desktop adaptations.
 
-- **`/` — the opening envelope.** This is the first thing every guest sees, exactly like
-  the Figma prototype. It is a full-bleed satin page on phones (no letterbox bars). A new
-  session always lands here, even if the shared URL points at a later section; the
-  requested section is restored after the envelope opens.
-- **`/the-couple` … `/with-love` — the invitation itself.** A single continuous scrolling
-  page: invitation card, save the date (live countdown), story, details, photographs,
-  RSVP and closing. The one exception is a direct `/rsvp?guest=…` reminder link, which
-  goes straight to the reply card.
+## Routes
+
+| Route | What it is |
+| --- | --- |
+| `/` | VOWS marketing landing page |
+| `/start` | Founding-invitation enquiry form (opens WhatsApp with the details) |
+| `/i/simeon-janet` | The opening envelope for the flagship invitation |
+| `/i/simeon-janet/the-couple` … `/i/simeon-janet/with-love` | The invitation itself |
+| `/i/simeon-janet/rsvp?guest=…` | A direct reminder link that bypasses the envelope |
+| `/preview` | Redirects to the live invitation |
+| `/privacy`, `/terms` | Launch-ready policy placeholders |
+
+The old root-level invitation links (`/the-couple`, `/rsvp`, etc.) redirect to their
+scoped `/i/simeon-janet/...` equivalents, so existing reminder links keep working.
+
+## The invitation
+
+- **`/i/simeon-janet`** is the opening envelope. A new session always lands here, even
+  if the shared URL points at a later section; the requested section is restored after
+  the envelope opens.
+- **`/i/simeon-janet/the-couple` … `/i/simeon-janet/with-love`** is a single continuous
+  scrolling page: invitation card, save the date (live countdown), story, details,
+  photographs, RSVP and closing.
+- A direct `/i/simeon-janet/rsvp?guest=…` reminder link goes straight to the reply card.
 
 ## Run
 
@@ -25,10 +43,30 @@ npm run build    # production bundle in dist/
 npm run preview  # preview the build
 ```
 
-Guest personalisation: open `/?guest=Tolu%20Adebayo&seats=2` — the envelope opens into the
-invitation with the RSVP greeting, prefilled name and seat count adapted to the link. For
-a link that jumps straight to the reply card, use
-`/rsvp?guest=Tolu%20Adebayo&seats=2` (no envelope).
+Guest personalisation: open
+`/i/simeon-janet?guest=Tolu%20Adebayo&seats=2` — the envelope opens into the invitation
+with the RSVP greeting, prefilled name and seat count adapted to the link. For a link
+that jumps straight to the reply card, use
+`/i/simeon-janet/rsvp?guest=Tolu%20Adebayo&seats=2` (no envelope).
+
+## Marketing site
+
+The public VOWS site lives in `src/marketing/`:
+
+- `LandingPage.jsx` — hero, experience, templates, how it works, features, live preview,
+  pricing, founding invitation, FAQ and final CTA.
+- `content.js` — nav, template catalogue, package prices, features and FAQ copy.
+- `StartPage.jsx` — the founding-invitation enquiry form. It opens WhatsApp with the
+  couple's details; there is no payment backend yet.
+- `SimplePage.jsx` — privacy and terms placeholders.
+- `src/styles/marketing.css` — the marketing design system, separate from the invitation.
+
+The contact link and enquiry form use `CONTACT_WHATSAPP` in `src/marketing/content.js`.
+Replace that with the VOWS sales number before publishing the page widely.
+
+Only **Traditional Luxury** is live. The other designs are shown as coming-soon cards and
+link to the waitlist/enquiry form. The live preview opens the real Simeon & Janet
+invitation at `/i/simeon-janet`.
 
 ## Stack
 
@@ -62,15 +100,15 @@ Without these the RSVP flow runs in demo mode (simulated latency, persisted loca
 Send each guest a personalised link:
 
 ```
-https://vows-deborah-michael.vercel.app/?guest=Tolu%20Adebayo&seats=2
-https://vows-deborah-michael.vercel.app/rsvp?guest=Tolu%20Adebayo&seats=2
+https://vows-deborah-michael.vercel.app/i/simeon-janet?guest=Tolu%20Adebayo&seats=2
+https://vows-deborah-michael.vercel.app/i/simeon-janet/rsvp?guest=Tolu%20Adebayo&seats=2
 ```
 
 - `guest` is the full name used to look up and prefill the reply
 - `seats` sets the initial guest count
 - URL-encode spaces as `%20` (or build the links from a spreadsheet)
-- The root link opens the envelope first; the `/rsvp` link jumps straight to the reply
-  card for reminders
+- The invitation link opens the envelope first; the `/rsvp` link jumps straight to the
+  reply card for reminders
 - A section link opened in a fresh session shows the envelope first, then the requested
   section
 

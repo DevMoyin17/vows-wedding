@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { pathFor } from "../lib/routes";
 import { SECTIONS } from "../lib/sections";
 import { MusicChip } from "./MusicChip";
 
@@ -34,7 +35,7 @@ export function TopBar({ active, showRsvp, onExplore, onNavigate, onRsvp }) {
       inert={!visible || undefined}
     >
       <a
-        href="/"
+        href={pathFor(1)}
         className="mono"
         aria-label="Back to the beginning"
         onClick={(event) => {

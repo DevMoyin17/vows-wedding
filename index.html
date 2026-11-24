@@ -3,44 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#f5ebeb" />
+    <meta name="theme-color" content="#f8f2eb" />
     <meta
       name="description"
-      content="Simeon & Janet are getting married. Saturday, 20 February 2027, Ibadan. You are invited — open the invitation, view the details and reply."
+      content="VOWS creates cinematic digital wedding invitations — animated envelopes, love stories, countdowns, photo galleries, music and RSVP management in one beautiful link."
     />
     <meta name="format-detection" content="telephone=no" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="S & J" />
+    <meta name="apple-mobile-web-app-title" content="VOWS" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
-    <title>Simeon &amp; Janet · You are invited</title>
+    <title>VOWS · Every love story deserves an extraordinary invitation</title>
     <link rel="canonical" href="https://vows-deborah-michael.vercel.app/" />
 
     <!-- Link previews (WhatsApp, iMessage, X, Facebook) -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://vows-deborah-michael.vercel.app/" />
-    <meta property="og:site_name" content="Simeon & Janet" />
-    <meta property="og:title" content="Simeon & Janet · You are invited" />
+    <meta property="og:site_name" content="VOWS" />
+    <meta property="og:title" content="VOWS · Every love story deserves an extraordinary invitation" />
     <meta
       property="og:description"
-      content="Saturday, 20 February 2027 · Ibadan, Nigeria. Open the invitation, view the details and reply."
+      content="Cinematic digital wedding invitations with an animated envelope, love story, countdown, gallery, music and RSVP — all in one link."
     />
-    <meta property="og:image" content="https://vows-deborah-michael.vercel.app/assets/og/og-image.jpg" />
+    <meta property="og:image" content="https://vows-deborah-michael.vercel.app/assets/og/vows-og.jpg" />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Simeon and Janet walking hand in hand at golden hour"
+      content="A VOWS digital wedding invitation"
     />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Simeon & Janet · You are invited" />
+    <meta name="twitter:title" content="VOWS · Every love story deserves an extraordinary invitation" />
     <meta
       name="twitter:description"
-      content="Saturday, 20 February 2027 · Ibadan, Nigeria. Open the invitation, view the details and reply."
+      content="Cinematic digital wedding invitations with an animated envelope, love story, countdown, gallery, music and RSVP — all in one link."
     />
-    <meta name="twitter:image" content="https://vows-deborah-michael.vercel.app/assets/og/og-image.jpg" />
+    <meta name="twitter:image" content="https://vows-deborah-michael.vercel.app/assets/og/vows-og.jpg" />
 
     <!-- Icons -->
     <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -48,29 +48,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-
-    <!-- The first thing a guest sees, per breakpoint -->
-    <link
-      rel="preload"
-      as="image"
-      href="/assets/heirloom/envelope-idle.webp"
-      media="(max-width: 767px)"
-      fetchpriority="high"
-    />
-    <link
-      rel="preload"
-      as="image"
-      href="/assets/heirloom/tablet/entrance.webp"
-      media="(min-width: 768px) and (max-width: 1023px)"
-      fetchpriority="high"
-    />
-    <link
-      rel="preload"
-      as="image"
-      href="/assets/heirloom/desktop/entrance.webp"
-      media="(min-width: 1024px)"
-      fetchpriority="high"
-    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -82,24 +59,35 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Event",
-        "name": "The wedding of Simeon & Janet",
-        "description": "The traditional, church and reception celebrations of Simeon and Janet.",
-        "startDate": "2027-02-20T08:00:00+01:00",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "location": {
-          "@type": "Place",
-          "name": "Richbam Junction",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Richbam Junction, Alao-Akala Expressway, Oluyole",
-            "addressLocality": "Ibadan",
-            "addressRegion": "Oyo State",
-            "addressCountry": "NG"
+        "@graph": [
+          {
+            "@type": "Organization",
+            "name": "VOWS",
+            "url": "https://vows-deborah-michael.vercel.app/",
+            "description": "Cinematic digital wedding invitations for modern love.",
+            "logo": "https://vows-deborah-michael.vercel.app/icons/icon-512.png"
+          },
+          {
+            "@type": "WebSite",
+            "name": "VOWS",
+            "url": "https://vows-deborah-michael.vercel.app/",
+            "description": "Cinematic digital wedding invitations with an animated envelope, love story, countdown, gallery, music and RSVP."
+          },
+          {
+            "@type": "Product",
+            "name": "VOWS Digital Wedding Invitation",
+            "description": "A cinematic digital wedding invitation with an animated envelope, love story, countdown, photo gallery, music and RSVP management.",
+            "brand": { "@type": "Brand", "name": "VOWS" },
+            "offers": {
+              "@type": "AggregateOffer",
+              "priceCurrency": "NGN",
+              "lowPrice": "25000",
+              "highPrice": "75000",
+              "offerCount": "3",
+              "availability": "https://schema.org/InStock"
+            }
           }
-        },
-        "image": ["https://vows-deborah-michael.vercel.app/assets/og/og-image.jpg"]
+        ]
       }
     </script>
   </head>
@@ -107,9 +95,10 @@
     <div id="root"></div>
     <noscript>
       <p style="padding: 48px; font-family: Georgia, serif; text-align: center">
-        This invitation needs JavaScript. Please open it in your browser with JavaScript enabled.
+        VOWS needs JavaScript. Please open this page in your browser with JavaScript enabled.
       </p>
     </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
+

@@ -298,10 +298,7 @@ export function Scene01Entrance({ onOpened }) {
     if (phase === "hold") tlRef.current?.seek("out");
   };
 
-  const musicLabel =
-    bp === "desktop"
-      ? `Opens with music  ·  ${wedding.dateFooter.replace(" · ", " ")}`
-      : "Opens with music. Turn your sound up.";
+  const musicLabel = "Opens with music. Turn your sound up.";
 
   return (
     <section
@@ -376,7 +373,7 @@ export function Scene01Entrance({ onOpened }) {
                       &amp; {wedding.couple.second}
                     </p>
                     <p className="op-card__request">request the pleasure of your company</p>
-                    <p className="op-card__date">{wedding.dateShort}</p>
+                    {phase !== "idle" && <p className="op-card__date">{wedding.dateShort}</p>}
                   </div>
                   <div className="op-card__gloss">
                     <div className="op-card__sheen" />
@@ -433,7 +430,6 @@ export function Scene01Entrance({ onOpened }) {
           </p>
         </div>
 
-        <p className="scene-entrance__date">{wedding.dateFooter}</p>
         <p className="scene-entrance__skip" aria-hidden={phase !== "hold"}>Tap to continue</p>
       </div>
     </section>

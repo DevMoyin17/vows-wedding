@@ -1,8 +1,44 @@
+import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { wedding } from "../lib/wedding";
 import { inView, riseChild, reducedChild } from "../lib/motion";
-import { Photo } from "../components/Photo";
 import { FloralEdge } from "../components/FloralEdge";
+
+function StoryCard({ item, child, reduced }) {
+  const [open, setOpen] = useState(false);
+  const paragraphs = Array.isArray(item.text) ? item.text : [item.text];
+  const visible = open ? paragraphs : paragraphs.slice(0, 1);
+
+  return (
+    <motion.li
+      className="letter-card"
+      variants={child}
+      whileHover={reduced ? undefined : { y: -6 }}
+      transition={{ type: "spring", stiffness: 280, damping: 22 }}
+    >
+      <span className="letter-card__stitch" aria-hidden="true" />
+      <div className="letter-card__heading">
+        <p className="letter-card__date">{item.date}</p>
+        <h2 className="letter-card__title">{item.title}</h2>
+      </div>
+      <div className="letter-card__body">
+        {visible.map((paragraph, i) => (
+          <p key={i}>{paragraph}</p>
+        ))}
+      </div>
+      {paragraphs.length > 1 && (
+        <button
+          type="button"
+          className="letter-card__more"
+          onClick={() => setOpen((value) => !value)}
+          aria-expanded={open}
+        >
+          {open ? "Read less" : "Read more"}
+        </button>
+      )}
+    </motion.li>
+  );
+}
 
 /**
  * Scene 04 — Letters · Heirloom Lace.
@@ -26,9 +62,9 @@ export function Scene04Letters() {
         viewport={inView}
       >
         <p className="kicker">Letters from</p>
-        <h1 className="type-display">Our story</h1>
+        <h1 className="type-display">Our Love story</h1>
         <p className="story-intro">
-          From a birthday dinner in Ibadan to “I do” — these are the letters that brought us here.
+          {wedding.storyIntro}
         </p>
       </motion.header>
 
@@ -40,30 +76,7 @@ export function Scene04Letters() {
         viewport={inView}
       >
         {wedding.story.map((m) => (
-          <motion.li
-            key={m.title}
-            className="letter-card"
-            variants={child}
-            whileHover={reduced ? undefined : { y: -4 }}
-          >
-            <span className="letter-card__stitch" aria-hidden="true" />
-            <div className="letter-card__top">
-              <Photo
-                photo={wedding.photos[m.photoKey]}
-                alt=""
-                width={88}
-                height={88}
-                className="letter-card__photo"
-                crop="fill"
-                gravity="faces"
-              />
-              <div className="letter-card__heading">
-                <p className="letter-card__date">{m.date}</p>
-                <h2 className="letter-card__title">{m.title}</h2>
-              </div>
-            </div>
-            <p className="letter-card__body">{m.text}</p>
-          </motion.li>
+          <StoryCard key={m.title} item={m} child={child} reduced={reduced} />
         ))}
       </motion.ol>
     </section>

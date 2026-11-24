@@ -10,7 +10,7 @@ export const SECTIONS = [
   { n: 3, id: SLUGS[3], label: "Save the date", short: "Date", note: "20 · 02 · 2027" },
   { n: 4, id: SLUGS[4], label: "Our story", short: "Story", note: "Letters" },
   { n: 6, id: SLUGS[6], label: "Wedding details", short: "Details", note: "Ceremony & reception" },
-  { n: 7, id: SLUGS[7], label: "Photographs", short: "Photos", note: "Keepsakes" },
+  { n: 7, id: SLUGS[7], label: "Our gallery", short: "Gallery", note: "Moments" },
   { n: 8, id: SLUGS[8], label: "RSVP", short: "RSVP", note: "The favour of a reply" },
   { n: 9, id: SLUGS[9], label: "With gratitude", short: "With love", note: "Closing" },
 ];

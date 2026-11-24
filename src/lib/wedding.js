@@ -1,98 +1,148 @@
 /**
  * Wedding content — Heirloom Lace template.
  * Every photograph is declared as { local, cloud }: `cloud` is the
- * Cloudinary public id used in production, `local` is the bundled demo copy.
+ * Cloudinary public id used in production, `local` is the bundled copy.
  */
 
 export const wedding = {
   template: "heirloom-lace",
   couple: {
-    first: "Deborah",
-    second: "Michael",
-    initials: "DM",
+    first: "Simeon",
+    second: "Janet",
+    initials: "SJ",
   },
   families: {
-    bride: "Mr & Mrs Adeyemi",
-    groom: "Mr & Mrs Okafor",
+    bride: "Mr & Mrs Matthew",
+    groom: "Elder & Mrs Adewuyi",
   },
-  dateISO: "2027-02-20T10:00:00+01:00",
+  dateISO: "2027-02-20T08:00:00+01:00",
   city: "Ibadan, Nigeria",
   dateShort: "20 · 02 · 2027",
   dateLong: "Saturday, 20 February 2027",
   dateFooter: "SATURDAY · 20 FEBRUARY 2027 · IBADAN",
-  rsvpBy: "20 January",
-  rsvpByFull: "20 January 2027",
+  rsvpBy: "6 February",
+  rsvpByFull: "6 February 2027",
 
   requestLine: "request the honour of your presence at the marriage of their children",
 
+  storyIntro: "From a chance meeting at a birthday celebration to “I do” — a few chapters from our story.",
+
   photos: {
-    hero: { local: "/assets/photos/gallery-1.jpg", cloud: "vows/heirloom/hero-walk" },
-    bouquet: { local: "/assets/photos/gallery-2.jpg", cloud: "vows/heirloom/bouquet" },
-    rings: { local: "/assets/photos/gallery-6.jpg", cloud: "vows/heirloom/rings" },
-    cake: { local: "/assets/photos/gallery-3.jpg", cloud: "vows/heirloom/cake" },
-    dinner: { local: "/assets/photos/gallery-5.jpg", cloud: "vows/heirloom/dinner" },
-    atrium: { local: "/assets/photos/gallery-4.jpg", cloud: "vows/heirloom/atrium" },
-    chapel: { local: "/assets/photos/venue-chapel.jpg", cloud: "vows/heirloom/chapel" },
-    church: { local: "/assets/photos/venue-church.jpg", cloud: "vows/heirloom/church" },
-    met: { local: "/assets/photos/ms-met.jpg", cloud: "vows/heirloom/milestone-met" },
-    firstDate: { local: "/assets/photos/ms-first-date.jpg", cloud: "vows/heirloom/milestone-first-date" },
-    proposal: { local: "/assets/photos/ms-proposal.jpg", cloud: "vows/heirloom/milestone-proposal" },
-    weddingDay: { local: "/assets/photos/ms-rings.jpg", cloud: "vows/heirloom/milestone-wedding" },
-    saveTheDate: { local: "/assets/photos/save-the-date.webp", cloud: "vows/heirloom/save-the-date" },
+    hero: { local: "/assets/photos/prewedding-black-cream.jpg", cloud: "vows/heirloom/hero-prewedding" },
+    detail: { local: "/assets/photos/proposal.jpg", cloud: "vows/heirloom/proposal-detail" },
+    church: { local: "/assets/photos/living-faith-church.jpg", cloud: "vows/heirloom/living-faith-church" },
+    churchCard: { local: "/assets/photos/living-faith-church-card.jpg", cloud: "vows/heirloom/living-faith-church-card" },
+    venue: { local: "/assets/photos/richbam-event-place.jpg", cloud: "vows/heirloom/richbam" },
+    met: { local: "/assets/photos/prewedding-burgundy-traditional.jpg", cloud: "vows/heirloom/prewedding-traditional" },
+    firstDate: { local: "/assets/photos/first-date.jpg", cloud: "vows/heirloom/first-date" },
+    proposal: { local: "/assets/photos/proposal.jpg", cloud: "vows/heirloom/proposal" },
+    weddingDay: { local: "/assets/photos/prewedding-green.jpg", cloud: "vows/heirloom/prewedding-green" },
+    preweddingBlackCream: { local: "/assets/photos/prewedding-black-cream.jpg", cloud: "vows/heirloom/prewedding-black-cream" },
+    preweddingGreen: { local: "/assets/photos/prewedding-green.jpg", cloud: "vows/heirloom/prewedding-green" },
+    preweddingBurgundy: { local: "/assets/photos/prewedding-burgundy-suit.jpg", cloud: "vows/heirloom/prewedding-burgundy" },
+    preweddingTraditional: { local: "/assets/photos/prewedding-burgundy-traditional.jpg", cloud: "vows/heirloom/prewedding-traditional" },
+    saveTheDate: { local: "/assets/photos/save-the-date-couple.webp", cloud: "vows/heirloom/save-the-date" },
   },
 
   story: [
-    { date: "September 2019", title: "Where we met", text: "A friend’s birthday dinner in Ibadan, laughter over jollof rice and small chops, and a conversation neither of us wanted to end. Michael walked Deborah to her car that night and asked for her number. Three days later, we had our first proper date.", photoKey: "met" },
-    { date: "December 2019", title: "Our first date", text: "Michael booked a quiet corner table at a small restaurant in Bodija — white tablecloths, candlelight, and a menu neither of us quite understood. Deborah ordered the safest dish on it, Michael ordered the strangest, and we ended up sharing both. We stayed long after dessert, talking until the staff began stacking chairs around us.", photoKey: "firstDate" },
-    { date: "June 2026", title: "The proposal", text: "Michael planned a quiet Sunday lunch at his parents’ home, then disappeared into the garden. When Deborah followed, the fairy lights were already on, her favourite songs were playing softly, and both families were watching from the veranda. He spoke about the seven years since that birthday dinner, got halfway through his speech, gave up on the words and simply asked. She said yes before he finished.", photoKey: "proposal" },
-    { date: "February 2027", title: "The wedding", text: "On the morning of 20 February 2027, the people who shaped us will gather at The White Chapel — our parents, our siblings, and the friends who held every chapter of this story. We will say our vows at ten, celebrate at noon, and dance long after the sun sets. After all this time, the only thing missing is you.", photoKey: "weddingDay" },
+    {
+      date: "The beginning",
+      title: "Where it began",
+      text: [
+        "It began at a birthday celebration. As the evening came to an end, they exchanged contact details, giving them a reason to continue the conversation beyond the party. What followed were sweet messages, late-night conversations, laughter, and a growing friendship that slowly blossomed into love.",
+        "With every conversation, they discovered more reasons to appreciate one another, and their hearts became increasingly connected. What started as a chance meeting at a birthday celebration turned into a beautiful journey of love, friendship, understanding, and shared dreams. Neither could have imagined that attending that birthday party would lead them to the person they would eventually call their forever.",
+        "And today, their story continues — not just as two people who met by chance, but as two hearts who found love and chose to build a lifetime together.",
+      ],
+      photoKey: "met",
+    },
+    {
+      date: "The first date",
+      title: "Our first date",
+      text: [
+        "After their unexpected meeting and the beautiful connection that followed, they finally decided to go on their first official date. Excited and a little nervous, they both looked forward to spending time together away from the noise of everyday life.",
+        "He planned a lovely outdoor picnic, complete with flowers, soft music, delicious treats, and a cozy setting beneath the evening sky. When she arrived, his face lit up, and for a moment, he forgot everything he had planned to say. She smiled at him, and the nervousness between them slowly melted away.",
+        "They spent the afternoon talking, laughing, sharing stories about their childhood, dreams, family, and the things that mattered most to them. They teased each other, took cute pictures, and enjoyed the simple joy of being in each other's company. What was meant to be just a first date became a moment neither of them wanted to end.",
+        "As the sun began to set, they sat close together, sharing quiet moments and stealing glances. Somewhere between the laughter, the conversations, and the warmth of being together, they realized that what they were building was something special.",
+        "That first date wasn't just an outing; it was the beginning of countless memories, a deeper friendship, and a love that would eventually lead them to forever.",
+      ],
+      photoKey: "firstDate",
+    },
+    {
+      date: "The proposal",
+      title: "The proposal",
+      text: [
+        "Simeon planned a moment she would never forget — a room filled with roses, candlelight and the words she had been waiting to hear. There were nerves, happy tears, and a question that had been on his heart for a long time. Janet said yes.",
+      ],
+      photoKey: "proposal",
+    },
+    {
+      date: "20 February 2027",
+      title: "The wedding",
+      text: [
+        "On Saturday, 20 February 2027, Simeon and Janet will gather their families and friends in Ibadan to celebrate the beginning of their married life. They would love for you to be there.",
+      ],
+      photoKey: "weddingDay",
+    },
   ],
 
   events: [
     {
+      label: "Traditional wedding",
+      name: "Richbam Junction",
+      time: "8:00 AM",
+      address: "Alao-Akala Expressway, Oluyole, Ibadan",
+      fullAddress:
+        "Richbam Junction, Alao-Akala Expressway, Oluyole, Ibadan, Oyo State, Nigeria",
+      startISO: "2027-02-20T08:00:00+01:00",
+      endISO: "2027-02-20T10:30:00+01:00",
+      photoKey: "venue",
+    },
+    {
       label: "Church wedding",
-      name: "The White Chapel",
-      time: "10:00 AM",
-      address: "14 Bodija Road, Ibadan",
-      fullAddress: "The White Chapel, 14 Bodija Road, Ibadan, Oyo State, Nigeria",
-      coords: { lat: 7.4305, lng: 3.9096 },
-      photoKey: "church",
+      name: "Living Faith Church",
+      time: "11:00 AM",
+      address: "Akala Express, Ibadan",
+      fullAddress: "Living Faith Church, Akala Express, Ibadan, Oyo State, Nigeria",
+      startISO: "2027-02-20T11:00:00+01:00",
+      endISO: "2027-02-20T12:00:00+01:00",
+      photoKey: "churchCard",
     },
     {
       label: "Reception",
-      name: "The Grand Atrium",
+      name: "Richbam Junction",
       time: "12:00 PM",
-      address: "3 Jericho GRA, Ibadan",
-      fullAddress: "The Grand Atrium, 3 Jericho GRA, Ibadan, Oyo State, Nigeria",
-      coords: { lat: 7.4087, lng: 3.8812 },
-      photoKey: "atrium",
+      address: "Alao-Akala Expressway, Oluyole, Ibadan",
+      fullAddress:
+        "Richbam Junction, Alao-Akala Expressway, Oluyole, Ibadan, Oyo State, Nigeria",
+      startISO: "2027-02-20T12:00:00+01:00",
+      endISO: "2027-02-20T17:00:00+01:00",
+      photoKey: "venue",
     },
   ],
 
-  programme: [
-    { title: "Guests arrive", time: "9:30 AM" },
-    { title: "The ceremony", time: "10:00 AM" },
-    { title: "Photographs", time: "11:30 AM" },
-    { title: "Reception", time: "12:00 PM" },
-    { title: "Dinner & toasts", time: "2:00 PM" },
-    { title: "First dance", time: "3:30 PM" },
-  ],
-
   dress: {
-    headline: "Formal · Blush & white",
-    text: "Gowns and suits in soft blush, white or silver.",
+    eyebrow: "Aso Ebi",
+    title: "Dress Code",
+    intro:
+      "We ask that men wear a native outfit — agbada, dansiki or sokoto — or a suit in blush pink or cream. Women are encouraged to wear a gele, iro and buba, or an evening gown in blush pink or cream.",
+    guide:
+      "To help us capture consistent photos, please dress in our two-colour palette below. Kindly avoid neon colours and all-white.",
+    palette: [
+      { name: "Blush pink", color: "#e7b4b8" },
+      { name: "Cream", color: "#f3e8d5" },
+    ],
   },
 
   gallery: [
-    { photoKey: "hero", caption: "The walk", alt: "Deborah and Michael walking hand in hand along a tree-lined path at golden hour" },
-    { photoKey: "bouquet", caption: "Her bouquet", alt: "Deborah’s white rose and eucalyptus bouquet" },
-    { photoKey: "rings", caption: "The rings", alt: "Gold wedding rings on ivory satin" },
-    { photoKey: "cake", caption: "The cake", alt: "Four-tier white and gold wedding cake" },
-    { photoKey: "dinner", caption: "Dinner", alt: "A place setting with gold cutlery and olive leaves" },
-    { photoKey: "atrium", caption: "The atrium", alt: "The reception ballroom set for dinner under chandeliers" },
+    { photoKey: "preweddingTraditional", caption: "Traditional colours", alt: "Simeon and Janet in burgundy traditional attire" },
+    { photoKey: "preweddingBlackCream", caption: "The shoot", alt: "Simeon and Janet in black and cream" },
+    { photoKey: "preweddingGreen", caption: "In green", alt: "Simeon and Janet in emerald green" },
+    { photoKey: "preweddingBurgundy", caption: "Burgundy", alt: "Simeon and Janet in burgundy suits" },
+    { photoKey: "firstDate", caption: "Our first date", alt: "Simeon and Janet at their first date picnic" },
+    { photoKey: "proposal", caption: "She said yes", alt: "Simeon proposing to Janet beneath a Will You Marry Me sign" },
   ],
 
   music: { label: "Our song", src: "/assets/audio/our-song.mp3" },
 
-  invitation: { slug: "deborah-michael" },
+  invitation: { slug: "simeon-janet" },
 };

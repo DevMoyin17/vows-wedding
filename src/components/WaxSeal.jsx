@@ -1,5 +1,5 @@
-/** The gold DM wax seal from the design. */
-export function WaxSeal({ size = 64, className = "", alt = "Deborah & Michael wax seal" }) {
+/** The gold wax seal from the design. */
+export function WaxSeal({ size = 64, className = "", alt = "Simeon & Janet wax seal" }) {
   return (
     <img
       src="/assets/renders/wax-seal.webp"

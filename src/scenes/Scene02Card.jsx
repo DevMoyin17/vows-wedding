@@ -26,7 +26,7 @@ export function Scene02Card({ onNext }) {
             <Photo photo={wedding.photos.hero} alt="" width={360} height={480} />
           </motion.figure>
           <motion.figure className="print print--small" variants={child}>
-            <Photo photo={wedding.photos.rings} alt="" width={200} height={200} />
+            <Photo photo={wedding.photos.detail} alt="" width={200} height={200} />
           </motion.figure>
         </div>
 
@@ -34,7 +34,7 @@ export function Scene02Card({ onNext }) {
           <div className="invite-card__portrait">
             <Photo
               photo={wedding.photos.hero}
-              alt="Deborah and Michael walking hand in hand"
+              alt="Simeon and Janet in black and cream"
               width={160}
               height={200}
               crop="fill"

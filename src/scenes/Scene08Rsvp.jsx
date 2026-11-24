@@ -146,7 +146,7 @@ export function Scene08Rsvp({ onNext, onDetails }) {
             Add to calendar
           </button>
           <button type="button" className="vbtn vbtn--white reply-done__cta" onClick={onDetails}>
-            View the programme
+            View the locations
           </button>
           <button type="button" className="vbtn vbtn--ghost" onClick={() => setStatus("form")}>
             Change my reply
@@ -194,12 +194,12 @@ export function Scene08Rsvp({ onNext, onDetails }) {
           <WaxSeal size={64} className="reply-done__seal" />
           <p className="type-title">RSVPs are now closed</p>
           <p className="type-body-lg text-secondary reply-done__line">
-            The couple are finalising numbers with the venue. If you need to reach them, message Tobi
-            (best man) on WhatsApp.
+            The couple are finalising numbers with the venue. If you need to reach them, message
+            the couple on WhatsApp.
           </p>
         </motion.div>
         <div className="reply-done__actions">
-          <a className="vbtn vbtn--white reply-done__cta" href="https://wa.me/2348000000000" target="_blank" rel="noreferrer">
+          <a className="vbtn vbtn--white reply-done__cta" href="https://wa.me/2349035517399" target="_blank" rel="noreferrer">
             Message on WhatsApp
           </a>
         </div>

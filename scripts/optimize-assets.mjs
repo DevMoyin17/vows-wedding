@@ -75,18 +75,15 @@ const PHOTO_VARIANTS = [
 ];
 
 const PHOTOS = [
-  "gallery-1.jpg",
-  "gallery-2.jpg",
-  "gallery-3.jpg",
-  "gallery-4.jpg",
-  "gallery-5.jpg",
-  "gallery-6.jpg",
-  "ms-first-date.jpg",
-  "ms-met.jpg",
-  "ms-proposal.jpg",
-  "ms-rings.jpg",
-  "venue-chapel.jpg",
-  "venue-church.jpg",
+  "first-date.jpg",
+  "proposal.jpg",
+  "prewedding-burgundy-traditional.jpg",
+  "prewedding-black-cream.jpg",
+  "prewedding-green.jpg",
+  "prewedding-burgundy-suit.jpg",
+  "living-faith-church.jpg",
+  "living-faith-church-card.jpg",
+  "richbam-event-place.jpg",
 ];
 
 async function optimisePhotos() {
@@ -179,12 +176,16 @@ async function optimiseIllustrations() {
 
 /* ------------------------------------------------------ save-the-date hero */
 async function saveDateHero() {
-  const src = path.join(legacy, "photos/first-dance.jpg");
+  const src = path.join(originals, "assets/photos/prewedding-black-cream.jpg");
   if (!existsSync(src)) return;
-  const out = "assets/photos/save-the-date.webp";
+  const out = "assets/photos/save-the-date-couple.webp";
   await ensureDir(pub(out));
+
+  // The portrait fills a phone screen naturally and is cropped to the couple
+  // on wider screens by the scene's object-fit cover.
   const info = await sharp(src)
-    .resize({ width: 1536, withoutEnlargement: true })
+    .resize({ width: 1080 })
+    .modulate({ brightness: 0.82, saturation: 0.92 })
     .webp({ quality: 84, effort: 6, smartSubsample: true })
     .toFile(pub(out));
   console.log(`  ${out} (${fmt(info.size)})`);
@@ -310,10 +311,10 @@ async function brandIcons() {
   await fs.writeFile(pub("favicon.ico"), Buffer.concat([header, ...entries, ...pngs]));
 
   const manifest = {
-    name: "Deborah & Michael — 20 February 2027",
-    short_name: "D & M",
+    name: "VOWS - Digital Wedding Invitations",
+    short_name: "VOWS",
     description:
-      "The wedding of Deborah and Michael — Saturday, 20 February 2027, Ibadan. View the invitation and reply.",
+      "Cinematic digital wedding invitations with an animated envelope, love story, countdown, gallery, music and RSVP.",
     start_url: "/",
     display: "standalone",
     background_color: "#f5ebeb",
@@ -340,7 +341,7 @@ async function ogImage() {
   const photoX = 640;
   const photoW = W - photoX;
 
-  const photoSrc = path.join(originals, "assets/photos/gallery-1.jpg");
+  const photoSrc = path.join(originals, "assets/photos/prewedding-black-cream.jpg");
   if (!existsSync(photoSrc)) return;
 
   const photo = await sharp(photoSrc)
@@ -364,9 +365,9 @@ async function ogImage() {
       <text x="100" y="150" font-family="Segoe UI, Arial, sans-serif" font-size="15"
         letter-spacing="3.4" fill="#7e4f46">TOGETHER WITH THEIR FAMILIES</text>
       <text x="96" y="266" font-family="Georgia, 'Times New Roman', serif" font-size="82"
-        fill="#1c1c1c">Deborah</text>
+        fill="#1c1c1c">Simeon</text>
       <text x="96" y="354" font-family="Georgia, 'Times New Roman', serif" font-size="82"
-        fill="#1c1c1c"><tspan font-style="italic" fill="#b8933a">&amp;</tspan> Michael</text>
+        fill="#1c1c1c"><tspan font-style="italic" fill="#b8933a">&amp;</tspan> Janet</text>
       <line x1="100" y1="408" x2="400" y2="408" stroke="#b8933a" stroke-width="1" opacity="0.6"/>
       <text x="100" y="456" font-family="Segoe UI, Arial, sans-serif" font-size="18"
         letter-spacing="2.2" fill="#1c1c1c">SATURDAY · 20 FEBRUARY 2027</text>

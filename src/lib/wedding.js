@@ -120,19 +120,17 @@ export const wedding = {
     },
   ],
 
-  programme: [
-    { title: "Guests arrive", time: "7:30 AM" },
-    { title: "Traditional wedding", time: "8:00 AM" },
-    { title: "Move to church", time: "10:30 AM" },
-    { title: "Church wedding", time: "11:00 AM" },
-    { title: "Reception", time: "12:00 PM" },
-    { title: "Lunch & toasts", time: "2:00 PM" },
-    { title: "First dance", time: "4:00 PM" },
-  ],
-
   dress: {
-    headline: "Formal · Blush pink & cream",
-    text: "Gowns and suits in blush pink, cream or soft neutrals.",
+    eyebrow: "Aso Ebi",
+    title: "Dress Code",
+    intro:
+      "We ask that men wear a native outfit — agbada, dansiki or sokoto — or a suit in blush pink or cream. Women are encouraged to wear a gele, iro and buba, or an evening gown in blush pink or cream.",
+    guide:
+      "To help us capture consistent photos, please dress in our two-colour palette below. Kindly avoid neon colours and all-white.",
+    palette: [
+      { name: "Blush pink", color: "#e7b4b8" },
+      { name: "Cream", color: "#f3e8d5" },
+    ],
   },
 
   gallery: [

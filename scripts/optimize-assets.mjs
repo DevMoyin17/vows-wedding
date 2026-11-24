@@ -176,12 +176,16 @@ async function optimiseIllustrations() {
 
 /* ------------------------------------------------------ save-the-date hero */
 async function saveDateHero() {
-  const src = path.join(legacy, "photos/first-dance.jpg");
+  const src = path.join(originals, "assets/photos/prewedding-black-cream.jpg");
   if (!existsSync(src)) return;
   const out = "assets/photos/save-the-date.webp";
   await ensureDir(pub(out));
+
+  // The portrait fills a phone screen naturally and is cropped to the couple
+  // on wider screens by the scene's object-fit cover.
   const info = await sharp(src)
-    .resize({ width: 1536, withoutEnlargement: true })
+    .resize({ width: 1080 })
+    .modulate({ brightness: 0.82, saturation: 0.92 })
     .webp({ quality: 84, effort: 6, smartSubsample: true })
     .toFile(pub(out));
   console.log(`  ${out} (${fmt(info.size)})`);

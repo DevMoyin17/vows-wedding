@@ -146,7 +146,7 @@ export function Scene08Rsvp({ onNext, onDetails }) {
             Add to calendar
           </button>
           <button type="button" className="vbtn vbtn--white reply-done__cta" onClick={onDetails}>
-            View the programme
+            View the venues
           </button>
           <button type="button" className="vbtn vbtn--ghost" onClick={() => setStatus("form")}>
             Change my reply

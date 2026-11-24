@@ -52,9 +52,9 @@ export function Scene03SaveDate() {
         viewport={inView}
         variants={{ animate: { transition: { staggerChildren: 0.1, delayChildren: 0.12 } } }}
       >
-        <motion.p className="save-date__kicker" variants={child}>
-          {married ? "The celebration" : "Until curtain up"}
-        </motion.p>
+        <motion.h1 className="save-date__title" variants={child}>
+          {married ? "The Celebration" : "The Countdown"}
+        </motion.h1>
 
         {married ? (
           <motion.p className="save-date__married" variants={child}>

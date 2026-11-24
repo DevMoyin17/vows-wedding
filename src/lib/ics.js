@@ -23,7 +23,7 @@ export function downloadWeddingIcs() {
         `DTEND:${end}`,
         `SUMMARY:${wedding.couple.first} & ${wedding.couple.second} — ${event.label}`,
         `LOCATION:${event.fullAddress}`,
-        `DESCRIPTION:${event.time}. ${wedding.dress.headline}.`,
+        `DESCRIPTION:${event.time}. Dress code: ${wedding.dress.palette.map((colour) => colour.name).join(" & ")}.`,
         "END:VEVENT",
       ].join("\r\n");
     })

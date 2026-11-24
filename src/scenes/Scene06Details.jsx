@@ -8,7 +8,7 @@ import { FloralEdge } from "../components/FloralEdge";
 
 /**
  * Scene 06 — Detail cards · Heirloom Lace.
- * Lace-bordered venue cards, order of the day card, dress code card.
+ * Lace-bordered venue cards and the Aso Ebi dress code card.
  */
 export function Scene06Details() {
   const reduced = useReducedMotion();
@@ -21,7 +21,7 @@ export function Scene06Details() {
 
       <motion.header className="scene-head" variants={riseChild} initial="initial" whileInView="animate" viewport={inView}>
         <p className="kicker">The details</p>
-        <h1 className="type-display">The celebrations</h1>
+        <h1 className="type-display">Venues</h1>
       </motion.header>
 
       <motion.div
@@ -60,25 +60,20 @@ export function Scene06Details() {
           </motion.article>
         ))}
 
-        <motion.article className="programme-card" variants={child} whileHover={reduced ? undefined : { y: -4 }}>
-          <span className="programme-card__stitch" aria-hidden="true" />
-          <h2 className="type-title">Order of the day</h2>
-          <ul className="programme-list">
-            {wedding.programme.map((row) => (
-              <li className="programme-row" key={row.title}>
-                <span className="type-body-strong programme-row__title">{row.title}</span>
-                <span className="programme-row__dots" aria-hidden="true" />
-                <span className="type-small text-secondary programme-row__time">{row.time}</span>
-              </li>
-            ))}
-          </ul>
-        </motion.article>
-
-        <motion.article className="dress-card" variants={child} whileHover={reduced ? undefined : { y: -4 }}>
+        <motion.article className="dress-card dress-card--code" variants={child} whileHover={reduced ? undefined : { y: -4 }}>
           <span className="dress-card__stitch" aria-hidden="true" />
-          <p className="type-gold-italic">Dress code</p>
-          <h2 className="type-title">{wedding.dress.headline}</h2>
-          <p className="type-small text-secondary">{wedding.dress.text}</p>
+          <p className="dress-card__eyebrow">{wedding.dress.eyebrow}</p>
+          <h2 className="dress-card__title">{wedding.dress.title}</h2>
+          <p className="dress-card__copy">{wedding.dress.intro}</p>
+          <p className="dress-card__copy">{wedding.dress.guide}</p>
+          <div className="dress-palette" aria-label="Colour palette: blush pink and cream">
+            {wedding.dress.palette.map((colour) => (
+              <div className="dress-swatch" key={colour.name}>
+                <span className="dress-swatch__chip" style={{ background: colour.color }} aria-hidden="true" />
+                <span className="dress-swatch__label">{colour.name}</span>
+              </div>
+            ))}
+          </div>
         </motion.article>
       </motion.div>
     </section>

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { wedding } from "../lib/wedding";
 import { inView, riseChild, reducedChild } from "../lib/motion";
-import { Photo } from "../components/Photo";
 import { FloralEdge } from "../components/FloralEdge";
 
 function StoryCard({ item, child, reduced }) {
@@ -17,20 +16,9 @@ function StoryCard({ item, child, reduced }) {
       whileHover={reduced ? undefined : { y: -4 }}
     >
       <span className="letter-card__stitch" aria-hidden="true" />
-      <div className="letter-card__top">
-        <Photo
-          photo={wedding.photos[item.photoKey]}
-          alt=""
-          width={88}
-          height={88}
-          className="letter-card__photo"
-          crop="fill"
-          gravity="faces"
-        />
-        <div className="letter-card__heading">
-          <p className="letter-card__date">{item.date}</p>
-          <h2 className="letter-card__title">{item.title}</h2>
-        </div>
+      <div className="letter-card__heading">
+        <p className="letter-card__date">{item.date}</p>
+        <h2 className="letter-card__title">{item.title}</h2>
       </div>
       <div className="letter-card__body">
         {visible.map((paragraph, i) => (
@@ -73,7 +61,7 @@ export function Scene04Letters() {
         viewport={inView}
       >
         <p className="kicker">Letters from</p>
-        <h1 className="type-display">Our story</h1>
+        <h1 className="type-display">Our Love story</h1>
         <p className="story-intro">
           {wedding.storyIntro}
         </p>

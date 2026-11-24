@@ -78,7 +78,7 @@ export function Lightbox({ items, index, onClose, onIndex }) {
             transition={{ type: "spring", stiffness: 260, damping: 24 }}
           >
             <Photo photo={item.photo} alt={item.alt} width={1080} className="lightbox__img" loading="eager" crop="limit" onLoad={() => setLoaded(true)} />
-            <p className="lightbox__caption type-subheading-italic">{item.caption}</p>
+            {item.caption && <p className="lightbox__caption type-subheading-italic">{item.caption}</p>}
           </motion.div>
           <button className="lightbox__nav lightbox__nav--prev" onClick={prev} aria-label="Previous photo">
             <svg width="22" height="16" viewBox="0 0 22 16" aria-hidden="true">

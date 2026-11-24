@@ -1,12 +1,14 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { wedding } from "../lib/wedding";
+import { inView, riseChild } from "../lib/motion";
 import { Photo } from "../components/Photo";
 import { FloralEdge } from "../components/FloralEdge";
 import { Lightbox } from "../components/Lightbox";
 
 /**
  * Scene 07 — Our Gallery · Heirloom Lace.
- * A continuous marquee of keepsake prints; tap one for the lightbox.
+ * A continuous marquee of couple photographs; tap one for the lightbox.
  */
 export function Scene07Gallery() {
   const [lb, setLb] = useState(null);
@@ -14,7 +16,6 @@ export function Scene07Gallery() {
   const items = wedding.gallery.map((g) => ({
     photo: wedding.photos[g.photoKey],
     alt: g.alt,
-    caption: g.caption,
     photoKey: g.photoKey,
   }));
 
@@ -22,7 +23,16 @@ export function Scene07Gallery() {
     <section className="scene scene-gallery" aria-label="Our gallery">
       <FloralEdge corner="tl" size={110} />
       <FloralEdge corner="br" size={150} />
-      <h1 className="visually-hidden">Our Gallery</h1>
+
+      <motion.header
+        className="scene-head"
+        variants={riseChild}
+        initial="initial"
+        whileInView="animate"
+        viewport={inView}
+      >
+        <h1 className="type-display">Our Gallery</h1>
+      </motion.header>
 
       <div className="gallery-marquee">
         <div className="gallery-track">
@@ -38,7 +48,7 @@ export function Scene07Gallery() {
                   key={`${copy}-${g.photoKey}`}
                   className="keepsake"
                   onClick={() => setLb(i)}
-                  aria-label={`Open ${g.caption}`}
+                  aria-label={`View ${g.alt}`}
                   tabIndex={copy ? -1 : undefined}
                 >
                   <span className="keepsake__printwrap">
@@ -52,7 +62,6 @@ export function Scene07Gallery() {
                       gravity="faces"
                     />
                   </span>
-                  <span className="keepsake__caption">{g.caption}</span>
                 </button>
               ))}
             </div>

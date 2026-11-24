@@ -13,7 +13,8 @@ function StoryCard({ item, child, reduced }) {
     <motion.li
       className="letter-card"
       variants={child}
-      whileHover={reduced ? undefined : { y: -4 }}
+      whileHover={reduced ? undefined : { y: -6 }}
+      transition={{ type: "spring", stiffness: 280, damping: 22 }}
     >
       <span className="letter-card__stitch" aria-hidden="true" />
       <div className="letter-card__heading">

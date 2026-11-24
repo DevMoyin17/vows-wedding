@@ -21,7 +21,7 @@ export function Scene06Details() {
 
       <motion.header className="scene-head" variants={riseChild} initial="initial" whileInView="animate" viewport={inView}>
         <p className="kicker">The details</p>
-        <h1 className="type-display">Venues</h1>
+        <h1 className="type-display">Locations</h1>
       </motion.header>
 
       <motion.div
@@ -36,7 +36,9 @@ export function Scene06Details() {
             className="venue-card"
             key={`${e.label}-${e.name}`}
             variants={child}
-            whileHover={reduced ? undefined : { y: -4 }}
+            whileHover={reduced ? undefined : { y: -7, rotate: -0.35 }}
+            whileTap={reduced ? undefined : { scale: 0.99 }}
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
           >
             <span className="venue-card__stitch" aria-hidden="true" />
             <Photo
@@ -60,7 +62,13 @@ export function Scene06Details() {
           </motion.article>
         ))}
 
-        <motion.article className="dress-card dress-card--code" variants={child} whileHover={reduced ? undefined : { y: -4 }}>
+        <motion.article
+          className="dress-card dress-card--code"
+          variants={child}
+          whileHover={reduced ? undefined : { y: -7, rotate: 0.35 }}
+          whileTap={reduced ? undefined : { scale: 0.99 }}
+          transition={{ type: "spring", stiffness: 260, damping: 20 }}
+        >
           <span className="dress-card__stitch" aria-hidden="true" />
           <p className="dress-card__eyebrow">{wedding.dress.eyebrow}</p>
           <h2 className="dress-card__title">{wedding.dress.title}</h2>

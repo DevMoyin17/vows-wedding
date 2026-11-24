@@ -973,7 +973,7 @@
 /* ------------------------------------------------------ scene 07 · gallery -- */
 
 .scene-gallery {
-  padding: calc(104px + env(safe-area-inset-top)) 0 calc(120px + env(safe-area-inset-bottom));
+  padding: 0 0 calc(120px + env(safe-area-inset-bottom));
 }
 
 .gallery-marquee {
@@ -1014,13 +1014,18 @@
 .keepsake {
   display: grid;
   gap: 0;
-  padding: 8px 8px 0;
+  padding: 8px;
   background: var(--color-bg-surface);
   border: 1px solid var(--color-border);
   border-radius: 6px;
   box-shadow: var(--elev-card);
   text-align: center;
+  transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
 }
+@media (hover: hover) {
+  .keepsake:hover { transform: translateY(-6px); }
+}
+.keepsake:active { transform: scale(0.99); }
 .keepsake__photo {
   width: 100%;
   aspect-ratio: 137 / 178;
@@ -1681,7 +1686,10 @@
 @media (prefers-reduced-motion: reduce) {
   .wax-seal,
   .type-script-gold { animation: none; }
+  .keepsake,
   .keepsake__printwrap { transition: none; }
+  .keepsake:hover,
+  .keepsake:active { transform: none; }
 }
 
 /* ================================================ save the date · cinema === */

@@ -102,8 +102,8 @@ function MarketingNav() {
   );
 }
 
-function PhoneMockup({ image, alt, className = "", compact = false }) {
-  return (
+function PhoneMockup({ image, alt, className = "", compact = false, href }) {
+  const phone = (
     <div className={`mkt-phone${compact ? " mkt-phone--compact" : ""}${className ? ` ${className}` : ""}`}>
       <div className="mkt-phone__screen">
         <img src={image} alt={alt} loading={compact ? "lazy" : "eager"} />
@@ -125,6 +125,13 @@ function PhoneMockup({ image, alt, className = "", compact = false }) {
       </div>
       <span className="mkt-phone__notch" aria-hidden="true" />
     </div>
+  );
+
+  if (!href) return phone;
+  return (
+    <a className="mkt-phone-link" href={href} aria-label="Open the live VOWS invitation">
+      {phone}
+    </a>
   );
 }
 
@@ -154,7 +161,7 @@ function Hero() {
               Create your invitation <Icon name="arrow" size={17} />
             </a>
             <a className="mkt-btn mkt-btn--ghost" href={INVITATION_BASE}>
-              Explore a live invitation
+              Open the live invitation
             </a>
           </div>
           <p className="mkt-hero__note">No apps for guests. One link for every detail.</p>
@@ -169,6 +176,7 @@ function Hero() {
           <PhoneMockup
             image="/assets/photos/prewedding-black-cream.jpg"
             alt="A VOWS invitation featuring Simeon and Janet in black and cream"
+            href={INVITATION_BASE}
           />
           <div className="mkt-hero__seal" aria-hidden="true">
             <img src="/assets/marketing/seal-sj.png" alt="" />
@@ -455,6 +463,7 @@ function LivePreview() {
             compact
             image="/assets/photos/prewedding-green.jpg"
             alt="A VOWS invitation preview featuring Simeon and Janet in green"
+            href={INVITATION_BASE}
           />
           <div className="mkt-preview__note">
             <span className="mkt-preview__dot" />

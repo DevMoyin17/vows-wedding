@@ -1863,3 +1863,22 @@
     border-radius: 20px;
   }
 }
+
+/* ======================================================= 3D entrance === */
+/* Scene01Entrance3D: the envelope is a WebGL scene filling the stage; the
+   heading, button and music line sit over it exactly as in the image
+   version. Until the first frame is drawn the stage shows the satin tone. */
+.scene-entrance--3d .env-stage { background: var(--e3d-satin, #e2bdbf); }
+.e3d-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.e3d-stage .e3d-canvas {
+  position: absolute !important;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+.scene-entrance--3d[data-ready] .e3d-canvas { opacity: 1; }
+.scene-entrance--3d .scene-entrance__open:disabled { opacity: 0.55; cursor: progress; }

@@ -10,11 +10,13 @@
     "assets": "node scripts/optimize-assets.mjs"
   },
   "dependencies": {
+    "@react-three/fiber": "^9.8.2",
     "@supabase/supabase-js": "^2.119.1",
     "framer-motion": "^14.14.0",
     "gsap": "^3.13.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "three": "^0.187.0"
   },
   "devDependencies": {
     "@breezystack/lamejs": "^1.2.7",

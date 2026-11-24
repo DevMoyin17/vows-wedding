@@ -59,7 +59,8 @@ The public VOWS site lives in `src/marketing/`:
 - `StartPage.jsx` — the founding-invitation enquiry form. It opens WhatsApp with the
   couple's details; there is no payment backend yet.
 - `SimplePage.jsx` — privacy and terms placeholders.
-- `src/styles/marketing.css` — the marketing design system, separate from the invitation.
+- `src/styles/landing.css` — the editorial cream/plum/wine landing design.
+- `src/styles/marketing.css` — the shared enquiry and legal-page styles.
 
 The contact link and enquiry form use `CONTACT_WHATSAPP` in `src/marketing/content.js`.
 Replace that with the VOWS sales number before publishing the page widely.

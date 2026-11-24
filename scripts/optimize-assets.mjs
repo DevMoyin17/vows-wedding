@@ -75,18 +75,15 @@ const PHOTO_VARIANTS = [
 ];
 
 const PHOTOS = [
-  "gallery-1.jpg",
-  "gallery-2.jpg",
-  "gallery-3.jpg",
-  "gallery-4.jpg",
-  "gallery-5.jpg",
-  "gallery-6.jpg",
-  "ms-first-date.jpg",
-  "ms-met.jpg",
-  "ms-proposal.jpg",
-  "ms-rings.jpg",
-  "venue-chapel.jpg",
-  "venue-church.jpg",
+  "first-date.jpg",
+  "proposal.jpg",
+  "prewedding-burgundy-traditional.jpg",
+  "prewedding-black-cream.jpg",
+  "prewedding-green.jpg",
+  "prewedding-burgundy-suit.jpg",
+  "living-faith-church.jpg",
+  "living-faith-church-card.jpg",
+  "richbam-event-place.jpg",
 ];
 
 async function optimisePhotos() {
@@ -340,7 +337,7 @@ async function ogImage() {
   const photoX = 640;
   const photoW = W - photoX;
 
-  const photoSrc = path.join(originals, "assets/photos/gallery-1.jpg");
+  const photoSrc = path.join(originals, "assets/photos/prewedding-black-cream.jpg");
   if (!existsSync(photoSrc)) return;
 
   const photo = await sharp(photoSrc)

@@ -438,25 +438,6 @@
 .scene-entrance__music .pill__bars i:nth-child(3) { height: 8.8px; }
 .scene-entrance__music .pill__bars i:nth-child(4) { height: 11.2px; }
 
-.scene-entrance__date {
-  position: absolute;
-  z-index: 2;
-  left: 0;
-  right: 0;
-  top: 94.31%;
-  margin: 0;
-  text-align: center;
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: clamp(7px, 2.82cqw, 12px);
-  line-height: 16px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-  transition: opacity 0.35s ease;
-}
-[data-phase]:not([data-phase="idle"]) .scene-entrance__date { opacity: 0; }
-
 /* ------------------------------------------------------- scene 02 · card --- */
 
 .scene-card {
@@ -701,6 +682,21 @@
   line-height: 24px;
   color: var(--color-text-secondary);
 }
+.letter-card__body p { margin: 0; }
+.letter-card__body p + p { margin-top: 12px; }
+.letter-card__more {
+  justify-self: start;
+  margin-top: -4px;
+  padding: 0;
+  color: var(--color-text-accent);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.letter-card__more:hover { opacity: 0.72; }
 
 /* --------------------------------------------------- scene 05 · calendar --- */
 
@@ -1498,8 +1494,6 @@
   .scene-entrance[data-bp="tablet"] .scene-entrance__open { min-width: 35.16cqh; height: 5.078cqh; font-size: 1.367cqh; letter-spacing: 0.027cqh; }
   .scene-entrance[data-bp="tablet"] .scene-entrance__music { font-size: 1.27cqh; line-height: 1.953cqh; gap: 0.78cqh; }
   .scene-entrance[data-bp="tablet"] .scene-entrance__music .pill__bars { width: 3.4375cqh; height: 3.4375cqh; padding: 0 0.9cqh; }
-  /* the date closes the CTA column: 712 + 28 + 16 + 52 + 16 + 35.2 + 16 */
-  .scene-entrance[data-bp="tablet"] .scene-entrance__date { top: 85.47%; font-size: 1.074cqh; line-height: 1.5625cqh; letter-spacing: 0.193cqh; }
 
   /* "Now playing" chip 225:5566 — x541 y24 h44 */
   .scene-entrance[data-bp="tablet"] .scene-entrance__chip { top: 2.34%; right: 3.125%; }
@@ -1523,9 +1517,8 @@
   .scene-entrance[data-bp="desktop"] .scene-entrance__cta { top: 78.67%; width: 66.67cqh; gap: 1.778cqh; }
   .scene-entrance[data-bp="desktop"] .scene-entrance__prompt { font-size: 2.667cqh; line-height: 3.556cqh; }
   .scene-entrance[data-bp="desktop"] .scene-entrance__open { min-width: 33.33cqh; height: 5.778cqh; font-size: 1.667cqh; letter-spacing: 0.0333cqh; }
-  .scene-entrance[data-bp="desktop"] .scene-entrance__music { font-size: 1.556cqh; line-height: 2.444cqh; gap: 1.333cqh; white-space: pre; }
+  .scene-entrance[data-bp="desktop"] .scene-entrance__music { font-size: 1.556cqh; line-height: 2.444cqh; gap: 1.333cqh; white-space: normal; text-align: center; }
   .scene-entrance[data-bp="desktop"] .scene-entrance__music .pill__bars { width: 3.911cqh; height: 3.911cqh; padding: 0 1cqh; }
-  .scene-entrance[data-bp="desktop"] .scene-entrance__date { display: none; }
 
   /* "Now playing" chip 225:5510 — x1179 y24 h44, from the frame's right edge */
   .scene-entrance[data-bp="desktop"] .env-stage {

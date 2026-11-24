@@ -1,173 +1,91 @@
 {
-  "/assets/photos/gallery-1.jpg": {
-    "width": 1024,
-    "height": 1536,
+  "/assets/photos/first-date.jpg": {
+    "width": 720,
+    "height": 790,
     "variants": [
       {
         "w": 360,
-        "src": "/assets/photos/gallery-1-xs.jpg"
-      },
-      {
-        "w": 720,
-        "src": "/assets/photos/gallery-1-md.jpg"
+        "src": "/assets/photos/first-date-xs.jpg"
       }
     ]
   },
-  "/assets/photos/gallery-2.jpg": {
-    "width": 1024,
-    "height": 1280,
+  "/assets/photos/proposal.jpg": {
+    "width": 720,
+    "height": 790,
     "variants": [
       {
         "w": 360,
-        "src": "/assets/photos/gallery-2-xs.jpg"
-      },
-      {
-        "w": 720,
-        "src": "/assets/photos/gallery-2-md.jpg"
+        "src": "/assets/photos/proposal-xs.jpg"
       }
     ]
   },
-  "/assets/photos/gallery-3.jpg": {
-    "width": 1024,
-    "height": 1280,
+  "/assets/photos/prewedding-burgundy-traditional.jpg": {
+    "width": 720,
+    "height": 790,
     "variants": [
       {
         "w": 360,
-        "src": "/assets/photos/gallery-3-xs.jpg"
-      },
-      {
-        "w": 720,
-        "src": "/assets/photos/gallery-3-md.jpg"
+        "src": "/assets/photos/prewedding-burgundy-traditional-xs.jpg"
       }
     ]
   },
-  "/assets/photos/gallery-4.jpg": {
-    "width": 1536,
-    "height": 1024,
+  "/assets/photos/prewedding-black-cream.jpg": {
+    "width": 720,
+    "height": 790,
     "variants": [
       {
         "w": 360,
-        "src": "/assets/photos/gallery-4-xs.jpg"
-      },
-      {
-        "w": 720,
-        "src": "/assets/photos/gallery-4-md.jpg"
-      },
-      {
-        "w": 1280,
-        "src": "/assets/photos/gallery-4-lg.jpg"
+        "src": "/assets/photos/prewedding-black-cream-xs.jpg"
       }
     ]
   },
-  "/assets/photos/gallery-5.jpg": {
-    "width": 1024,
-    "height": 1280,
+  "/assets/photos/prewedding-green.jpg": {
+    "width": 720,
+    "height": 790,
     "variants": [
       {
         "w": 360,
-        "src": "/assets/photos/gallery-5-xs.jpg"
-      },
-      {
-        "w": 720,
-        "src": "/assets/photos/gallery-5-md.jpg"
+        "src": "/assets/photos/prewedding-green-xs.jpg"
       }
     ]
   },
-  "/assets/photos/gallery-6.jpg": {
-    "width": 1024,
-    "height": 1280,
+  "/assets/photos/prewedding-burgundy-suit.jpg": {
+    "width": 720,
+    "height": 790,
     "variants": [
       {
         "w": 360,
-        "src": "/assets/photos/gallery-6-xs.jpg"
-      },
-      {
-        "w": 720,
-        "src": "/assets/photos/gallery-6-md.jpg"
+        "src": "/assets/photos/prewedding-burgundy-suit-xs.jpg"
       }
     ]
   },
-  "/assets/photos/ms-first-date.jpg": {
-    "width": 1024,
-    "height": 1280,
+  "/assets/photos/living-faith-church.jpg": {
+    "width": 720,
+    "height": 790,
     "variants": [
       {
         "w": 360,
-        "src": "/assets/photos/ms-first-date-xs.jpg"
-      },
-      {
-        "w": 720,
-        "src": "/assets/photos/ms-first-date-md.jpg"
+        "src": "/assets/photos/living-faith-church-xs.jpg"
       }
     ]
   },
-  "/assets/photos/ms-met.jpg": {
-    "width": 1024,
-    "height": 1536,
+  "/assets/photos/living-faith-church-card.jpg": {
+    "width": 720,
+    "height": 430,
     "variants": [
       {
         "w": 360,
-        "src": "/assets/photos/ms-met-xs.jpg"
-      },
-      {
-        "w": 720,
-        "src": "/assets/photos/ms-met-md.jpg"
+        "src": "/assets/photos/living-faith-church-card-xs.jpg"
       }
     ]
   },
-  "/assets/photos/ms-proposal.jpg": {
-    "width": 1024,
-    "height": 1280,
+  "/assets/photos/richbam-event-place.jpg": {
+    "width": 720,
+    "height": 581,
     "variants": [
       {
         "w": 360,
-        "src": "/assets/photos/ms-proposal-xs.jpg"
-      },
-      {
-        "w": 720,
-        "src": "/assets/photos/ms-proposal-md.jpg"
-      }
-    ]
-  },
-  "/assets/photos/ms-rings.jpg": {
-    "width": 1024,
-    "height": 1280,
-    "variants": [
-      {
-        "w": 360,
-        "src": "/assets/photos/ms-rings-xs.jpg"
-      },
-      {
-        "w": 720,
-        "src": "/assets/photos/ms-rings-md.jpg"
-      }
-    ]
-  },
-  "/assets/photos/venue-chapel.jpg": {
-    "width": 1536,
-    "height": 1024,
-    "variants": [
-      {
-        "w": 360,
-        "src": "/assets/photos/venue-chapel-xs.jpg"
-      },
-      {
-        "w": 720,
-        "src": "/assets/photos/venue-chapel-md.jpg"
-      },
-      {
-        "w": 1280,
-        "src": "/assets/photos/venue-chapel-lg.jpg"
-      }
-    ]
-  },
-  "/assets/photos/venue-church.jpg": {
-    "width": 736,
-    "height": 1308,
-    "variants": [
-      {
-        "w": 360,
-        "src": "/assets/photos/venue-church-xs.jpg"
+        "src": "/assets/photos/richbam-event-place-xs.jpg"
       }
     ]
   }

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { pathFor, sceneFromPath } from "./lib/routes";
 import { MAIN_SECTIONS, sectionFor } from "./lib/sections";
+import { wedding } from "./lib/wedding";
 import { TopBar } from "./components/TopBar";
 import { ExploreMenu } from "./components/ExploreMenu";
 import { ScrollProgress } from "./components/ScrollProgress";
@@ -49,6 +50,15 @@ export default function App() {
   const settling = useRef(initial > 1);
   const navigated = useRef(false);
   const scrollRaf = useRef(0);
+
+  // Keep the date out of the tab title until the invitation is opened.
+  useEffect(() => {
+    const names = `${wedding.couple.first} & ${wedding.couple.second}`;
+    document.title =
+      mode === "opening"
+        ? `${names} · You are invited`
+        : `${names} · ${wedding.dateLong.replace(/^[A-Za-z]+, /, "")}`;
+  }, [mode]);
 
   const stopScroll = useCallback(() => {
     if (scrollRaf.current) window.cancelAnimationFrame(scrollRaf.current);

@@ -34,7 +34,7 @@ export function Scene06Details() {
         {wedding.events.map((e) => (
           <motion.article
             className="venue-card"
-            key={e.name}
+            key={`${e.label}-${e.name}`}
             variants={child}
             whileHover={reduced ? undefined : { y: -4 }}
           >

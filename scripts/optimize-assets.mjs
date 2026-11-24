@@ -178,7 +178,7 @@ async function optimiseIllustrations() {
 async function saveDateHero() {
   const src = path.join(originals, "assets/photos/prewedding-black-cream.jpg");
   if (!existsSync(src)) return;
-  const out = "assets/photos/save-the-date.webp";
+  const out = "assets/photos/save-the-date-couple.webp";
   await ensureDir(pub(out));
 
   // The portrait fills a phone screen naturally and is cropped to the couple

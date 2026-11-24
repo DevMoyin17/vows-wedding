@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { wedding } from "../lib/wedding";
-import { inView, riseChild } from "../lib/motion";
 import { Photo } from "../components/Photo";
 import { FloralEdge } from "../components/FloralEdge";
 import { Lightbox } from "../components/Lightbox";
@@ -24,10 +22,7 @@ export function Scene07Gallery() {
     <section className="scene scene-gallery" aria-label="Our gallery">
       <FloralEdge corner="tl" size={110} />
       <FloralEdge corner="br" size={150} />
-
-      <motion.header className="scene-head" variants={riseChild} initial="initial" whileInView="animate" viewport={inView}>
-        <h1 className="type-display">Our Gallery</h1>
-      </motion.header>
+      <h1 className="visually-hidden">Our Gallery</h1>
 
       <div className="gallery-marquee">
         <div className="gallery-track">

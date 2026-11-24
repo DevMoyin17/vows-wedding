@@ -41,7 +41,7 @@ export const wedding = {
     preweddingGreen: { local: "/assets/photos/prewedding-green.jpg", cloud: "vows/heirloom/prewedding-green" },
     preweddingBurgundy: { local: "/assets/photos/prewedding-burgundy-suit.jpg", cloud: "vows/heirloom/prewedding-burgundy" },
     preweddingTraditional: { local: "/assets/photos/prewedding-burgundy-traditional.jpg", cloud: "vows/heirloom/prewedding-traditional" },
-    saveTheDate: { local: "/assets/photos/save-the-date.webp", cloud: "vows/heirloom/save-the-date" },
+    saveTheDate: { local: "/assets/photos/save-the-date-couple.webp", cloud: "vows/heirloom/save-the-date" },
   },
 
   story: [
@@ -140,8 +140,6 @@ export const wedding = {
     { photoKey: "preweddingBurgundy", caption: "Burgundy", alt: "Simeon and Janet in burgundy suits" },
     { photoKey: "firstDate", caption: "Our first date", alt: "Simeon and Janet at their first date picnic" },
     { photoKey: "proposal", caption: "She said yes", alt: "Simeon proposing to Janet beneath a Will You Marry Me sign" },
-    { photoKey: "church", caption: "The church", alt: "Living Faith Church, Akala Express, Ibadan" },
-    { photoKey: "venue", caption: "Richbam", alt: "Richbam Event Place, Alao-Akala Expressway, Ibadan" },
   ],
 
   music: { label: "Our song", src: "/assets/audio/our-song.mp3" },

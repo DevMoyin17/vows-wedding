@@ -3,14 +3,14 @@
    ========================================================================== */
 
 .mkt {
-  --mkt-cream: #f8f2eb;
-  --mkt-paper: #fffdf9;
-  --mkt-blush: #f2e2df;
-  --mkt-ink: #1e1a17;
-  --mkt-muted: #71665d;
-  --mkt-gold: #b8933a;
-  --mkt-rose: #7e4f46;
-  --mkt-line: rgba(30, 26, 23, 0.14);
+  --mkt-cream: #f8f1e7;
+  --mkt-paper: #fffaf1;
+  --mkt-blush: #f1dfdc;
+  --mkt-ink: #241016;
+  --mkt-muted: #75665f;
+  --mkt-gold: #c7a56a;
+  --mkt-rose: #a3263e;
+  --mkt-line: rgba(36, 16, 22, 0.14);
   position: relative;
   min-height: 100dvh;
   background: var(--mkt-cream);

@@ -7,6 +7,7 @@ import "./styles/tokens.css";
 import "./styles/base.css";
 import "./styles/scenes.css";
 import "./styles/marketing.css";
+import "./styles/landing.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

@@ -18,10 +18,10 @@ function Reveal({ children, className = "", delay = 0 }) {
   return (
     <motion.div
       className={className}
-      initial={reduced ? false : { opacity: 0, y: 26 }}
+      initial={reduced ? false : { opacity: 0, y: 24 }}
       whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-70px" }}
-      transition={{ duration: 0.75, delay, ease: [0.22, 0.61, 0.36, 1] }}
+      transition={{ duration: 0.72, delay, ease: [0.22, 0.61, 0.36, 1] }}
     >
       {children}
     </motion.div>
@@ -30,7 +30,7 @@ function Reveal({ children, className = "", delay = 0 }) {
 
 function Wordmark({ light = false }) {
   return (
-    <a className={`mkt-wordmark${light ? " mkt-wordmark--light" : ""}`} href="/" aria-label="VOWS home">
+    <a className={`lp-wordmark${light ? " lp-wordmark--light" : ""}`} href="/" aria-label="VOWS home">
       VOWS<span>.</span>
     </a>
   );
@@ -55,25 +55,25 @@ function MarketingNav() {
   }, [open]);
 
   return (
-    <header className={`mkt-nav${scrolled ? " is-scrolled" : ""}`}>
+    <header className={`lp-nav${scrolled ? " is-scrolled" : ""}`}>
       <Wordmark />
-      <nav className="mkt-nav__links" aria-label="VOWS">
+      <nav className="lp-nav__links" aria-label="VOWS">
         {navLinks.map((link) => (
           <a key={link.href} href={link.href}>
             {link.label}
           </a>
         ))}
       </nav>
-      <div className="mkt-nav__actions">
-        <a className="mkt-nav__preview" href={INVITATION_BASE}>
+      <div className="lp-nav__actions">
+        <a className="lp-nav__preview" href={INVITATION_BASE}>
           Live invitation
         </a>
-        <a className="mkt-btn mkt-btn--ink mkt-nav__cta" href="/start">
+        <a className="lp-btn lp-btn--wine lp-nav__cta" href="/start">
           Create invitation
         </a>
         <button
           type="button"
-          className="mkt-nav__menu"
+          className="lp-nav__menu"
           aria-expanded={open}
           aria-controls="vows-mobile-menu"
           aria-label={open ? "Close menu" : "Open menu"}
@@ -84,7 +84,7 @@ function MarketingNav() {
       </div>
 
       {open && (
-        <div className="mkt-mobile-menu" id="vows-mobile-menu">
+        <div className="lp-mobile-menu" id="vows-mobile-menu">
           {navLinks.map((link) => (
             <a key={link.href} href={link.href} onClick={() => setOpen(false)}>
               {link.label}
@@ -93,7 +93,7 @@ function MarketingNav() {
           <a href={INVITATION_BASE} onClick={() => setOpen(false)}>
             Live invitation
           </a>
-          <a className="mkt-btn mkt-btn--ink" href="/start" onClick={() => setOpen(false)}>
+          <a className="lp-btn lp-btn--wine" href="/start" onClick={() => setOpen(false)}>
             Create invitation
           </a>
         </div>
@@ -102,176 +102,153 @@ function MarketingNav() {
   );
 }
 
-function PhoneMockup({ image, alt, className = "", compact = false, href }) {
-  const phone = (
-    <div className={`mkt-phone${compact ? " mkt-phone--compact" : ""}${className ? ` ${className}` : ""}`}>
-      <div className="mkt-phone__screen">
-        <img src={image} alt={alt} loading={compact ? "lazy" : "eager"} />
-        <span className="mkt-phone__shade" aria-hidden="true" />
-        <div className="mkt-phone__status">
-          <span className="mkt-phone__mono">S &amp; J</span>
-          <span>20 · 02 · 27</span>
-        </div>
-        <div className="mkt-phone__card">
-          <p>Together with their families</p>
-          <p className="mkt-phone__names">
-            Simeon <em>&amp;</em> Janet
-          </p>
-          <p className="mkt-phone__date">Saturday, 20 February 2027 · Ibadan</p>
-          <span className="mkt-phone__pill">
-            Open invitation <Icon name="arrow" size={14} />
-          </span>
-        </div>
-      </div>
-      <span className="mkt-phone__notch" aria-hidden="true" />
-    </div>
-  );
-
-  if (!href) return phone;
+function HeroInvitation() {
   return (
-    <a className="mkt-phone-link" href={href} aria-label="Open the live VOWS invitation">
-      {phone}
+    <a className="lp-hero-invite" href={INVITATION_BASE} aria-label="Open the live VOWS invitation">
+      <span className="lp-hero-invite__halo" aria-hidden="true" />
+      <span className="lp-hero-invite__ring" aria-hidden="true" />
+      <span className="lp-hero-invite__envelope" aria-hidden="true">
+        <span className="lp-hero-invite__flap" />
+        <span className="lp-hero-invite__body" />
+        <img className="lp-hero-invite__seal" src="/assets/marketing/seal-sj.png" alt="" />
+      </span>
+      <span className="lp-hero-invite__card">
+        <span className="lp-hero-invite__mono">S <em>&amp;</em> J</span>
+        <span className="lp-hero-invite__over">Together with their families</span>
+        <strong className="lp-hero-invite__names">
+          Simeon <em>&amp;</em> Janet
+        </strong>
+        <span className="lp-hero-invite__date">20 February 2027 · Ibadan</span>
+        <span className="lp-hero-invite__line" />
+        <span className="lp-hero-invite__cta">
+          Open invitation <Icon name="arrow" size={14} />
+        </span>
+      </span>
+      <span className="lp-hero-invite__caption">The first VOWS invitation · Simeon &amp; Janet</span>
     </a>
   );
 }
 
 function Hero() {
   return (
-    <section className="mkt-hero" aria-labelledby="vows-hero-title">
-      <div className="mkt-hero__floral" aria-hidden="true">
-        <img src="/assets/heirloom/floral-tl.webp" alt="" />
-      </div>
-      <div className="mkt-hero__glow" aria-hidden="true" />
-
-      <div className="mkt-wrap mkt-hero__inner">
-        <div className="mkt-hero__copy">
-          <p className="mkt-eyebrow">
-            <span className="mkt-eyebrow__rule" aria-hidden="true" />
+    <section className="lp-hero" aria-labelledby="vows-hero-title">
+      <div className="lp-hero__wash" aria-hidden="true" />
+      <div className="lp-wrap lp-hero__inner">
+        <div className="lp-hero__copy">
+          <p className="lp-eyebrow">
+            <span className="lp-eyebrow__rule" aria-hidden="true" />
             Digital wedding invitations
           </p>
           <h1 id="vows-hero-title">
             Every love story deserves an <em>extraordinary</em> invitation.
           </h1>
-          <p className="mkt-lede">
+          <p className="lp-lede">
             VOWS turns your wedding into a cinematic digital experience — an invitation your guests will
             remember, with every detail, photograph and reply in one beautiful link.
           </p>
-          <div className="mkt-actions">
-            <a className="mkt-btn mkt-btn--ink" href="/start">
+          <div className="lp-actions">
+            <a className="lp-btn lp-btn--wine" href="/start">
               Create your invitation <Icon name="arrow" size={17} />
             </a>
-            <a className="mkt-btn mkt-btn--ghost" href={INVITATION_BASE}>
+            <a className="lp-btn lp-btn--outline" href={INVITATION_BASE}>
               Open the live invitation
             </a>
           </div>
-          <p className="mkt-hero__note">No apps for guests. One link for every detail.</p>
-          <div className="mkt-hero__proof">
-            <span className="mkt-hero__proof-mark">01</span>
+          <p className="lp-hero__note">No apps for guests. One link for every detail.</p>
+          <div className="lp-hero__proof">
+            <span className="lp-hero__proof-dot" aria-hidden="true" />
             <span>The first VOWS invitation · Simeon &amp; Janet</span>
           </div>
         </div>
-
-        <div className="mkt-hero__visual">
-          <div className="mkt-hero__ring" aria-hidden="true" />
-          <PhoneMockup
-            image="/assets/photos/prewedding-black-cream.jpg"
-            alt="A VOWS invitation featuring Simeon and Janet in black and cream"
-            href={INVITATION_BASE}
-          />
-          <div className="mkt-hero__seal" aria-hidden="true">
-            <img src="/assets/marketing/seal-sj.png" alt="" />
-          </div>
-          <div className="mkt-hero__badge">
-            <span />
-            A real VOWS invitation
-          </div>
-        </div>
-      </div>
-
-      <div className="mkt-ticker" aria-label="What every VOWS invitation includes">
-        <div className="mkt-ticker__track">
-          {[
-            "Animated envelope",
-            "Live countdown",
-            "Love story",
-            "Photo gallery",
-            "Music",
-            "RSVP",
-            "Directions",
-            "One link",
-            "Animated envelope",
-            "Live countdown",
-            "Love story",
-            "Photo gallery",
-            "Music",
-            "RSVP",
-            "Directions",
-            "One link",
-          ].map((item, index) => (
-            <span key={`${item}-${index}`}>{item}</span>
-          ))}
+        <div className="lp-hero__visual">
+          <HeroInvitation />
         </div>
       </div>
     </section>
   );
 }
 
-function SectionHead({ kicker, title, lede, align = "left", id }) {
+function SectionHead({ kicker, title, lede, align = "left", light = false, id }) {
   return (
-    <Reveal className={`mkt-section-head mkt-section-head--${align}`}>
-      <p className="mkt-kicker">{kicker}</p>
-      <h2 className="mkt-title" id={id}>{title}</h2>
-      {lede && <p className="mkt-lede">{lede}</p>}
+    <Reveal className={`lp-section-head lp-section-head--${align}${light ? " lp-section-head--light" : ""}`}>
+      <p className="lp-kicker">{kicker}</p>
+      <h2 className="lp-title" id={id}>{title}</h2>
+      {lede && <p className="lp-lede">{lede}</p>}
     </Reveal>
+  );
+}
+
+function ExperienceVisual({ type, index }) {
+  if (type === "envelope") {
+    return (
+      <div className="lp-exp-visual lp-exp-visual--envelope" aria-hidden="true">
+        <span className="lp-mini-envelope">
+          <span className="lp-mini-envelope__flap" />
+          <span className="lp-mini-envelope__seal" />
+        </span>
+      </div>
+    );
+  }
+  if (type === "monogram") {
+    return (
+      <div className="lp-exp-visual lp-exp-visual--monogram" aria-hidden="true">
+        <span>S</span>
+        <em>&amp;</em>
+        <span>J</span>
+      </div>
+    );
+  }
+  if (type === "countdown") {
+    return (
+      <div className="lp-exp-visual lp-exp-visual--countdown" aria-hidden="true">
+        {[
+          ["88", "days"],
+          ["06", "hours"],
+          ["24", "min"],
+          ["12", "sec"],
+        ].map(([value, label]) => (
+          <span key={label}>
+            <strong>{value}</strong>
+            <small>{label}</small>
+          </span>
+        ))}
+      </div>
+    );
+  }
+  return (
+    <div className={`lp-exp-visual lp-exp-visual--gallery lp-exp-visual--gallery-${index}`} aria-hidden="true">
+      {["#5b1f2d", "#c6a466", "#743c4b", "#1f1b18"].map((colour, i) => (
+        <span key={colour} style={{ background: colour }} />
+      ))}
+    </div>
   );
 }
 
 function Experience() {
   return (
-    <section className="mkt-section" id="experience" aria-labelledby="vows-experience-title">
-      <div className="mkt-wrap">
+    <section className="lp-section lp-section--plum" id="experience" aria-labelledby="vows-experience-title">
+      <div className="lp-wrap">
         <SectionHead
           id="vows-experience-title"
           kicker="The experience"
           title={
             <>
-              More than an invitation. <em>A feeling.</em>
+              Four moments your guests will <em>remember.</em>
             </>
           }
-          lede="Every VOWS invitation is built like a short film — paced, intimate and designed to be opened on a phone."
+          lede="A VOWS invitation unfolds in four scenes, from the first tap to the reply. It feels like a short film, not a web page."
+          light
         />
 
-        <div className="mkt-experience-grid">
+        <div className="lp-exp-grid">
           {experience.map((item, index) => (
-            <Reveal key={item.title} className="mkt-experience-card" delay={index * 0.06}>
-              <div className="mkt-experience-card__top">
+            <Reveal key={item.title} className="lp-exp-card" delay={index * 0.06}>
+              <div className="lp-exp-card__top">
                 <span>{item.number}</span>
                 <p>{item.title}</p>
               </div>
-              {item.countdown ? (
-                <div className="mkt-mini-countdown" aria-hidden="true">
-                  <p className="mkt-mini-countdown__label">The Countdown</p>
-                  <div className="mkt-mini-countdown__row">
-                    {[
-                      ["88", "days"],
-                      ["06", "hours"],
-                      ["24", "min"],
-                      ["12", "sec"],
-                    ].map(([value, label]) => (
-                      <span key={label}>
-                        <strong>{value}</strong>
-                        <small>{label}</small>
-                      </span>
-                    ))}
-                  </div>
-                  <p className="mkt-mini-countdown__date">Saturday, 20 February 2027</p>
-                </div>
-              ) : (
-                <div className="mkt-experience-card__media">
-                  <img src={item.image} alt={item.alt} loading="lazy" />
-                </div>
-              )}
-              <p className="mkt-experience-card__copy">{item.copy}</p>
+              <ExperienceVisual type={item.visual} index={index} />
+              <p className="lp-exp-card__copy">{item.copy}</p>
             </Reveal>
           ))}
         </div>
@@ -280,78 +257,69 @@ function Experience() {
   );
 }
 
-function TemplateVisual({ template }) {
-  if (template.image) {
-    return (
-      <div className="mkt-template__visual mkt-template__visual--photo">
-        <img src={template.image} alt={template.alt} loading="lazy" />
-        <span className="mkt-template__live">Live preview</span>
-      </div>
-    );
-  }
-
+function TemplateCover({ template }) {
+  const [one, two, three] = template.palette;
+  const isLight = template.slug === "minimalist-elegance";
+  const isRomantic = template.slug === "romantic-garden";
   return (
     <div
-      className={`mkt-template__visual${template.floral ? " mkt-template__visual--floral" : ""}`}
+      className={`lp-cover lp-cover--${template.slug}`}
       style={{
-        background: template.floral
-          ? "linear-gradient(135deg, #f4e4e3, #f8f2eb)"
-          : `linear-gradient(145deg, ${template.palette[0]}, ${template.palette[2]})`,
+        background: one,
+        color: isLight ? two : isRomantic ? two : three,
       }}
     >
-      {template.floral && <img src="/assets/heirloom/floral-tl.webp" alt="" aria-hidden="true" />}
-      <div
-        className="mkt-template__sample"
-        style={{
-          color: template.slug === "minimalist-elegance" ? "#1f1c19" : template.palette[1],
-        }}
-      >
-        <span className="mkt-template__sample-mono">V</span>
-        <span className="mkt-template__sample-script">{template.name}</span>
-        <span className="mkt-template__sample-rule" />
-        <span className="mkt-template__sample-names">Simeon &amp; Janet</span>
+      {template.floral && <img className="lp-cover__floral" src="/assets/heirloom/floral-tl.webp" alt="" aria-hidden="true" />}
+      <div className="lp-cover__grain" aria-hidden="true" />
+      <div className="lp-cover__card">
+        <span className="lp-cover__mono">S <em>&amp;</em> J</span>
+        <span className="lp-cover__rule" />
+        <span className="lp-cover__names">Simeon <em>&amp;</em> Janet</span>
+        <span className="lp-cover__date">20 · 02 · 2027</span>
       </div>
-      <span className="mkt-template__soon">Coming soon</span>
+      {template.status === "live" ? (
+        <span className="lp-cover__badge lp-cover__badge--live">Live</span>
+      ) : (
+        <span className="lp-cover__badge">Coming soon</span>
+      )}
     </div>
   );
 }
 
 function Templates() {
   return (
-    <section className="mkt-section mkt-section--blush" id="templates" aria-labelledby="vows-templates-title">
-      <div className="mkt-wrap">
+    <section className="lp-section" id="templates" aria-labelledby="vows-templates-title">
+      <div className="lp-wrap">
         <SectionHead
           id="vows-templates-title"
           kicker="Invitation designs"
           title={
             <>
-              Choose the world your <em>story</em> lives in.
+              Pick the <em>mood</em> of your day.
             </>
           }
-          lede="A growing collection of invitation designs, each built with the same care as the wedding itself. Traditional Luxury is live today."
-          align="center"
+          lede="Each design is a complete invitation with its own type, colour and motion. Open one up before you choose."
         />
 
-        <div className="mkt-templates-grid">
+        <div className="lp-templates-grid">
           {templates.map((template, index) => (
-            <Reveal key={template.slug} className="mkt-template" delay={index * 0.05}>
-              <TemplateVisual template={template} />
-              <div className="mkt-template__body">
-                <p className="mkt-template__style">{template.style}</p>
+            <Reveal key={template.slug} className={`lp-template${template.status === "live" ? " lp-template--live" : ""}`} delay={index * 0.04}>
+              <TemplateCover template={template} />
+              <div className="lp-template__body">
+                <p className="lp-template__style">{template.style}</p>
                 <h3>{template.name}</h3>
-                <p>{template.description}</p>
-                <div className="mkt-template__footer">
-                  <div className="mkt-palette" aria-label={`${template.name} colour palette`}>
+                <div className="lp-template__footer">
+                  <div className="lp-palette" aria-label={`${template.name} colour palette`}>
                     {template.palette.map((colour) => (
                       <span key={colour} style={{ background: colour }} />
                     ))}
                   </div>
                   {template.status === "live" ? (
-                    <a className="mkt-template__link" href={INVITATION_BASE}>
-                      View it live <Icon name="arrow" size={14} />
+                    <a className="lp-template__link" href={INVITATION_BASE}>
+                      Live preview <Icon name="arrow" size={14} />
                     </a>
                   ) : (
-                    <a className="mkt-template__link" href={`/start?template=${template.slug}`}>
+                    <a className="lp-template__link" href={`/start?template=${template.slug}`}>
                       Join the waitlist <Icon name="arrow" size={14} />
                     </a>
                   )}
@@ -367,32 +335,33 @@ function Templates() {
 
 function HowItWorks() {
   return (
-    <section className="mkt-section" id="how-it-works" aria-labelledby="vows-how-title">
-      <div className="mkt-wrap">
+    <section className="lp-section lp-section--wine" id="how-it-works" aria-labelledby="vows-how-title">
+      <div className="lp-wrap">
         <SectionHead
           id="vows-how-title"
           kicker="How it works"
           title={
             <>
-              From <em>yes</em> to the guest list, in four steps.
+              From first idea to sent in <em>four steps.</em>
             </>
           }
-          lede="You choose the design and send us your story. We build the invitation, and you share one link with everyone you love."
+          lede="Choose the design, send us your story, and share one link with everyone you love."
+          light
         />
 
-        <div className="mkt-steps">
+        <div className="lp-steps">
           {steps.map((step, index) => (
-            <Reveal key={step.number} className="mkt-step" delay={index * 0.07}>
-              <span className="mkt-step__number">{step.number}</span>
+            <Reveal key={step.number} className="lp-step" delay={index * 0.06}>
+              <span className="lp-step__number">{step.number}</span>
               <h3>{step.title}</h3>
               <p>{step.copy}</p>
             </Reveal>
           ))}
         </div>
 
-        <Reveal className="mkt-inline-cta">
-          <p>Want to see the finish line first?</p>
-          <a className="mkt-link" href={INVITATION_BASE}>
+        <Reveal className="lp-inline-cta lp-inline-cta--light">
+          <p>Want the full experience before you commit?</p>
+          <a className="lp-link lp-link--light" href={INVITATION_BASE}>
             Open a real VOWS invitation <Icon name="arrow" size={15} />
           </a>
         </Reveal>
@@ -403,26 +372,22 @@ function HowItWorks() {
 
 function Features() {
   return (
-    <section className="mkt-section mkt-section--dark" id="features" aria-labelledby="vows-features-title">
-      <div className="mkt-wrap">
-        <SectionHead
-          id="vows-features-title"
-          kicker="Everything included"
-          title={
-            <>
-              Everything your day needs, in <em>one link.</em>
-            </>
-          }
-          lede="No separate website, no paper inserts, no spreadsheets. VOWS brings the invitation and the guest list together."
-          align="center"
-        />
+    <section className="lp-section" id="features" aria-labelledby="vows-features-title">
+      <div className="lp-wrap lp-features">
+        <Reveal className="lp-features__intro">
+          <p className="lp-kicker">What&apos;s included</p>
+          <h2 className="lp-title" id="vows-features-title">
+            Everything an invitation <em>needs to do.</em>
+          </h2>
+          <p className="lp-lede">
+            One link, one guest list, one place for every detail. VOWS takes the scattered pieces of a wedding
+            and makes them feel effortless.
+          </p>
+        </Reveal>
 
-        <div className="mkt-features-grid">
+        <div className="lp-feature-list">
           {features.map((feature, index) => (
-            <Reveal key={feature.title} className="mkt-feature" delay={index * 0.04}>
-              <span className="mkt-feature__icon">
-                <Icon name={feature.icon} size={24} />
-              </span>
+            <Reveal key={feature.title} className="lp-feature-row" delay={index * 0.035}>
               <h3>{feature.title}</h3>
               <p>{feature.copy}</p>
             </Reveal>
@@ -433,42 +398,81 @@ function Features() {
   );
 }
 
+function PreviewPhone() {
+  return (
+    <div className="lp-phone">
+      <div className="lp-phone__screen">
+        <div className="lp-phone__top">
+          <span className="lp-phone__mono">S &amp; J</span>
+          <span className="lp-phone__topline">20 · 02 · 27</span>
+        </div>
+        <p className="lp-phone__over">You are invited to the wedding of</p>
+        <p className="lp-phone__names">
+          Simeon <em>&amp;</em> Janet
+        </p>
+        <p className="lp-phone__date">Saturday, 20 February 2027 · Ibadan</p>
+        <div className="lp-phone__count">
+          {[
+            ["88", "days"],
+            ["06", "hrs"],
+            ["24", "min"],
+            ["12", "sec"],
+          ].map(([value, label]) => (
+            <span key={label}>
+              <strong>{value}</strong>
+              <small>{label}</small>
+            </span>
+          ))}
+        </div>
+        <div className="lp-phone__card">
+          <span className="lp-phone__card-top">Together with their families</span>
+          <span className="lp-phone__card-names">Simeon &amp; Janet</span>
+          <span className="lp-phone__card-date">20 February 2027</span>
+        </div>
+        <span className="lp-phone__open">Open invitation <Icon name="arrow" size={12} /></span>
+      </div>
+      <span className="lp-phone__price">
+        <span>Signature</span>
+        <strong>₦45,000</strong>
+      </span>
+      <span className="lp-phone__notch" aria-hidden="true" />
+    </div>
+  );
+}
+
 function LivePreview() {
   return (
-    <section className="mkt-section mkt-section--preview" id="live-preview" aria-labelledby="vows-preview-title">
-      <div className="mkt-wrap mkt-preview">
-        <Reveal className="mkt-preview__copy">
-          <p className="mkt-kicker">Live invitation preview</p>
-          <h2 className="mkt-title" id="vows-preview-title">
-            See it before you <em>choose it.</em>
+    <section className="lp-section lp-section--plum" id="live-preview" aria-labelledby="vows-preview-title">
+      <div className="lp-wrap lp-preview">
+        <Reveal className="lp-preview__copy">
+          <p className="lp-kicker lp-kicker--light">Live invitation preview</p>
+          <h2 className="lp-title lp-title--light" id="vows-preview-title">
+            Open one before you <em>build yours.</em>
           </h2>
-          <p className="mkt-lede">
-            Step inside the real VOWS invitation built for Simeon &amp; Janet — open the envelope, hear the
-            music and walk through every chapter.
+          <p className="lp-lede lp-lede--light">
+            The best way to understand VOWS is to step inside one. This is the real invitation built for Simeon
+            &amp; Janet — open the envelope, hear the music and walk through every chapter.
           </p>
-          <div className="mkt-actions">
-            <a className="mkt-btn mkt-btn--ink" href={INVITATION_BASE}>
+          <div className="lp-actions">
+            <a className="lp-btn lp-btn--gold" href={INVITATION_BASE}>
               Open the live invitation <Icon name="arrow" size={17} />
             </a>
-            <a className="mkt-btn mkt-btn--ghost" href="/start">
-              Create yours
+            <a className="lp-btn lp-btn--light-outline" href="/start">
+              Explore the template
             </a>
           </div>
-          <p className="mkt-hero__note">Free to explore. No account needed.</p>
+          <p className="lp-hero__note lp-hero__note--light">Free to explore. No account needed.</p>
         </Reveal>
 
-        <Reveal className="mkt-preview__visual" delay={0.08}>
-          <div className="mkt-preview__glow" aria-hidden="true" />
-          <PhoneMockup
-            compact
-            image="/assets/photos/prewedding-green.jpg"
-            alt="A VOWS invitation preview featuring Simeon and Janet in green"
-            href={INVITATION_BASE}
-          />
-          <div className="mkt-preview__note">
-            <span className="mkt-preview__dot" />
+        <Reveal className="lp-preview__visual" delay={0.06}>
+          <span className="lp-preview__glow" aria-hidden="true" />
+          <a className="lp-phone-link" href={INVITATION_BASE} aria-label="Open the live VOWS invitation">
+            <PreviewPhone />
+          </a>
+          <span className="lp-preview__note">
+            <span className="lp-preview__dot" />
             A live VOWS invitation
-          </div>
+          </span>
         </Reveal>
       </div>
     </section>
@@ -477,52 +481,54 @@ function LivePreview() {
 
 function Pricing() {
   return (
-    <section className="mkt-section mkt-section--blush" id="pricing" aria-labelledby="vows-pricing-title">
-      <div className="mkt-wrap">
+    <section className="lp-section" id="pricing" aria-labelledby="vows-pricing-title">
+      <div className="lp-wrap">
         <SectionHead
           id="vows-pricing-title"
           kicker="Pricing"
           title={
             <>
-              Simple pricing. <em>One beautiful link.</em>
+              Choose a package, then <em>check out.</em>
             </>
           }
-          lede="Pay once, keep your invitation. No subscriptions and no hidden platform fees."
+          lede="Every package comes with one shareable invitation link. Pay once, keep your invitation."
           align="center"
         />
 
-        <div className="mkt-pricing-grid">
+        <div className="lp-pricing-grid">
           {packages.map((pkg, index) => (
             <Reveal
               key={pkg.slug}
-              className={`mkt-price-card${pkg.slug === "signature" ? " mkt-price-card--featured" : ""}`}
-              delay={index * 0.06}
+              className={`lp-price-card${pkg.slug === "signature" ? " lp-price-card--featured" : ""}`}
+              delay={index * 0.05}
             >
-              {pkg.badge && <span className="mkt-price-card__badge">{pkg.badge}</span>}
-              <p className="mkt-price-card__name">{pkg.name}</p>
-              <p className="mkt-price-card__price">{pkg.price}</p>
-              <p className="mkt-price-card__description">{pkg.description}</p>
-              <ul className="mkt-price-card__list">
+              {pkg.badge && <span className="lp-price-card__badge">{pkg.badge}</span>}
+              <p className="lp-price-card__name">{pkg.name}</p>
+              <p className="lp-price-card__price">{pkg.price}</p>
+              <p className="lp-price-card__description">{pkg.description}</p>
+              <ul className="lp-price-card__list">
                 {pkg.features.map((feature) => (
                   <li key={feature}>
-                    <Icon name="check" size={15} />
+                    <Icon name="check" size={14} />
                     <span>{feature}</span>
                   </li>
                 ))}
               </ul>
-              <a
-                className={`mkt-btn ${pkg.slug === "signature" ? "mkt-btn--gold" : "mkt-btn--ghost"} mkt-price-card__cta`}
-                href={`/start?package=${pkg.slug}`}
-              >
+              <a className="lp-btn lp-btn--gold lp-price-card__cta" href={`/start?package=${pkg.slug}`}>
                 {pkg.cta}
               </a>
             </Reveal>
           ))}
         </div>
 
-        <Reveal className="mkt-pricing-note">
+        <Reveal className="lp-pricing-note">
           <p>Prices are in Nigerian Naira. Custom domains and bespoke designs are available separately.</p>
-          <a className="mkt-link" href={`${CONTACT_WHATSAPP}?text=${encodeURIComponent("Hello VOWS, I'd like to ask about a custom invitation.")}`} target="_blank" rel="noreferrer">
+          <a
+            className="lp-link"
+            href={`${CONTACT_WHATSAPP}?text=${encodeURIComponent("Hello VOWS, I'd like to ask about a custom invitation.")}`}
+            target="_blank"
+            rel="noreferrer"
+          >
             Ask about a custom design <Icon name="arrow" size={15} />
           </a>
         </Reveal>
@@ -531,33 +537,47 @@ function Pricing() {
   );
 }
 
-function FoundingInvitation() {
+function FirstYes() {
   return (
-    <section className="mkt-section" id="founding-invitation" aria-labelledby="vows-founding-title">
-      <div className="mkt-wrap mkt-founding">
-        <Reveal className="mkt-founding__visual">
-          <img
-            src="/assets/photos/prewedding-burgundy-traditional.jpg"
-            alt="Simeon and Janet in burgundy traditional wedding attire"
-            loading="lazy"
-          />
-          <span className="mkt-founding__stamp">The first invitation</span>
-        </Reveal>
-        <Reveal className="mkt-founding__copy" delay={0.06}>
-          <p className="mkt-kicker">Made for real love</p>
-          <h2 className="mkt-title" id="vows-founding-title">
-            Built for a <em>real celebration.</em>
-          </h2>
-          <p className="mkt-lede">
-            Simeon &amp; Janet&apos;s wedding in Ibadan was the first VOWS invitation — the envelope, the
-            story, the countdown and every reply in one link.
-          </p>
-          <p className="mkt-founding__note">
-            Every VOWS invitation starts with a story like theirs. Yours is next.
-          </p>
-          <a className="mkt-link" href={INVITATION_BASE}>
-            View their invitation <Icon name="arrow" size={15} />
-          </a>
+    <section className="lp-section lp-section--blush" id="founding-invitation" aria-labelledby="vows-first-title">
+      <div className="lp-wrap">
+        <SectionHead
+          id="vows-first-title"
+          kicker="The first yes"
+          title={
+            <>
+              A real celebration, <em>built here first.</em>
+            </>
+          }
+          align="center"
+        />
+
+        <Reveal className="lp-first">
+          <div className="lp-first__photo">
+            <img
+              src="/assets/photos/prewedding-burgundy-traditional.jpg"
+              alt="Simeon and Janet in burgundy traditional wedding attire"
+              loading="lazy"
+            />
+            <span className="lp-first__stamp">The founding invitation</span>
+          </div>
+          <div className="lp-first__copy">
+            <p className="lp-first__names">Simeon &amp; Janet</p>
+            <p className="lp-first__place">Ibadan · 20 February 2027</p>
+            <p className="lp-first__story">
+              The first VOWS invitation — the envelope, the story, the countdown and every reply in one
+              beautiful link. Every VOWS invitation starts with a real story. Yours is next.
+            </p>
+            <a className="lp-link" href={INVITATION_BASE}>
+              View their invitation <Icon name="arrow" size={15} />
+            </a>
+          </div>
+          <div className="lp-first__cta">
+            <p>Your names could be next.</p>
+            <a className="lp-btn lp-btn--wine" href="/start">
+              Create yours <Icon name="arrow" size={16} />
+            </a>
+          </div>
         </Reveal>
       </div>
     </section>
@@ -566,32 +586,32 @@ function FoundingInvitation() {
 
 function Faq() {
   return (
-    <section className="mkt-section" id="faq" aria-labelledby="vows-faq-title">
-      <div className="mkt-wrap mkt-faq-wrap">
+    <section className="lp-section" id="faq" aria-labelledby="vows-faq-title">
+      <div className="lp-wrap lp-faq-wrap">
         <SectionHead
           id="vows-faq-title"
           kicker="Questions"
           title={
             <>
-              A few things you might be <em>wondering.</em>
+              Questions couples <em>ask first.</em>
             </>
           }
-          lede="If your question is not here, message us on WhatsApp and we will answer it personally."
+          lede="If your question is not here, message us on WhatsApp. We answer personally."
         />
-        <div className="mkt-faq">
+        <div className="lp-faq">
           {faqs.map((faq) => (
-            <details key={faq.q} className="mkt-faq__item">
+            <details key={faq.q} className="lp-faq__item">
               <summary>
                 <span>{faq.q}</span>
-                <span className="mkt-faq__mark" aria-hidden="true" />
+                <span className="lp-faq__mark" aria-hidden="true" />
               </summary>
               <p>{faq.a}</p>
             </details>
           ))}
         </div>
-        <Reveal className="mkt-inline-cta">
+        <Reveal className="lp-inline-cta">
           <p>Still deciding?</p>
-          <a className="mkt-link" href={CONTACT_WHATSAPP} target="_blank" rel="noreferrer">
+          <a className="lp-link" href={CONTACT_WHATSAPP} target="_blank" rel="noreferrer">
             Message VOWS on WhatsApp <Icon name="whatsapp" size={16} />
           </a>
         </Reveal>
@@ -602,25 +622,24 @@ function Faq() {
 
 function FinalCta() {
   return (
-    <section className="mkt-final" aria-labelledby="vows-final-title">
-      <div className="mkt-final__floral" aria-hidden="true">
-        <img src="/assets/heirloom/floral-tl.webp" alt="" />
-      </div>
-      <div className="mkt-wrap mkt-final__inner">
+    <section className="lp-final" aria-labelledby="vows-final-title">
+      <div className="lp-final__watermark" aria-hidden="true">VOWS</div>
+      <div className="lp-final__orb" aria-hidden="true" />
+      <div className="lp-wrap lp-final__inner">
         <Reveal>
-          <p className="mkt-kicker mkt-kicker--light">The next chapter</p>
+          <p className="lp-kicker lp-kicker--gold">The next chapter</p>
           <h2 id="vows-final-title">
             Your wedding deserves more than an <em>ordinary</em> invitation.
           </h2>
-          <p className="mkt-lede mkt-lede--light">
+          <p className="lp-lede lp-lede--light">
             Give your guests something they will remember. Start with the invitation, and let the rest of the
             day follow.
           </p>
-          <div className="mkt-actions">
-            <a className="mkt-btn mkt-btn--gold" href="/start">
+          <div className="lp-actions">
+            <a className="lp-btn lp-btn--gold" href="/start">
               Create your invitation <Icon name="arrow" size={17} />
             </a>
-            <a className="mkt-btn mkt-btn--light-ghost" href={INVITATION_BASE}>
+            <a className="lp-btn lp-btn--light-outline" href={INVITATION_BASE}>
               View a live invitation
             </a>
           </div>
@@ -632,23 +651,23 @@ function FinalCta() {
 
 function MarketingFooter() {
   return (
-    <footer className="mkt-footer">
-      <div className="mkt-wrap mkt-footer__top">
-        <div className="mkt-footer__brand">
+    <footer className="lp-footer">
+      <div className="lp-wrap lp-footer__top">
+        <div className="lp-footer__brand">
           <Wordmark light />
           <p>Digital wedding invitations for modern love.</p>
           <a href={CONTACT_WHATSAPP} target="_blank" rel="noreferrer">
             WhatsApp VOWS <Icon name="arrow" size={14} />
           </a>
         </div>
-        <div className="mkt-footer__col">
+        <div className="lp-footer__col">
           <p>Explore</p>
           <a href="/#experience">Experience</a>
           <a href="/#templates">Templates</a>
           <a href="/#pricing">Pricing</a>
           <a href={INVITATION_BASE}>Live invitation</a>
         </div>
-        <div className="mkt-footer__col">
+        <div className="lp-footer__col">
           <p>Company</p>
           <a href="/#founding-invitation">About VOWS</a>
           <a href="/#how-it-works">How it works</a>
@@ -660,7 +679,7 @@ function MarketingFooter() {
           <a href="/terms">Terms</a>
         </div>
       </div>
-      <div className="mkt-wrap mkt-footer__bottom">
+      <div className="lp-wrap lp-footer__bottom">
         <span>© {new Date().getFullYear()} VOWS. Made for modern love.</span>
         <span>Ibadan · Nigeria</span>
       </div>
@@ -671,11 +690,10 @@ function MarketingFooter() {
 export function LandingPage() {
   useEffect(() => {
     document.title = "VOWS · Every love story deserves an extraordinary invitation";
-    return undefined;
   }, []);
 
   return (
-    <div className="mkt">
+    <div className="lp">
       <MarketingNav />
       <main>
         <Hero />
@@ -685,7 +703,7 @@ export function LandingPage() {
         <Features />
         <LivePreview />
         <Pricing />
-        <FoundingInvitation />
+        <FirstYes />
         <Faq />
         <FinalCta />
       </main>

@@ -8,6 +8,7 @@ import { MusicChip } from "../components/MusicChip";
 import { PORTRAIT, WIDE } from "../lib/openingGeometry";
 import { resolveTheme } from "../three/envelope/themes";
 import { Z } from "../three/envelope/framing";
+import { Scene01Entrance } from "./Scene01Entrance";
 
 // three.js loads on its own, after the page's text is already on screen
 const EnvelopeCanvas = lazy(() => import("../three/envelope/EnvelopeCanvas"));
@@ -31,6 +32,7 @@ const IDLE_SHIFT = { mobile: 0, tablet: (-79.5 / 1024) * 100, desktop: 0 };
 export function Scene01Entrance3D({ onOpened }) {
   const [phase, setPhase] = useState("idle");
   const [ready, setReady] = useState(false);
+  const [useClassic, setUseClassic] = useState(false);
   const rootRef = useRef(null);
   const sectionRef = useRef(null);
   const holdRef = useRef(false);
@@ -63,6 +65,14 @@ export function Scene01Entrance3D({ onOpened }) {
 
   useEffect(() => () => tlRef.current?.kill(), []);
   const onReady = useCallback(() => setReady(true), []);
+  // The 3D scene is a progressive enhancement. If the canvas is slow (or
+  // WebGL cannot finish), fall back to the image opening so the guest can
+  // always get inside.
+  useEffect(() => {
+    if (ready || useClassic) return undefined;
+    const timer = window.setTimeout(() => setUseClassic(true), 2500);
+    return () => window.clearTimeout(timer);
+  }, [ready, useClassic]);
   // draw continuously while the scene settles in (fonts, textures, size), then
   // only on demand until the tap, to spare the battery
   const [settled, setSettled] = useState(false);
@@ -180,8 +190,11 @@ export function Scene01Entrance3D({ onOpened }) {
     if (holdRef.current && phase === "playing") tlRef.current?.seek("out");
   };
 
-  const musicLabel =
-    bp === "desktop" ? `Opens with music  ·  ${wedding.dateFooter.replace(" · ", " ")}` : "Opens with music. Turn your sound up.";
+  // Once the 3D scene is ready we keep it; until then the image scene is a
+  // guaranteed, instantly usable fallback.
+  if (useClassic) return <Scene01Entrance onOpened={onOpened} />;
+
+  const musicLabel = "Opens with music. Turn your sound up.";
 
   return (
     <section
@@ -247,7 +260,6 @@ export function Scene01Entrance3D({ onOpened }) {
           </p>
         </div>
 
-        <p className="scene-entrance__date">{wedding.dateFooter}</p>
         <p className="scene-entrance__skip" aria-hidden="true">Tap to continue</p>
       </div>
     </section>

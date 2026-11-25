@@ -13,8 +13,8 @@ export function WaxSeal({ size = 64, className = "", alt = "Simeon & Janet wax s
         height: size,
         borderRadius: "50%",
         objectFit: "cover",
-        maskImage: "radial-gradient(circle, black 62%, transparent 70%)",
-        WebkitMaskImage: "radial-gradient(circle, black 62%, transparent 70%)",
+        maskImage: "radial-gradient(circle closest-side, black 66%, transparent 72%)",
+        WebkitMaskImage: "radial-gradient(circle closest-side, black 66%, transparent 72%)",
         boxShadow: "var(--elev-wax-seal)",
       }}
     />

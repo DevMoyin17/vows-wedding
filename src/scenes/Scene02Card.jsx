@@ -2,67 +2,73 @@ import { motion, useReducedMotion } from "framer-motion";
 import { wedding } from "../lib/wedding";
 import { inView, riseChild, reducedChild } from "../lib/motion";
 import { Photo } from "../components/Photo";
-import { FloralEdge } from "../components/FloralEdge";
-import { PearlDivider } from "../components/PearlDivider";
+import { WaxSeal } from "../components/WaxSeal";
 
 /**
- * Scene 02 — The invitation card · Heirloom Lace.
- * Exact geometry from Figma 192:6477 (mobile) / 239:5672 (desktop):
- * 16px card, 1px solid #ebdada + dashed 7px lace border at 70%,
- * 160×200 oval portrait, 34/40 names, and the desktop photo prints.
+ * Scene 02 — The invitation card · Emerald edition.
+ * A green and gold card with an oval portrait, the families, the request,
+ * the couple's names and a direct RSVP action.
  */
-export function Scene02Card({ onNext }) {
+export function Scene02Card({ onNext, onRsvp }) {
   const reduced = useReducedMotion();
   const child = reduced ? reducedChild : riseChild;
 
   return (
     <section className="scene scene-card" aria-label="The invitation">
-      <FloralEdge corner="tl" size={150} />
-      <FloralEdge corner="br" size={150} />
-
-      <motion.div className="scene-card__stage" variants={{ animate: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } } }} initial="initial" whileInView="animate" viewport={inView}>
-        <div className="scene-card__prints" aria-hidden="true">
-          <motion.figure className="print print--large" variants={child}>
-            <Photo photo={wedding.photos.hero} alt="" width={360} height={480} />
-          </motion.figure>
-          <motion.figure className="print print--small" variants={child}>
-            <Photo photo={wedding.photos.detail} alt="" width={200} height={200} />
-          </motion.figure>
-        </div>
-
-        <motion.article className="invite-card" variants={child} whileHover={reduced ? undefined : { y: -4 }}>
+      <motion.div
+        className="scene-card__stage"
+        variants={{ animate: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } } }}
+        initial="initial"
+        whileInView="animate"
+        viewport={inView}
+      >
+        <motion.article
+          className="invite-card"
+          variants={child}
+          whileHover={reduced ? undefined : { y: -4 }}
+        >
           <div className="invite-card__portrait">
             <Photo
               photo={wedding.photos.hero}
               alt="Simeon and Janet in black and cream"
-              width={160}
-              height={200}
+              width={320}
+              height={420}
               crop="fill"
               gravity="faces"
             />
+            <span className="invite-card__seal" aria-hidden="true">
+              <WaxSeal size={72} alt="" />
+            </span>
           </div>
 
-          <p className="invite-card__families">
-            <span>{wedding.families.bride}</span>
-            <span>&amp;</span>
-            <span>{wedding.families.groom}</span>
-          </p>
+          <div className="invite-card__content">
+            <p className="invite-card__families">
+              <span>{wedding.families.bride}</span>
+              <span className="invite-card__family-amp">&amp;</span>
+              <span>{wedding.families.groom}</span>
+            </p>
 
-          <p className="invite-card__request">{wedding.requestLine}</p>
+            <p className="invite-card__request">{wedding.requestLine}</p>
 
-          <PearlDivider className="invite-card__pearls" />
+            <span className="invite-card__rule" aria-hidden="true" />
 
-          <h1 className="invite-card__names">
-            <span className="invite-card__name">{wedding.couple.first}</span>
-            <span className="invite-card__amp">&amp;</span>
-            <span className="invite-card__name">{wedding.couple.second}</span>
-          </h1>
+            <h1 className="invite-card__names">
+              <span className="invite-card__name">{wedding.couple.first}</span>
+              <span className="invite-card__amp">&amp;</span>
+              <span className="invite-card__name">{wedding.couple.second}</span>
+            </h1>
 
-          <p className="invite-card__date">{wedding.dateFooter}</p>
+            <p className="invite-card__date">{wedding.dateFooter}</p>
 
-          <button type="button" className="vbtn vbtn--soft invite-card__cta" onClick={onNext}>
-            See the details
-          </button>
+            <div className="invite-card__actions">
+              <button type="button" className="vbtn vbtn--foil invite-card__cta" onClick={onNext}>
+                See the details
+              </button>
+              <button type="button" className="vbtn vbtn--white invite-card__cta" onClick={onRsvp}>
+                RSVP by {wedding.rsvpBy}
+              </button>
+            </div>
+          </div>
         </motion.article>
       </motion.div>
     </section>

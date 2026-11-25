@@ -3,12 +3,11 @@ import { motion } from "framer-motion";
 import { wedding } from "../lib/wedding";
 import { inView, riseChild } from "../lib/motion";
 import { Photo } from "../components/Photo";
-import { FloralEdge } from "../components/FloralEdge";
 import { Lightbox } from "../components/Lightbox";
 
 /**
- * Scene 07 — Our Gallery · Heirloom Lace.
- * A continuous marquee of couple photographs; tap one for the lightbox.
+ * Scene 07 — Our Gallery · Emerald edition.
+ * A continuous marquee of arched couple portraits on deep green.
  */
 export function Scene07Gallery() {
   const [lb, setLb] = useState(null);
@@ -21,9 +20,6 @@ export function Scene07Gallery() {
 
   return (
     <section className="scene scene-gallery" aria-label="Our gallery">
-      <FloralEdge corner="tl" size={110} />
-      <FloralEdge corner="br" size={150} />
-
       <motion.header
         className="scene-head"
         variants={riseChild}
@@ -31,6 +27,7 @@ export function Scene07Gallery() {
         whileInView="animate"
         viewport={inView}
       >
+        <p className="kicker">Moments</p>
         <h1 className="type-display">Our Gallery</h1>
       </motion.header>
 

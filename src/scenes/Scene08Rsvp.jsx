@@ -5,13 +5,12 @@ import { guest } from "../lib/guest";
 import { getRsvp, isRsvpClosed, submitRsvp, clearLocalRsvp } from "../lib/rsvp";
 import { downloadWeddingIcs } from "../lib/ics";
 import { inView, riseChild, reducedChild } from "../lib/motion";
-import { FloralEdge } from "../components/FloralEdge";
 import { WaxSeal } from "../components/WaxSeal";
 import { PearlDivider } from "../components/PearlDivider";
 import { Sparkles } from "../components/Sparkles";
 
 /**
- * Scene 08 — Reply card · Heirloom Lace.
+ * Scene 08 — Reply card · Emerald edition.
  * Supabase-backed RSVP (RPC) with full state coverage: validation,
  * sending, network error (entries kept), success, already responded, closed.
  */
@@ -108,8 +107,6 @@ export function Scene08Rsvp({ onNext, onDetails }) {
         aria-label="RSVP"
         aria-busy="true"
       >
-        <FloralEdge corner="tl" size={130} />
-        <FloralEdge corner="br" size={150} />
         <div className="reply-loading">
           <span className="vbtn__spinner" aria-hidden="true" />
           <p className="type-body text-secondary">Checking your reply…</p>
@@ -126,8 +123,6 @@ export function Scene08Rsvp({ onNext, onDetails }) {
     return (
       <section className="scene scene-reply-done" aria-label="Reply received">
         <Sparkles />
-        <FloralEdge corner="tl" size={130} />
-        <FloralEdge corner="br" size={150} />
 
         <motion.div className="reply-done__card" initial="initial" whileInView="animate" viewport={inView} variants={riseChild}>
           <span className="reply-done__stitch" aria-hidden="true" />
@@ -160,8 +155,6 @@ export function Scene08Rsvp({ onNext, onDetails }) {
   if (status === "already" && saved) {
     return (
       <section className="scene scene-reply-done" aria-label="Already responded">
-        <FloralEdge corner="tl" size={130} />
-        <FloralEdge corner="br" size={150} />
         <motion.div className="reply-done__card" initial="initial" whileInView="animate" viewport={inView} variants={riseChild}>
           <span className="reply-done__stitch" aria-hidden="true" />
           <WaxSeal size={64} className="reply-done__seal" />
@@ -187,8 +180,6 @@ export function Scene08Rsvp({ onNext, onDetails }) {
   if (status === "closed") {
     return (
       <section className="scene scene-reply-done" aria-label="RSVPs closed">
-        <FloralEdge corner="tl" size={130} />
-        <FloralEdge corner="br" size={150} />
         <motion.div className="reply-done__card" initial="initial" whileInView="animate" viewport={inView} variants={riseChild}>
           <span className="reply-done__stitch" aria-hidden="true" />
           <WaxSeal size={64} className="reply-done__seal" />
@@ -212,9 +203,6 @@ export function Scene08Rsvp({ onNext, onDetails }) {
 
   return (
     <section className="scene scene-reply" aria-label="RSVP">
-      <FloralEdge corner="tl" size={130} />
-      <FloralEdge corner="br" size={150} />
-
       <motion.header className="scene-head" variants={riseChild} initial="initial" whileInView="animate" viewport={inView}>
         <p className="kicker">The favour of a reply</p>
         <h1>by {wedding.rsvpBy}</h1>

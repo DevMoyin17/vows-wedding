@@ -2,21 +2,19 @@ import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { wedding } from "../lib/wedding";
 import { inView, riseChild, reducedChild } from "../lib/motion";
-import { FloralEdge } from "../components/FloralEdge";
 
-function StoryCard({ item, child, reduced }) {
+function StoryCard({ item, child, reduced, wide = false }) {
   const [open, setOpen] = useState(false);
   const paragraphs = Array.isArray(item.text) ? item.text : [item.text];
   const visible = open ? paragraphs : paragraphs.slice(0, 1);
 
   return (
     <motion.li
-      className="letter-card"
+      className={`letter-card${wide ? " letter-card--wide" : ""}`}
       variants={child}
       whileHover={reduced ? undefined : { y: -6 }}
       transition={{ type: "spring", stiffness: 280, damping: 22 }}
     >
-      <span className="letter-card__stitch" aria-hidden="true" />
       <div className="letter-card__heading">
         <p className="letter-card__date">{item.date}</p>
         <h2 className="letter-card__title">{item.title}</h2>
@@ -41,9 +39,8 @@ function StoryCard({ item, child, reduced }) {
 }
 
 /**
- * Scene 04 — Letters · Heirloom Lace.
- * Each chapter is a small note card with a photo and a dated italic heading;
- * cards deal in one after another.
+ * Scene 04 — Letters from our love story · Emerald edition.
+ * Three note cards and one wide wedding card, in cream and green.
  */
 export function Scene04Letters() {
   const reduced = useReducedMotion();
@@ -51,9 +48,6 @@ export function Scene04Letters() {
 
   return (
     <section className="scene scene-letters" aria-label="Our story">
-      <FloralEdge corner="tl" size={110} />
-      <FloralEdge corner="br" size={150} />
-
       <motion.header
         className="scene-head"
         variants={riseChild}
@@ -62,7 +56,7 @@ export function Scene04Letters() {
         viewport={inView}
       >
         <p className="kicker">Letters from</p>
-        <h1 className="type-display">Our Love story</h1>
+        <h1 className="type-display">Our Love Story</h1>
         <p className="story-intro">
           {wedding.storyIntro}
         </p>
@@ -75,8 +69,8 @@ export function Scene04Letters() {
         whileInView="animate"
         viewport={inView}
       >
-        {wedding.story.map((m) => (
-          <StoryCard key={m.title} item={m} child={child} reduced={reduced} />
+        {wedding.story.map((m, index) => (
+          <StoryCard key={m.title} item={m} child={child} reduced={reduced} wide={index === 3} />
         ))}
       </motion.ol>
     </section>

@@ -379,7 +379,7 @@ export function InvitationApp() {
   }
 
   return (
-    <>
+    <div className="invitation-emerald">
       <ScrollProgress />
 
       <TopBar
@@ -392,7 +392,7 @@ export function InvitationApp() {
 
       <main className="page">
         <div id={sectionFor(2).id} data-section="2" className="page-section">
-          <Scene02Card onNext={details} />
+          <Scene02Card onNext={details} onRsvp={rsvp} />
         </div>
 
         <div id={sectionFor(3).id} data-section="3" className="page-section">
@@ -427,7 +427,7 @@ export function InvitationApp() {
         onNavigate={(n) => go(n, { push: true })}
       />
 
-      <RsvpDock visible={active > 1 && active !== 8} onRsvp={rsvp} />
-    </>
+      <RsvpDock visible={active > 2 && active < 8} onRsvp={rsvp} />
+    </div>
   );
 }

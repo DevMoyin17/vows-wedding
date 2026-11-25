@@ -30,8 +30,8 @@ scoped `/i/simeon-janet/...` equivalents, so existing reminder links keep workin
   if the shared URL points at a later section; the requested section is restored after
   the envelope opens.
 - **`/i/simeon-janet/the-couple` … `/i/simeon-janet/with-love`** is a single continuous
-  scrolling page: invitation card, save the date (live countdown), story, details,
-  photographs, RSVP and closing.
+  scrolling page in the emerald, cream and gold palette: invitation card, save the date
+  (live countdown), love story, locations and dress code, photographs, RSVP and closing.
 - A direct `/i/simeon-janet/rsvp?guest=…` reminder link goes straight to the reply card.
 
 ## Run
@@ -48,6 +48,9 @@ Guest personalisation: open
 with the RSVP greeting, prefilled name and seat count adapted to the link. For a link
 that jumps straight to the reply card, use
 `/i/simeon-janet/rsvp?guest=Tolu%20Adebayo&seats=2` (no envelope).
+
+The invitation's emerald identity lives in `src/styles/invitation-emerald.css`, scoped to
+`.invitation-emerald`. The landing page, envelope and enquiry pages keep their own palettes.
 
 ## Marketing site
 
@@ -217,16 +220,18 @@ src/
   scenes/        01 Entrance (GSAP) … 09 Thank-you card
   components/    buttons, lace cards, pearls, seals, lightbox, chrome
   lib/           wedding content, RSVP, Supabase, media, Maps, ICS, sound
-  styles/        tokens (Heirloom Lace), base, scenes (mobile → tablet → desktop)
+  styles/        tokens (Heirloom Lace), base, scenes, emerald invitation theme
 scripts/
   optimize-assets.mjs   production media pipeline
 supabase/schema.sql
 ```
 
-Navigation: the envelope is its own page at `/`; opening it moves to `/the-couple`, the
-first section of the single-page invitation (or to the section originally shared). A new
-guest session always sees the envelope first. From there guests simply scroll; the top
-bar, Explore drawer and clean URLs (`/our-story`, `/rsvp`) jump between sections. The
-scroll spy keeps the URL and navigation in sync, cards reveal on scroll and lift on
-hover, and the floating RSVP pill stays within reach on phones. Full reduced-motion
-support is built in. “Replay” on the closing card returns to the envelope page.
+Navigation: the envelope is its own page at `/i/simeon-janet`; opening it moves to
+`/i/simeon-janet/the-couple`, the first section of the single-page invitation (or to the
+section originally shared). A new guest session always sees the envelope first. From
+there guests simply scroll; the top bar, Explore drawer and clean URLs
+(`/i/simeon-janet/our-story`, `/i/simeon-janet/rsvp`) jump between sections. The scroll
+spy keeps the URL and navigation in sync, cards reveal on scroll and lift on hover, and
+the floating RSVP pill stays within reach on phones (it steps aside on the opening card,
+the RSVP form and the closing). Full reduced-motion support is built in. “Replay” on the
+closing card returns to the envelope page.
